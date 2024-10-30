@@ -1,4 +1,4 @@
-package com.example.wesign.presentation.ui.login
+package com.example.wesign.presentation.ui.auth.login
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -12,10 +12,14 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AssignmentInd
 import androidx.compose.material.icons.filled.Email
@@ -41,6 +45,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.wesign.R
@@ -49,14 +55,24 @@ import com.example.wesign.presentation.theme.WeSignDimension
 import com.example.wesign.presentation.theme.WeSignShape
 import com.example.wesign.presentation.theme.primaryLight
 
-@Composable
-@Preview(showBackground = true)
-fun LoginScreenPreview() {
-    LoginScreen()
-}
+// String constants
+const val LOGIN_TEXT = "Log in"
+const val EMAIL_LABEL = "Email"
+const val PASSWORD_LABEL = "Password"
+const val OR_TEXT = "OR"
+const val GOOGLE_LOGIN_TEXT = "Login without account"
+const val NO_ACCOUNT_TEXT = "Don't have any account?"
+const val REGISTER_TEXT = "Register"
+
+//@Composable
+//@Preview(showBackground = true)
+//fun LoginScreenPreview() {
+//    LoginScreen()
+//}
 
 @Composable
-fun LoginScreen() {
+@Preview(showBackground = true)
+fun LoginScreen(onRegisterClick: () -> Unit = {}, onLoginClick: () -> Unit = {}) {
     var textEmail by remember { mutableStateOf("") }
     var textPassword by remember { mutableStateOf("") }
 
@@ -64,8 +80,7 @@ fun LoginScreen() {
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
-            .padding(16.dp)
-            ,
+            .padding(16.dp).imePadding().verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -74,36 +89,40 @@ fun LoginScreen() {
             contentDescription = null,
             modifier = Modifier.fillMaxWidth(),
             contentScale = ContentScale.FillWidth,
-
         )
 
         Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
 
         // Login Text
         Text(
-            text = "Log in",
+            text = LOGIN_TEXT,
             style = Typography.headlineSmall.copy(color = primaryLight, fontFamily = FontFamily(Font(R.font.inter_bold))),
             modifier = Modifier.align(Alignment.Start)
         )
 
         Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
 
+        // Email Input Field
         OutlinedTextField(
             value = textEmail,
             onValueChange = { textEmail = it },
-            label = { Text(text = "Email", style = Typography.titleSmall.copy(color = Color.Gray)) },
+            label = { Text(text = EMAIL_LABEL, style = Typography.titleSmall.copy(color = Color.Gray)) },
             leadingIcon = { Icon(Icons.Default.Email, contentDescription = null, tint = primaryLight) },
             modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
 
-
+        // Password Input Field
         OutlinedTextField(
             value = textPassword,
             onValueChange = { textPassword = it },
-            label = { Text(text = "Password", style = Typography.titleSmall.copy(color = Color.Gray)) },
-            leadingIcon = { Icon(Icons.Default.Password , contentDescription = null, tint = primaryLight) },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Done
+            ),
+            label = { Text(text = PASSWORD_LABEL, style = Typography.titleSmall.copy(color = Color.Gray)) },
+            leadingIcon = { Icon(Icons.Default.Password, contentDescription = null, tint = primaryLight) },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -111,7 +130,7 @@ fun LoginScreen() {
 
         // Login Button
         Button(
-            onClick = { /* handle login */ },
+            onClick = {onLoginClick() },
             colors = ButtonDefaults.buttonColors(
                 containerColor = primaryLight,
                 contentColor = Color.White
@@ -121,13 +140,13 @@ fun LoginScreen() {
                 .height(48.dp),
             shape = WeSignShape.small
         ) {
-            Text(text = "Login", style = Typography.titleSmall)
+            Text(text = LOGIN_TEXT, style = Typography.titleSmall)
         }
 
         Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
 
         // OR Text
-        Text(text = "OR", style = Typography.titleSmall.copy(color = Color.Gray))
+        Text(text = OR_TEXT, style = Typography.titleSmall.copy(color = Color.Gray))
 
         Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
 
@@ -150,22 +169,22 @@ fun LoginScreen() {
                 tint = primaryLight
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text(text = "Login without account", style = Typography.titleSmall.copy(color = primaryLight))
+            Text(text = GOOGLE_LOGIN_TEXT, style = Typography.titleSmall.copy(color = primaryLight))
         }
 
         Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
 
-        // Register Text
         Row {
-            Text(text = "Don't have any account?", style = Typography.titleSmall.copy(color = Color.Gray))
+            Text(text = NO_ACCOUNT_TEXT, style = Typography.titleSmall.copy(color = Color.Gray))
             Spacer(modifier = Modifier.width(4.dp))
             Text(
-                text = "Register",
+                text = REGISTER_TEXT,
                 style = Typography.titleSmall.copy(color = Color(0xFF55a3ff), fontFamily = FontFamily(Font(R.font.inter_regular))),
                 modifier = Modifier.clickable {
-
+                    onRegisterClick()
                 }
             )
         }
     }
 }
+

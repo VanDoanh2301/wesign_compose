@@ -65,13 +65,15 @@ fun OnBoardingScreen(onBoardingFinished: () -> Unit = {}) {
         Column(modifier = Modifier.fillMaxSize()) {
             HorizontalPager(state = statePager) { page ->
                 ItemOnBoarding(buttonText, listOnBoarding[page], page, onNext = {
-                    scope.launch { statePager.animateScrollToPage(statePager.currentPage + 1) }
-                }, onSkip = {
                     scope.launch {
-                        if (statePager.currentPage == 2) { onBoardingFinished()
+                        if (statePager.currentPage == 2) {
+                            onBoardingFinished()
                             return@launch
                         }
-                        statePager.animateScrollToPage(statePager.currentPage + 1)
+                        statePager.animateScrollToPage(statePager.currentPage + 1) }
+                }, onSkip = {
+                    scope.launch {
+                        statePager.animateScrollToPage(statePager.currentPage - 1)
                     }
                 })
             }

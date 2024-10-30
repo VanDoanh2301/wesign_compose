@@ -7,6 +7,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.wesign.presentation.ui.main.home.home_page.HomePageScreen
+import com.example.wesign.presentation.ui.main.home.learn_page.LearnPageScreen
+import com.example.wesign.presentation.ui.main.home.profile_page.ProfilePageScreen
+import com.example.wesign.presentation.ui.onboar.OnBoardingScreen
+import com.example.wesign.presentation.ui.splash.SplashScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
@@ -16,39 +21,62 @@ import kotlinx.coroutines.flow.StateFlow
 fun AppNavGraph(appState: WeSignAppState = rememberWeSignAppState()) {
     AnimatedNavHost(
         navController = appState.controller,
-        startDestination = Screen.Splash.route,
+        startDestination = Screen.Main.route,
         route = ROOT_GRAPH_ROUTE
     ) {
         composable(Screen.Splash.route) {
-
+            SplashScreen(onSplashFinished = {
+                appState.navigateWithPopUpTo(Screen.OnBoard.route)
+            })
         }
         composable(Screen.OnBoard.route) {
-
+            OnBoardingScreen(onBoardingFinished = {
+                appState.navigateWithPopUpTo(Screen.Auth.route)
+            })
         }
         // Auth Graph
         authGraph(appState)
 
         // Main Graph
-//        mainGraph(appState)
+        mainGraph(appState)
 
     }
 }
 
 
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+fun BottomNavGraph(navController: NavHostController) {
+    AnimatedNavHost(
+        navController = navController,
+        startDestination = BottomHomeRoutes.BottomHome.route,
+        route = MainRoutes.Home.route
+    ) {
+        composable(BottomHomeRoutes.BottomHome.route) {
+            HomePageScreen()
+        }
+        composable(BottomHomeRoutes.Learn.route) {
+            LearnPageScreen()
+        }
+        composable(BottomHomeRoutes.Profile.route) {
+            ProfilePageScreen()
+        }
+    }
+}
+
 class WeSignAppState(
     private val coroutineScope: CoroutineScope,
     val controller: NavHostController
 ) {
+
+    fun getCurrentRoute(): String? = controller.currentDestination?.route
+
     fun currentDestinationIs(route: String): Boolean =
         controller.currentBackStackEntry?.destination?.route == route
 
-    fun <T> getDataFromNextScreen(key: String, defaultValue: T): StateFlow<T>? =
-        controller.currentBackStackEntry?.savedStateHandle?.getStateFlow(key, defaultValue)
+    fun <T> getDataFromNextScreen(key: String, defaultValue: T): StateFlow<T>? = controller.currentBackStackEntry?.savedStateHandle?.getStateFlow(key, defaultValue)
 
-    fun <T> removeDataFromNextScreen(key: String) {
-        controller.currentBackStackEntry?.savedStateHandle?.remove<T>(key)
-
-    }
+    fun <T> removeDataFromNextScreen(key: String) { controller.currentBackStackEntry?.savedStateHandle?.remove<T>(key) }
 
     fun popBackStack(popToRoute: String? = null, params: Map<String, Any>? = null) {
         if (popToRoute == null) {
