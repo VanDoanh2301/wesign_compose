@@ -170,7 +170,7 @@ fun CustomBottomBarItem(
     onClickItem: () -> Unit = {}
 ) {
     val iconTintColor by animateColorAsState(targetValue = if (isSelect) Color.White else primaryLight)
-    val scale by animateFloatAsState(targetValue = if (isSelect) 1.5f else 1.0f)
+    val scale by animateFloatAsState(targetValue = if (isSelect) 1.3f else 1.0f)
 
     BoxWithConstraints(
         modifier = modifier
@@ -186,15 +186,9 @@ fun CustomBottomBarItem(
                 imageVector = item.icon,
                 contentDescription = item.contentDescription,
                 tint = iconTintColor,
-                modifier = Modifier.size(32.dp).scale(scale).align(Alignment.CenterHorizontally)
+                modifier = Modifier.size(28.dp).scale(scale).align(Alignment.CenterHorizontally)
             )
-            if (!isSelect) {
-                Text(
-                    text = item.contentDescription,
-                    style = Typography.labelSmall,
-                    color = iconTintColor
-                )
-            }
+
         }
 
     }

@@ -2,6 +2,43 @@ package com.example.wesign.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
+
+val gradient1 = listOf(Color(0xFFad5389), Color(0xFF3c1053))
+val gradient2 = listOf(Color(0xFF3A6073), Color(0xFF16222A))
+val gradient3 = listOf(Color(0xFFF857A6), Color(0xFFFF5858))
+val gradient4 = listOf(Color(0xFF00d2ff), Color(0xFF3a7bd5))
+val gradient5 = listOf(Color(0xFF99f2c8), Color(0xFF1f4037))
+
+val PurpleStart = Color(0xFFD24BE9)
+val PurpleEnd = Color(0xFFDF8FEC)
+val BlueStart = Color(0xFF2196F3)
+val BlueEnd = Color(0xFF79C3FD)
+val OrangeStart = Color(0xFFFF8400)
+val OrangeEnd = Color(0xFFFDA35F)
+val GreenStart = Color(0xFF11B114)
+val GreenEnd = Color(0xFF52DB59)
+
+val CardColor = Color(0xFF9F9F9)
+
+val TextWhite = Color(0xffeeeeee)
+val DeepBlue = Color(0xff06164c)
+val ButtonBlue = Color(0xff505cf3)
+val DarkerButtonBlue = Color(0xff566894)
+val LightRed = Color(0xfffc879a)
+val AquaBlue = Color(0xff9aa5c4)
+val OrangeYellow1 = Color(0xfff0bd28)
+val OrangeYellow2 = Color(0xfff1c746)
+val OrangeYellow3 = Color(0xfff4cf65)
+val Beige1 = Color(0xfffdbda1)
+val Beige2 = Color(0xfffcaf90)
+val Beige3 = Color(0xfff9a27b)
+val LightGreen1 = Color(0xff54e1b6)
+val LightGreen2 = Color(0xff36ddab)
+val LightGreen3 = Color(0xff11d79b)
+val BlueViolet1 = Color(0xffaeb4fd)
+val BlueViolet2 = Color(0xff9fa5fe)
+val BlueViolet3 = Color(0xff8f98fd)
+
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
 val Pink80 = Color(0xFFEFB8C8)

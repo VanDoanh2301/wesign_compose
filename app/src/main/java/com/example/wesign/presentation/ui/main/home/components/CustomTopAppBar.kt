@@ -50,21 +50,21 @@ fun CustomTopAppBar() {
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .padding(start = WeSignDimension.PaddingSmall),
+                    .padding(start = WeSignDimension.PaddingSmall).background(color = Color.Transparent),
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     "Hello, User",
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    style = Typography.labelSmall.copy(color = Color.Gray, fontSize = 8.sp)
+                    style = Typography.labelSmall.copy(color = Color.Gray, fontSize = 14.sp)
                 )
                 Spacer(modifier = Modifier.height(WeSignDimension.PaddingSmall))
                 Text(
                     "Hello, User",
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    style = Typography.labelMedium.copy(fontFamily = FontFamily(Font(R.font.inter_bold)))
+                    style = Typography.labelMedium.copy(fontFamily = FontFamily(Font(R.font.inter_bold)), fontSize = 20.sp)
                 )
             }
 
@@ -73,7 +73,7 @@ fun CustomTopAppBar() {
             Box(
                 modifier = Modifier
                     .clip(CircleShape)
-                    .size(42.dp)
+                    .size(62.dp)
                     .background(Color.White)
             ) {
                 Image(
@@ -101,8 +101,9 @@ fun CustomTopAppBar() {
                 Icon(
                     imageVector = Icons.Filled.Notifications,
                     contentDescription = "Notification Icon",
-                    modifier = Modifier.padding(WeSignDimension.PaddingSmall),
-                    tint = primaryLight
+                    modifier = Modifier.padding(WeSignDimension.PaddingSmall).size(34.dp),
+                    tint = primaryLight,
+
                 )
             }
 

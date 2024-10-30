@@ -28,9 +28,6 @@ fun HomeScreen() {
         modifier = Modifier
             .fillMaxSize()
             .paint(painter = painterResource(R.drawable.bg_home_1)),
-        topBar = {
-            CustomTopAppBar()
-        },
         content = {
             Box(modifier = Modifier.fillMaxSize().padding(it) ) {
                 BottomNavGraph(navController)
