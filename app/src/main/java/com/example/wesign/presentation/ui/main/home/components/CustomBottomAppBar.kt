@@ -16,12 +16,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -51,12 +53,14 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.wesign.R
 import com.example.wesign.presentation.nav.BottomHomeRoutes
 import com.example.wesign.presentation.theme.Typography
 import com.example.wesign.presentation.theme.WeSignDimension
@@ -67,6 +71,12 @@ import com.example.wesign.presentation.theme.primaryLight
 @Composable
 fun CustomBottomAppBar(
     navController: NavHostController = rememberNavController(),
+    bottomBarHeight: Dp = 68.dp,
+    animationSpec: AnimationSpec<Dp> =
+        spring(
+            dampingRatio = 1f,
+            stiffness = Spring.StiffnessMediumLow,
+        )
 ) {
     val bottomBarItems = listOf(
         BottomBarItem(
@@ -89,18 +99,41 @@ fun CustomBottomAppBar(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     var selectedItem by remember { mutableStateOf(0) }
-    Box(modifier = Modifier.background(color = Color.White)) {
 
-
+    BoxWithConstraints(
+        modifier = Modifier
+            .background(color = Color.White)
+            .padding(horizontal = Dp(bottomBarHeight / (bottomBarHeight / 16)))
+    ) {
+        val maxWidth = this.maxWidth
+        val indicatorOffset: Dp by animateDpAsState(
+            targetValue =
+            (maxWidth / (bottomBarItems.size.takeIf { it != 0 } ?: 1)) * selectedItem,
+            animationSpec = animationSpec,
+            label = "indicator",
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(1f / ( bottomBarItems.size.takeIf { it != 0 } ?: 1))
+                .offset(x = indicatorOffset),
+            contentAlignment = Alignment.Center
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(bottomBarHeight)
+                    .clip(CircleShape)
+                    .background(color = primaryLight)
+            )
+        }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = WeSignDimension.PaddingMedium),
+                .height(bottomBarHeight)
+                .selectableGroup(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly
+            horizontalArrangement = Arrangement.SpaceAround,
         ) {
             bottomBarItems.forEachIndexed { index, item ->
-                var itemRect by remember { mutableStateOf(Rect.Zero) }
                 CustomBottomBarItem(
                     modifier = Modifier, item,
                     currentRoute == item.route,
@@ -128,6 +161,7 @@ fun CustomBottomAppBar(
 @Composable
 fun Float.toDp(): Dp = (this / LocalDensity.current.density).dp
 
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun CustomBottomBarItem(
     modifier: Modifier = Modifier,
@@ -135,33 +169,30 @@ fun CustomBottomBarItem(
     isSelect: Boolean,
     onClickItem: () -> Unit = {}
 ) {
-    val backgroundColor by animateColorAsState(targetValue = if (isSelect) primaryLight else Color.White)
     val iconTintColor by animateColorAsState(targetValue = if (isSelect) Color.White else primaryLight)
-    val scale by animateFloatAsState(targetValue = if (isSelect) 1.2f else 1.0f)
+    val scale by animateFloatAsState(targetValue = if (isSelect) 1.5f else 1.0f)
 
-    Box(
+    BoxWithConstraints(
         modifier = modifier
-            .scale(scale) // Apply the scaling effect
-            .clip(CircleShape)
-            .background(color = backgroundColor)
-            .padding(WeSignDimension.PaddingSmall)
             .clickable {
                 onClickItem()
             },
         contentAlignment = Alignment.Center
     ) {
-        Column {
+        Column(
+            verticalArrangement = Arrangement.Center
+        ) {
             Icon(
                 imageVector = item.icon,
                 contentDescription = item.contentDescription,
-                modifier = Modifier.padding(WeSignDimension.PaddingMedium),
-                tint = iconTintColor
+                tint = iconTintColor,
+                modifier = Modifier.size(32.dp).scale(scale).align(Alignment.CenterHorizontally)
             )
-            AnimatedVisibility(!isSelect) {
+            if (!isSelect) {
                 Text(
                     text = item.contentDescription,
-                    color = iconTintColor,
-                    style = Typography.titleSmall
+                    style = Typography.labelSmall,
+                    color = iconTintColor
                 )
             }
         }
