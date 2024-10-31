@@ -12,10 +12,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Search
@@ -53,6 +57,8 @@ import com.example.wesign.presentation.theme.WeSignDimension
 import com.example.wesign.presentation.theme.WeSignShape
 import com.example.wesign.presentation.theme.primaryLight
 import com.example.wesign.presentation.ui.main.home.components.CustomTopAppBar
+import com.example.wesign.presentation.ui.main.home.home_page.components.CoursesGrid
+import com.example.wesign.presentation.ui.main.home.home_page.components.RecommendedCoursesRow
 import com.example.wesign.presentation.ui.main.home.home_page.components.SearchContent
 import com.example.wesign.presentation.ui.main.home.home_page.components.SearchOnBoarding
 import com.example.wesign.presentation.ui.main.home.home_page.components.SlideContent
@@ -62,35 +68,49 @@ import com.example.wesign.presentation.ui.main.home.home_page.components.SlideCo
 @Preview(showBackground = true, showSystemUi = true)
 fun HomePageScreen() {
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .paint(painter = painterResource(R.drawable.bg_home_1)),
-        topBar = {
+        containerColor = Color.Transparent,
+        content = { paddingValues ->
             Box(
-                modifier = Modifier.padding(
-                    vertical = WeSignDimension.PaddingLarge,
-                    horizontal = WeSignDimension.PaddingMedium
-                )
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
             ) {
-                CustomTopAppBar()
+                CustomBodyContent()
             }
-
-        },
-        content = {
-            CustomBodyContent(
-                modifier = Modifier.padding(it)
-            )
         }
     )
-
 }
 
 @Composable
-fun CustomBodyContent(modifier: Modifier = Modifier) {
-    Column(modifier = modifier.padding(WeSignDimension.PaddingLarge)) {
-        SearchContent()
-        Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
-        SlideContent()
+fun CustomBodyContent() {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(WeSignDimension.PaddingLarge)
+    ) {
+        item {
+            CustomTopAppBar()
+            Spacer(modifier = Modifier.height(WeSignDimension.PaddingExtraLarge))
+        }
+        item {
+            SearchContent()
+            Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
+        }
+        item {
+            SlideContent()
+            Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
+        }
+        item {
+            CoursesGrid()
+        }
+        item {
+            RecommendedCoursesRow(isClassed = true, title = "All Classes")
+            Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
+        }
+        item {
+            RecommendedCoursesRow()
+        }
+
     }
 }
 

@@ -3,6 +3,7 @@ package com.example.wesign.presentation.ui.main.home.learn_page
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,13 +18,9 @@ import com.example.wesign.R
 @Preview(showBackground = true, showSystemUi = true)
 fun LearnPageScreen() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Image(
-            painter = painterResource(id = R.drawable.bg_home_1),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize()
-        )
+       Column {
 
-        Text(text = "Learn Screen")
+       }
     }
 }
 

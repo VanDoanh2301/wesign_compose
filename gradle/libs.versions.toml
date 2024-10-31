@@ -41,6 +41,7 @@ junitJupiter = "5.8.1"
 core = "1.46.0"
 coreTesting = "2.1.0"
 coil = "2.6.0"
+uiTestAndroid = "1.7.4"
 
 
 
@@ -113,6 +114,7 @@ junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.r
 core = { group = "com.google.ar", name = "core", version.ref = "core" }
 androidx-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "coreTesting" }
 coil-kt-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+androidx-ui-test-android = { group = "androidx.compose.ui", name = "ui-test-android", version.ref = "uiTestAndroid" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

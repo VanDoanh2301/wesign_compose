@@ -23,6 +23,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,11 +47,14 @@ import com.example.wesign.presentation.theme.primaryLight
 @Preview(showBackground = true)
 fun CustomTopAppBar() {
     TopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.Transparent
+        ),
         title = {
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .padding(start = WeSignDimension.PaddingSmall).background(color = Color.Transparent),
+                    .padding(start = WeSignDimension.PaddingSmall),
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
