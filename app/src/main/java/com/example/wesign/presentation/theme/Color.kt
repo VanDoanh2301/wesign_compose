@@ -17,6 +17,7 @@ val OrangeStart = Color(0xFFFF8400)
 val OrangeEnd = Color(0xFFFDA35F)
 val GreenStart = Color(0xFF11B114)
 val GreenEnd = Color(0xFF52DB59)
+val Purple200 = Color(0xFFBB86FC)
 
 val CardColor = Color(0xFF9F9F9)
 

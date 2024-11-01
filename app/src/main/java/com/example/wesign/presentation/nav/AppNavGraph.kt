@@ -46,7 +46,7 @@ fun AppNavGraph(appState: WeSignAppState = rememberWeSignAppState()) {
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun BottomNavGraph(navController: NavHostController) {
+fun BottomNavGraph(navController: NavHostController, appState: WeSignAppState) {
     AnimatedNavHost(
         navController = navController,
         startDestination = BottomHomeRoutes.BottomHome.route,
@@ -56,10 +56,10 @@ fun BottomNavGraph(navController: NavHostController) {
             HomePageScreen()
         }
         composable(BottomHomeRoutes.Learn.route) {
-            LearnPageScreen()
+            LearnPageScreen(appState)
         }
         composable(BottomHomeRoutes.Profile.route) {
-            ProfilePageScreen()
+            ProfilePageScreen(appState)
         }
     }
 }

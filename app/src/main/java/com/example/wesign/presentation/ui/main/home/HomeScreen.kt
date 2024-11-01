@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -14,23 +13,22 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.example.wesign.R
 import com.example.wesign.presentation.nav.BottomNavGraph
+import com.example.wesign.presentation.nav.WeSignAppState
 import com.example.wesign.presentation.ui.main.home.components.CustomBottomAppBar
-import com.example.wesign.presentation.ui.main.home.components.CustomTopAppBar
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeScreen() {
+fun HomeScreen(appState: WeSignAppState) {
     val navController = rememberNavController()
     Scaffold(
         containerColor = Color.Transparent,
         modifier = Modifier.fillMaxSize().paint(painterResource(R.drawable.bg_home_1), contentScale = ContentScale.Crop),
         content = {
             Box(modifier = Modifier.fillMaxSize().padding(it) ) {
-                BottomNavGraph(navController)
+                BottomNavGraph(navController, appState)
             }
         },
         bottomBar = {

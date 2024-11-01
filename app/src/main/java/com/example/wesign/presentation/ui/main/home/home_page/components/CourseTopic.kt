@@ -2,6 +2,7 @@ package com.example.wesign.presentation.ui.main.home.home_page.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.PlayCircle
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -62,7 +64,8 @@ import com.example.wesign.presentation.theme.primaryLight
 fun RecommendedCoursesRow(
     modifier: Modifier = Modifier,
     title: String = "Recommended for you",
-    isClassed: Boolean = false
+    isClassed: Boolean = false,
+    onClickItem: (Boolean, CourseTopic) -> Unit = { _, _ -> }
 ) {
     val courseTopics = listOf(
         CourseTopic(
@@ -104,7 +107,9 @@ fun RecommendedCoursesRow(
             modifier = Modifier.fillMaxWidth().heightIn(260.dp, 280.dp).wrapContentSize(unbounded = false)
         ) {
             items(courseTopics.size) { course ->
-                CourseTopic(course = courseTopics[course], isClassed)
+                CourseTopic(course = courseTopics[course], isClassed) {
+                    onClickItem(isClassed, courseTopics[course])
+                }
             }
         }
     }
@@ -112,17 +117,19 @@ fun RecommendedCoursesRow(
 
 
 @Composable
-fun CourseTopic(course: CourseTopic, isClassed: Boolean = false) {
+fun CourseTopic(course: CourseTopic, isClassed: Boolean = false, onClickItem: () -> Unit = {}) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(end = WeSignDimension.PaddingLarge)
+            .padding(end = WeSignDimension.PaddingLarge, bottom = WeSignDimension.PaddingLarge)
+            .border(2.dp, course.overlayColor,shape = WeSignShape.medium )
         ,
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),
-        shape = WeSignShape.medium
+        shape = WeSignShape.medium,
+        onClick = {onClickItem() }
     ) {
         Column(
             modifier = Modifier
@@ -197,16 +204,6 @@ fun CourseTopic(course: CourseTopic, isClassed: Boolean = false) {
                             fontSize = 12.sp
                         )
                         Spacer(modifier = Modifier.width(16.dp))
-                        Icon(
-                            imageVector = Icons.Default.AccessTime,
-                            contentDescription = "Duration",
-                            modifier = Modifier.size(12.dp)
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text(
-                            text = course.duration,
-                            fontSize = 12.sp
-                        )
                     }
                 }
 

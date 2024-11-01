@@ -41,7 +41,13 @@ fun NavGraphBuilder.authGraph(appState: WeSignAppState) {
 fun NavGraphBuilder.mainGraph(appState: WeSignAppState) {
     navigation(startDestination = MainRoutes.Home.route, route = Screen.Main.route) {
         composable(MainRoutes.Home.route) {
-            HomeScreen()
+            HomeScreen(appState)
+        }
+        composable(MainRoutes.Test.route) {
+
+        }
+        composable(MainRoutes.Topic.route) {
+
         }
     }
 }

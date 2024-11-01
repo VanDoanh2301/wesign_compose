@@ -44,21 +44,21 @@ import com.example.wesign.presentation.theme.gradient3
 fun SlideContent() {
     val items = listOf(
         ItemSlide(
-            title = "Basic English for\nClass XIII",
+            title = "Basic English for\nTopic XIII",
             content = "28 Lessons",
             icon = Icons.Default.Public,
             iconColor = gradient1[0],
             gradient = gradient1
         ),
         ItemSlide(
-            title = "Basic English for\nClass XIII",
+            title = "Basic English for\nTopic XIII",
             content = "28 Lessons",
             icon = Icons.Default.Public,
             iconColor = gradient2[0],
             gradient = gradient2
         ),
         ItemSlide(
-            title = "Basic English for\nClass XIII",
+            title = "Basic English for\nTopic XIII",
             content = "28 Lessons",
             icon = Icons.Default.Public,
             iconColor = gradient3[0],
