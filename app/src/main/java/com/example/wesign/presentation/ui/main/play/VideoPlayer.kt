@@ -11,8 +11,11 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
@@ -26,6 +29,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -46,14 +52,65 @@ import androidx.media3.ui.PlayerView
 import com.example.wesign.R
 import com.example.wesign.presentation.theme.Purple200
 import com.example.wesign.presentation.theme.WeSignDimension
+import com.example.wesign.presentation.theme.WeSignShape
+import com.example.wesign.presentation.ui.main.home.home_page.components.CoursesGrid
+import com.example.wesign.presentation.ui.main.home.home_page.components.RecommendedCoursesRow
 import kotlinx.coroutines.delay
 import java.util.concurrent.TimeUnit
 
 
+
 @Composable
 @Preview(showSystemUi = true)
-fun CustomVideoPlayer(modifier: Modifier = Modifier) {
-    Player()
+fun VideoPlayerScreen(modifier: Modifier = Modifier) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Player()
+
+        Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
+
+        Text(
+            text = "Image Information",
+            style = MaterialTheme.typography.titleLarge.copy(fontFamily = FontFamily(Font(R.font.inter_bold))),
+            modifier = Modifier
+                .align(Alignment.Start)
+                .padding(start = WeSignDimension.PaddingLarge)
+        )
+
+        Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
+
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(18f / 9f)
+        ) {
+            items(10) {
+                Card(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = WeSignDimension.PaddingLarge)
+                        .border(2f.dp, Color.Black, WeSignShape.medium)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.img_login),
+                        contentDescription = "",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+
+            }
+        }
+
+        Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
+
+        RecommendedCoursesRow(modifier = Modifier.padding(horizontal = WeSignDimension.PaddingLarge))
+    }
+
 }
 
 @OptIn(UnstableApi::class)
@@ -72,7 +129,6 @@ fun Player() {
     val mediaSource: MediaSource =
         ProgressiveMediaSource.Factory(DefaultHttpDataSource.Factory())
             .createMediaSource(mediaItem)
-
 
 
     val exoPlayer = remember {
@@ -117,7 +173,6 @@ fun Player() {
                 }
             },
             update = {
-
                 when (lifecycle) {
                     Lifecycle.Event.ON_RESUME -> {
                         it.onPause()

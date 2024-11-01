@@ -8,6 +8,9 @@ import com.example.wesign.presentation.ui.auth.otp.OtpScreen
 import com.example.wesign.presentation.ui.auth.register.RegisterScreen
 import com.example.wesign.presentation.ui.auth.success.SuccessScreen
 import com.example.wesign.presentation.ui.main.home.HomeScreen
+import com.example.wesign.presentation.ui.main.play.VideoPlayerScreen
+import com.example.wesign.presentation.ui.main.topic.TopicScreen
+import com.example.wesign.presentation.ui.main.vocabulary.VocabularyScreen
 
 
 fun NavGraphBuilder.authGraph(appState: WeSignAppState) {
@@ -43,11 +46,23 @@ fun NavGraphBuilder.mainGraph(appState: WeSignAppState) {
         composable(MainRoutes.Home.route) {
             HomeScreen(appState)
         }
-        composable(MainRoutes.Test.route) {
-
+        composable(MainRoutes.Vocabulary.route) {
+            VocabularyScreen {
+                appState.navigateWithPopUpTo(
+                    MainRoutes.Play.route
+                )
+            }
         }
         composable(MainRoutes.Topic.route) {
-
+            TopicScreen {
+                appState.navigateWithPopUpTo(
+                    MainRoutes.Vocabulary.route
+                )
+            }
         }
+        composable(MainRoutes.Play.route) {
+            VideoPlayerScreen()
+        }
+
     }
 }

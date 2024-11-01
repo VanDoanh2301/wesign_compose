@@ -86,7 +86,7 @@ fun RecommendedCoursesRow(
         )
     )
 
-    Column(modifier = Modifier) {
+    Column(modifier = modifier) {
         // Header
         Row(
             modifier = Modifier.fillMaxWidth(),
