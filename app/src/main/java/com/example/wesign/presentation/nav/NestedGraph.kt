@@ -1,11 +1,15 @@
 package com.example.wesign.presentation.nav
 
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.example.wesign.presentation.ui.auth.login.LoginScreen
 import com.example.wesign.presentation.ui.auth.otp.OtpScreen
 import com.example.wesign.presentation.ui.auth.register.RegisterScreen
+import com.example.wesign.presentation.ui.auth.register.RegisterViewModel
 import com.example.wesign.presentation.ui.auth.success.SuccessScreen
 import com.example.wesign.presentation.ui.main.home.HomeScreen
 import com.example.wesign.presentation.ui.main.play.VideoPlayerScreen
@@ -30,9 +34,15 @@ fun NavGraphBuilder.authGraph(appState: WeSignAppState) {
         }
 
         composable(AuthRoutes.Register.route) {
-            RegisterScreen(onOtpClick = {
-                appState.navigateWithPopUpTo(AuthRoutes.OTP.route)
-            })
+            val viewModel: RegisterViewModel = hiltViewModel()
+            val state by viewModel.state.collectAsState()
+
+            RegisterScreen(
+                event = viewModel::onEvent,
+                state = state,
+                onOtpClick = {
+                    appState.navigateWithPopUpTo(AuthRoutes.OTP.route)
+                })
         }
 
         composable(AuthRoutes.Success.route) {

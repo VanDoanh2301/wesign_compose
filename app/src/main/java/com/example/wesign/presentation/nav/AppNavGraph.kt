@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.StateFlow
 fun AppNavGraph(appState: WeSignAppState = rememberWeSignAppState()) {
     AnimatedNavHost(
         navController = appState.controller,
-        startDestination = Screen.Main.route,
+        startDestination = Screen.Auth.route,
         route = ROOT_GRAPH_ROUTE
     ) {
         composable(Screen.Splash.route) {

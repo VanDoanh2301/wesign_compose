@@ -21,7 +21,6 @@ class LoginUseCase @Inject constructor(private val userRepository: UserRepositor
                 if (response.code == 200) {
                     emit(Resource.Success(response))
                 } else {
-                    Log.e("Login", "Login failed: ${response.message}")
                     emit(Resource.Error(response.message))
                 }
             } catch (e: Exception) {

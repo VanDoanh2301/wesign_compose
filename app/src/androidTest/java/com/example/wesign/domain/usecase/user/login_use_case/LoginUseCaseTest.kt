@@ -24,7 +24,7 @@ class LoginUseCaseTest {
     var hiltRule = HiltAndroidRule(this)
 
     @Inject
-   lateinit var loginUseCase: LoginUseCase
+    lateinit var loginUseCase: LoginUseCase
 
     @Before
     fun setUp() {
@@ -40,13 +40,15 @@ class LoginUseCaseTest {
                 "123456"
             )
         ).collect {
-            when(it) {
+            when (it) {
                 is Resource.Success -> {
                     println(it.data)
                 }
+
                 is Resource.Error -> {
                     Log.e("Test Login", "Login failed: ${it.message}")
-                    }
+                }
+
                 is Resource.Loading -> {
                     println("Status Loading")
                 }

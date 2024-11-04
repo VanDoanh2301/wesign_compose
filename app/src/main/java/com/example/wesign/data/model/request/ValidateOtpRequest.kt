@@ -6,5 +6,5 @@ data class ValidateOtpRequest(
     @SerializedName("email")
     val email: String,
     @SerializedName("otpNum")
-    val otpNum:Int
+    val otpNum:String
 )
