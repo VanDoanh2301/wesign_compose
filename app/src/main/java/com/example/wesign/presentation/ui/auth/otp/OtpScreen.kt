@@ -23,11 +23,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -38,26 +38,37 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.wesign.R
 import com.example.wesign.presentation.component.OtpInputField
-import com.example.wesign.presentation.component.bottomStroke
 import com.example.wesign.presentation.theme.Typography
 import com.example.wesign.presentation.theme.WeSignDimension
 import com.example.wesign.presentation.theme.WeSignShape
 import com.example.wesign.presentation.theme.primaryLight
+import com.example.wesign.presentation.ui.auth.register.RegisterScreenEvent
 
 //String constants
 const val ENTER_OTP_TEXT = "Enter OTP"
-const val TITLE_TEXT = "5 digit code sent to your email please check and confirm the code to continue"
+const val TITLE_TEXT =
+    "5 digit code sent to your email please check and confirm the code to continue"
 const val SUBMIT_TEXT = "Submit"
 const val RESEND_TEXT = "Didn't receive the code? Resend in"
 
 @Composable
-@Preview(showBackground = true)
-fun OtpScreen(onSuccessClick: () -> Unit = {}) {
+
+fun OtpScreen(
+    onSuccessClick: () -> Unit = {},
+    state: OtpScreenState,
+    event: (OtpScreenEvent) -> Unit,
+    eventRegister: (RegisterScreenEvent) -> Unit
+) {
     val otpValue = remember { mutableStateOf("") }
+
+    LaunchedEffect(Unit) {
+        event(OtpScreenEvent.resendOtp)
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.White).verticalScroll(rememberScrollState())
+            .background(color = Color.White)
+            .verticalScroll(rememberScrollState())
 
     ) {
         IconButton(onClick = { }) {
@@ -65,7 +76,8 @@ fun OtpScreen(onSuccessClick: () -> Unit = {}) {
         }
         Column(
             modifier = Modifier
-                .fillMaxSize().padding(16.dp),
+                .fillMaxSize()
+                .padding(16.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -80,7 +92,10 @@ fun OtpScreen(onSuccessClick: () -> Unit = {}) {
 
             Text(
                 text = ENTER_OTP_TEXT,
-                style = Typography.headlineSmall.copy(color = primaryLight, fontFamily = FontFamily(Font(R.font.inter_bold))),
+                style = Typography.headlineSmall.copy(
+                    color = primaryLight,
+                    fontFamily = FontFamily(Font(R.font.inter_bold))
+                ),
             )
             Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
 
@@ -106,7 +121,7 @@ fun OtpScreen(onSuccessClick: () -> Unit = {}) {
             Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
 
             Button(
-                onClick = {onSuccessClick()  },
+                onClick = { onSuccessClick() },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = primaryLight,
                     contentColor = Color.White
@@ -125,9 +140,17 @@ fun OtpScreen(onSuccessClick: () -> Unit = {}) {
                 Text(text = RESEND_TEXT, style = Typography.titleSmall.copy(color = Color.Gray))
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "4:23",
-                    style = Typography.titleSmall.copy(color = Color(0xFF55a3ff), fontFamily = FontFamily(Font(R.font.inter_regular))),
-                    modifier = Modifier.clickable { /* handle login navigation */ }
+                    text = state.time,
+                    style = Typography.titleSmall.copy(
+                        color = Color(0xFF55a3ff),
+                        fontFamily = FontFamily(Font(R.font.inter_regular))
+                    ),
+                    modifier = Modifier.clickable {
+                        if (state.isResend) {
+                            event(OtpScreenEvent.resendOtp)
+                            eventRegister(RegisterScreenEvent.generateOtp("nam","nam@gmail.com","dsd" , "USER"))
+                        }
+                    }
                 )
             }
         }
