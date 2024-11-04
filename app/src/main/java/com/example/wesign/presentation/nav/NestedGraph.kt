@@ -37,8 +37,12 @@ fun NavGraphBuilder.authGraph(appState: WeSignAppState) {
                 eventRegister = viewModelRegister::onEvent,
                 state = state,
                 onSuccessClick = {
-                appState.navigateWithPopUpTo(AuthRoutes.Success.route)
-            })
+                    appState.navigateWithPopUpTo(
+                        AuthRoutes.Success.route,
+                        inclusive = true,
+                        popUpToRoute = AuthRoutes.OTP.route
+                    )
+                })
         }
 
         composable(AuthRoutes.Register.route) {
