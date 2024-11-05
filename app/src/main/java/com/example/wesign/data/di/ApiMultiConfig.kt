@@ -8,7 +8,7 @@ annotation class ApiForUser
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
-annotation class ApiTwo
+annotation class ApiForStudy
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
 annotation class ApiThree

@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
@@ -22,6 +24,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -39,52 +42,68 @@ import com.example.wesign.presentation.theme.WeSignShape
 import com.example.wesign.presentation.theme.gradient1
 import com.example.wesign.presentation.theme.gradient2
 import com.example.wesign.presentation.theme.gradient3
+import kotlinx.coroutines.delay
+
+const val TITLE_1 = "Học ngôn ngữ\nkí hiệu"
+const val TITLE_2 = "Sử dụng AI để nhận dạng\nkí hiệu tay"
+const val TITLE_3 = "Xem những video\nhọc tập hữu ích"
+const val CHAT_TITLE = "Trò chuyện với bạn bè"
+const val CHAT_CONTENT = "Bắt đầu trò chuyện ngay"
+const val VIDEO_TITLE = "Chia sẻ video"
+const val VIDEO_CONTENT = "Chia sẻ video cho chúng tôi"
 
 @Composable
 fun SlideContent() {
     val items = listOf(
         ItemSlide(
-            title = "Basic English for\nTopic XIII",
-            content = "28 Lessons",
+            title = TITLE_1,
+            content = "IBME lab",
             icon = Icons.Default.Public,
             iconColor = gradient1[0],
             gradient = gradient1
         ),
         ItemSlide(
-            title = "Basic English for\nTopic XIII",
-            content = "28 Lessons",
+            title = TITLE_2,
+            content = "IBME lab",
             icon = Icons.Default.Public,
             iconColor = gradient2[0],
             gradient = gradient2
         ),
         ItemSlide(
-            title = "Basic English for\nTopic XIII",
-            content = "28 Lessons",
+            title = TITLE_3,
+            content = "IBME lab",
             icon = Icons.Default.Public,
             iconColor = gradient3[0],
             gradient = gradient3
         )
     )
-    LazyRow(
-        modifier = Modifier.heightIn(120.dp, 180.dp).wrapContentSize(unbounded = false)
-    ) {
-        items(items.size) { index ->
-            CardContent(item = items[index])
+    val pagerState = rememberPagerState(
+        0, 0F
+    ) {items.size}
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(2000)
+            val nextPage = (pagerState.currentPage + 1) % pagerState.pageCount
+            pagerState.animateScrollToPage(nextPage)
         }
+    }
+    HorizontalPager(state = pagerState) { page ->
+        CardContent(item = items[page])
     }
 
     Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
     ChatSupportCard(
-        title = "Chat with Friends",
-        content = "Start a conversation now",
+        title = CHAT_TITLE,
+        content = CHAT_CONTENT,
         image = R.drawable.chat_service,
         color = Color(0xFFdde2ff)
     )
     Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
 
     ChatSupportCard(
-        title = "Provide video",
-        content = "Share video for us",
+        title =  VIDEO_TITLE,
+        content = VIDEO_CONTENT,
         image = R.drawable.video_update,
         color = Color(0xFFf1a566)
     )

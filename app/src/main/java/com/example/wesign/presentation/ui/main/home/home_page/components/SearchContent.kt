@@ -23,10 +23,12 @@ import com.example.wesign.presentation.theme.Typography
 import com.example.wesign.presentation.theme.WeSignDimension
 import com.example.wesign.presentation.theme.primaryLight
 
+const val TITLE_SEARCH = "Tìm kiếm"
+
 @Composable
 fun SearchContent() {
     var textSearch by remember {
-        mutableStateOf("Search...")
+        mutableStateOf(TITLE_SEARCH)
     }
     Row {
         Box(

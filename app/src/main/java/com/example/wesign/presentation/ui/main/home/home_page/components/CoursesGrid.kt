@@ -44,13 +44,13 @@ fun CoursesGrid() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "All Courses",
+                text = "Học tập",
                 style = Typography.headlineSmall.copy(fontFamily = FontFamily(Font(R.font.inter_medium))),
             )
-            Text(
-                text = "See all",
-                style = Typography.titleMedium.copy(color = BlueStart),
-            )
+//            Text(
+//                text = "See all",
+//                style = Typography.titleMedium.copy(color = BlueStart),
+//            )
         }
         Spacer(modifier = Modifier.height(16.dp))
         LazyVerticalGrid(
@@ -103,10 +103,10 @@ fun CourseItem(course: Course, index: Int) {
 
 
 val courses = listOf(
-    Course("Literature", R.drawable.trending_topic, Color(0xFF6A5ACD)),
-    Course("Language", R.drawable.research, Color(0xFFFFA726)),
-    Course("General Math", R.drawable.checklist, Color(0xFF66BB6A)),
-    Course("Biology", R.drawable.hello, Color(0xFFFFCA28))
+    Course("Chủ đề", R.drawable.trending_topic, Color(0xFF6A5ACD)),
+    Course("Lớp học", R.drawable.research, Color(0xFFFFA726)),
+    Course("Kiểm tra", R.drawable.checklist, Color(0xFF66BB6A)),
+    Course("Thực hành", R.drawable.hello, Color(0xFFFFCA28))
 )
 
 data class Course(

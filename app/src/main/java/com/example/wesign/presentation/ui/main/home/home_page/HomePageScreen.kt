@@ -59,11 +59,11 @@ fun CustomBodyContent(userDetail: UserDetail?) {
             CoursesGrid()
         }
         item {
-            RecommendedCoursesRow(isClassed = true, title = "All Classes")
+            RecommendedCoursesRow(isClassed = true, title = "Gợi ý lớp học")
             Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
         }
         item {
-            RecommendedCoursesRow()
+            RecommendedCoursesRow(isClassed = false, title = "Gợi ý từ vựng")
         }
 
     }

@@ -1,7 +1,10 @@
 package com.example.wesign.domain.di
 
+import com.example.wesign.data.remote.ApiStudy
 import com.example.wesign.data.remote.ApiUser
+import com.example.wesign.data.repository.StudyRepositoryImpl
 import com.example.wesign.data.repository.UserRepositoryImpl
+import com.example.wesign.domain.repository.StudyRepository
 import com.example.wesign.domain.repository.UserRepository
 import com.example.wesign.domain.usecase.user.login_use_case.LoginUseCase
 import dagger.Module
@@ -18,5 +21,11 @@ object DomainModule {
     fun provideUserImpl(mUser: ApiUser): UserRepository {
         return UserRepositoryImpl(mUser)
     }
+
+    @Provides
+    fun provideStudyImpl(mStudy: ApiStudy): StudyRepository {
+        return StudyRepositoryImpl(mStudy)
+    }
+
 
 }

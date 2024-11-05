@@ -1,9 +1,11 @@
 package com.example.wesign.data.di
 
 import android.util.Log
+import com.example.wesign.data.remote.ApiStudy
 import com.example.wesign.data.remote.ApiUser
 import com.example.wesign.utils.DataPreferences
 import com.example.wesign.utils.base_url_1
+import com.example.wesign.utils.base_url_2
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -72,9 +74,19 @@ object NetWorkModule {
     @Provides
     @Singleton
     @ApiForUser
-    fun provideRetrofitOne(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
+    fun provideRetrofitForUser(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(base_url_1)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+    }
+    @Provides
+    @Singleton
+    @ApiForStudy
+    fun provideRetrofitForStudy(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(base_url_2)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
@@ -84,6 +96,10 @@ object NetWorkModule {
     @Singleton
     fun provideNewsApi(@ApiForUser retrofit: Retrofit): ApiUser {
         return retrofit.create(ApiUser::class.java)
-
+    }
+    @Provides
+    @Singleton
+    fun provideStudyApi(@ApiForStudy retrofit: Retrofit): ApiStudy {
+        return retrofit.create(ApiStudy::class.java)
     }
 }
