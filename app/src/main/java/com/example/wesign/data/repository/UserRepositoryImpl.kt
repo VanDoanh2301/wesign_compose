@@ -7,10 +7,13 @@ import com.example.wesign.data.model.request.ValidateOtpRequest
 import com.example.wesign.data.model.response.HostResponse
 import com.example.wesign.data.model.response.LoginResponse
 import com.example.wesign.data.remote.ApiUser
+import com.example.wesign.domain.mapper.toDomain
 import com.example.wesign.domain.model.AccessToken
+import com.example.wesign.domain.model.UserDetail
 import com.example.wesign.domain.model.toDomain
 import com.example.wesign.domain.repository.UserRepository
 import com.google.gson.Gson
+import retrofit2.Response
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(private val api: ApiUser) : UserRepository {
@@ -114,5 +117,25 @@ class UserRepositoryImpl @Inject constructor(private val api: ApiUser) : UserRep
 
     }
 
-
+    /**
+     * Get user detail.
+     */
+    override suspend fun getUserDetail(): HostResponse<UserDetail> {
+        try {
+            val response = api.getUserDetail()
+            if (response.isSuccessful && response.body() != null) {
+                return response.body()!!.toDomain { it.toDomain() }
+            } else {
+                return HostResponse(
+                    code = response.code(),
+                    message = response.errorBody()?.string() ?: "Unknown error occurred"
+                )
+            }
+        }catch (e : Exception) {
+            return HostResponse(
+                code = -1,
+                message = e.localizedMessage ?: "Unknown error occurred"
+            )
+        }
+    }
 }

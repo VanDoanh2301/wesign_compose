@@ -16,6 +16,7 @@ import com.example.wesign.presentation.ui.auth.register.RegisterScreen
 import com.example.wesign.presentation.ui.auth.register.RegisterViewModel
 import com.example.wesign.presentation.ui.auth.success.SuccessScreen
 import com.example.wesign.presentation.ui.main.home.HomeScreen
+import com.example.wesign.presentation.ui.main.home.HomeViewModel
 import com.example.wesign.presentation.ui.main.play.VideoPlayerScreen
 import com.example.wesign.presentation.ui.main.topic.TopicScreen
 import com.example.wesign.presentation.ui.main.vocabulary.VocabularyScreen
@@ -97,7 +98,11 @@ fun NavGraphBuilder.authGraph(appState: WeSignAppState) {
 fun NavGraphBuilder.mainGraph(appState: WeSignAppState) {
     navigation(startDestination = MainRoutes.Home.route, route = Screen.Main.route) {
         composable(MainRoutes.Home.route) {
-            HomeScreen(appState)
+            val viewModel: HomeViewModel = hiltViewModel()
+            val state by viewModel.state.collectAsState()
+            HomeScreen(
+                appState,
+                homeState = state)
         }
         composable(MainRoutes.Vocabulary.route) {
             VocabularyScreen {

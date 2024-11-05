@@ -13,6 +13,10 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+const val TOKEN_KEY = "token_key"
+const val USER_DETAIL_KEY = "user_detail_key"
+const val IS_FIRST_APP = "IS_FIRST_APP"
+
 private val Context.dataStore: DataStore<androidx.datastore.preferences.core.Preferences> by preferencesDataStore(name = "my_data_store")
 
 class DataPreferences @Inject constructor(@ApplicationContext  context: Context) {
@@ -58,4 +62,3 @@ class DataPreferences @Inject constructor(@ApplicationContext  context: Context)
 
 }
 
-const val TOKEN_KEY = "token_key"

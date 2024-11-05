@@ -48,7 +48,9 @@ import kotlinx.coroutines.launch
 
 @Composable
 @Preview(showBackground = true, showSystemUi = true)
-fun OnBoardingScreen(onBoardingFinished: () -> Unit = {}) {
+fun OnBoardingScreen(
+    event: (OnBoardingScreenEvent) -> Unit = {},
+    onBoardingFinished: () -> Unit = {}) {
     val statePager = rememberPagerState(0, 0F) { 3 }
     val scope = rememberCoroutineScope()
     val buttonText by remember {
@@ -67,6 +69,7 @@ fun OnBoardingScreen(onBoardingFinished: () -> Unit = {}) {
                 ItemOnBoarding(buttonText, listOnBoarding[page], page, onNext = {
                     scope.launch {
                         if (statePager.currentPage == 2) {
+                            event(OnBoardingScreenEvent.setFirstApp(false))
                             onBoardingFinished()
                             return@launch
                         }
