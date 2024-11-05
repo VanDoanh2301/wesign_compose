@@ -1,5 +1,6 @@
 package com.example.wesign.data.di
 
+import android.util.Log
 import com.example.wesign.data.remote.ApiUser
 import com.example.wesign.utils.DataPreferences
 import com.example.wesign.utils.base_url_1

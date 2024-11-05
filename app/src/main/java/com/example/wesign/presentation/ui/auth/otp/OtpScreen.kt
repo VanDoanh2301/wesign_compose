@@ -20,7 +20,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -34,19 +33,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.wesign.R
+import com.example.wesign.presentation.component.CustomLoading
 import com.example.wesign.presentation.component.OtpInputField
 import com.example.wesign.presentation.theme.Typography
 import com.example.wesign.presentation.theme.WeSignDimension
 import com.example.wesign.presentation.theme.WeSignShape
 import com.example.wesign.presentation.theme.primaryLight
 import com.example.wesign.presentation.ui.auth.register.RegisterScreenEvent
+import com.example.wesign.utils.showToast
 
 //String constants
 const val ENTER_OTP_TEXT = "Enter OTP"
@@ -56,12 +57,14 @@ const val SUBMIT_TEXT = "Submit"
 const val RESEND_TEXT = "Didn't receive the code? Resend in"
 
 @Composable
-
 fun OtpScreen(
     onSuccessClick: () -> Unit = {},
     state: OtpScreenState,
     event: (OtpScreenEvent) -> Unit,
-    eventRegister: (RegisterScreenEvent) -> Unit
+    eventRegister: (RegisterScreenEvent) -> Unit,
+    email: String,
+    name: String,
+    password: String
 ) {
     val otpValue = remember { mutableStateOf("") }
     var isOtpClick by remember { mutableStateOf(false) }
@@ -118,7 +121,7 @@ fun OtpScreen(
 
                 OtpInputField(
                     otp = otpValue,
-                    count = 5,
+                    count = 6,
                     otpBoxModifier = Modifier
                         .size(48.dp)
                         .background(Color.Gray.copy(alpha = 0.1f), WeSignShape.small)
@@ -130,7 +133,7 @@ fun OtpScreen(
                 Button(
                     onClick = {
                         isOtpClick = true
-                        event(OtpScreenEvent.validateOtp("nam@gmail.com", otpValue.value))
+                        event(OtpScreenEvent.validateOtp(email, otpValue.value))
                         onSuccessClick()
                     },
                     colors = ButtonDefaults.buttonColors(
@@ -161,9 +164,9 @@ fun OtpScreen(
                                 event(OtpScreenEvent.resendOtp)
                                 eventRegister(
                                     RegisterScreenEvent.generateOtp(
-                                        "nam",
-                                        "nam@gmail.com",
-                                        "dsd",
+                                        name,
+                                        email,
+                                        password,
                                         "USER"
                                     )
                                 )
@@ -176,27 +179,17 @@ fun OtpScreen(
             if (isOtpClick) {
                 when {
                     state.isLoading -> {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(color = Color.Black.copy(alpha = 0.3f)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            CircularProgressIndicator(
-                                modifier = Modifier
-                                    .size(46.dp),
-                                color = Color.White
-                            )
-                        }
+                        CustomLoading()
                     }
 
-                    state.messageResult != null -> {
+                    state.error != null -> {
                         isOtpClick = false
-                        onSuccessClick()
+                        LocalContext.current.showToast(state.error)
                     }
 
                     state.isOtpVerified -> {
                         isOtpClick = false
+                        onSuccessClick()
                     }
 
                 }

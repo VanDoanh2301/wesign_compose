@@ -1,5 +1,6 @@
 package com.example.wesign.presentation.ui.auth.register
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.wesign.data.model.request.GenerateOtpRequest

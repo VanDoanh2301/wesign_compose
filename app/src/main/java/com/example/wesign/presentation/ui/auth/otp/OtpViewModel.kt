@@ -2,10 +2,8 @@ package com.example.wesign.presentation.ui.auth.otp
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.wesign.data.model.request.GenerateOtpRequest
 import com.example.wesign.data.model.request.ValidateOtpRequest
 import com.example.wesign.domain.usecase.user.otp_use_case.ValidateOtpUseCase
-import com.example.wesign.domain.usecase.user.register_use_case.GenerateOtpUseCase
 import com.example.wesign.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -43,10 +41,10 @@ class OtpViewModel @Inject constructor(
                         _state.value = _state.value.copy(isLoading = true)
                     }
                     is Resource.Success -> {
-                        _state.value = _state.value.copy(messageResult = "OTP verified successfully", isLoading = false, isOtpVerified = true)
+                        _state.value = _state.value.copy(isLoading = false, isOtpVerified = true)
                     }
                     is Resource.Error -> {
-                        _state.value = _state.value.copy(messageResult = result.message, isLoading = false, isOtpVerified = false)
+                        _state.value = _state.value.copy(error = result.message, isLoading = false, isOtpVerified = false)
                     }
 
                 }

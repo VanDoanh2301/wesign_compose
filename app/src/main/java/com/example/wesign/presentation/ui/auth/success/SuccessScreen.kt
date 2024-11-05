@@ -45,17 +45,17 @@ const val ACCOUNT_CREATED_TEXT = "Your account has been successfully created."
 const val GO_TO_LOGIN_TEXT = "Go to Login"
 
 @Composable
-@Preview(showBackground = true, showSystemUi = true)
-fun SuccessScreen() {
+@Preview(showBackground = true)
+fun SuccessScreen(onHomeClick: () -> Unit = {}) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
 
     ) {
-        IconButton(onClick = { }) {
-            Icon(Icons.Filled.ArrowBack, contentDescription = "")
-        }
+//        IconButton(onClick = { }) {
+//            Icon(Icons.Filled.ArrowBack, contentDescription = "")
+//        }
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -92,7 +92,7 @@ fun SuccessScreen() {
             Spacer(modifier = Modifier.height(WeSignDimension.PaddingExtraLarge))
 
             Button(
-                onClick = { /* handle registration */ },
+                onClick = { onHomeClick() },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = primaryLight,
                     contentColor = Color.White

@@ -1,6 +1,8 @@
 package com.example.wesign.presentation.nav
 
 const val ARG_KEY_EMAIL = "arg_key_email"
+const val ARG_KEY_NAME = "arg_key_name"
+const val ARG_KEY_PASSWORD = "arg_key_password"
 
 const val ROOT_GRAPH_ROUTE = "root"
 const val AUTH_GRAPH_ROUTE = "auth"
@@ -11,7 +13,7 @@ const val ONBOARD_GRAPH_ROUTE = "onboard"
 // Auth Routes
 const val AUTH_LOGIN_ROUTE = "auth/login"
 const val AUTH_REGISTER_ROUTE = "auth/register"
-const val AUTH_OTP_ROUTE = "auth/otp/{$ARG_KEY_EMAIL}"
+const val AUTH_OTP_ROUTE = "auth/otp/{$ARG_KEY_EMAIL}/{$ARG_KEY_PASSWORD}/{$ARG_KEY_NAME}"
 const val AUTH_SUCCESS_ROUTE = "auth/success"
 
 // Main Routes
@@ -45,8 +47,8 @@ sealed class AuthRoutes(route: String) : Screen(route) {
          * @param email: Email of the user
          * @return The formatted route string with the email.
          */
-        fun sendEmail(email: String): String {
-            return AUTH_OTP_ROUTE.replace("{$ARG_KEY_EMAIL}", email)
+        fun sendEmail(email: String, password: String = "", name: String = ""): String {
+            return AUTH_OTP_ROUTE.replace("{$ARG_KEY_EMAIL}", email).replace("{$ARG_KEY_PASSWORD}", password).replace("{$ARG_KEY_NAME}", name)
         }
     }
 

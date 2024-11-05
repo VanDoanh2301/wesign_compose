@@ -1,5 +1,6 @@
 package com.example.wesign.domain.usecase.user.register_use_case
 
+import android.util.Log
 import com.example.wesign.data.model.request.GenerateOtpRequest
 import com.example.wesign.data.model.response.HostResponse
 import com.example.wesign.domain.repository.UserRepository

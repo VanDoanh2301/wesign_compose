@@ -56,6 +56,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.wesign.R
+import com.example.wesign.presentation.component.CustomLoading
 import com.example.wesign.presentation.theme.Typography
 import com.example.wesign.presentation.theme.WeSignDimension
 import com.example.wesign.presentation.theme.WeSignShape
@@ -80,7 +81,7 @@ const val REGEX_EMAIL = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$"
 
 @Composable
 fun RegisterScreen(
-    onOtpClick: () -> Unit = {},
+    onOtpClick: (String, String, String) -> Unit,
     state: RegisterScreenState,
     event: (RegisterScreenEvent) -> Unit
 ) {
@@ -146,7 +147,7 @@ fun RegisterScreen(
                 state.isOtpVerified -> {
                     isShowLoading = false
                     isRegisterClick = false
-                    onOtpClick()
+                    onOtpClick(textEmail, textName, textPassword)
                 }
 
                 state.error != null -> {
@@ -301,18 +302,7 @@ fun RegisterScreen(
         }
 
         if (isShowLoading) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(color = Color.Black.copy(alpha = 0.3f)),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .size(46.dp),
-                    color = Color.White
-                )
-            }
+          CustomLoading()
         }
 
     }

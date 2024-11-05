@@ -386,7 +386,7 @@ fun OtpView_Preivew() {
 
             OtpInputField(
                 otp = otpValue,
-                count = 5,
+                count = 6,
                 otpBoxModifier = Modifier
                     .size(48.dp)
                     .bottomStroke(color = Color.Gray, strokeWidth = 2.dp)

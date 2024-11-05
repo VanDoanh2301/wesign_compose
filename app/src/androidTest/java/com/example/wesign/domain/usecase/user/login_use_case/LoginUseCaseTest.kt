@@ -10,10 +10,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.jupiter.api.Assertions.*
 
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
 import org.junit.runner.RunWith
 import javax.inject.Inject
 
@@ -42,7 +39,7 @@ class LoginUseCaseTest {
         ).collect {
             when (it) {
                 is Resource.Success -> {
-                    println(it.data)
+                    println(it.dataResource)
                 }
 
                 is Resource.Error -> {

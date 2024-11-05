@@ -10,6 +10,7 @@ import com.example.wesign.data.remote.ApiUser
 import com.example.wesign.domain.model.AccessToken
 import com.example.wesign.domain.model.toDomain
 import com.example.wesign.domain.repository.UserRepository
+import com.google.gson.Gson
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(private val api: ApiUser) : UserRepository {
@@ -27,10 +28,20 @@ class UserRepositoryImpl @Inject constructor(private val api: ApiUser) : UserRep
                     message = "Empty response body"
                 )
             } else {
-                HostResponse(
-                    code = response.code(),
-                    message = response.message()
-                )
+                val errorBody = response.errorBody()?.string()
+                val resError = Gson().fromJson(errorBody, HostResponse::class.java)
+                if (resError != null) {
+                    HostResponse(
+                        code = resError.code,
+                        message = resError.message
+                    )
+                } else {
+                    HostResponse(
+                        code = response.code(),
+                        message = response.message()
+                    )
+                }
+
             }
         } catch (e: Exception) {
             HostResponse(
@@ -53,10 +64,19 @@ class UserRepositoryImpl @Inject constructor(private val api: ApiUser) : UserRep
                     message = "Empty response body"
                 )
             } else {
-                HostResponse(
-                    code = response.code(),
-                    message = response.message()
-                )
+                val errorBody = response.errorBody()?.string()
+                val resError = Gson().fromJson(errorBody, HostResponse::class.java)
+                if (resError != null) {
+                    HostResponse(
+                        code = resError.code,
+                        message = resError.message
+                    )
+                } else {
+                    HostResponse(
+                        code = response.code(),
+                        message = response.message()
+                    )
+                }
             }
         } catch (e: Exception) {
             HostResponse(

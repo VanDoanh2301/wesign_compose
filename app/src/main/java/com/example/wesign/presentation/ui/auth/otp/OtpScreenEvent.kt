@@ -7,7 +7,7 @@ sealed class OtpScreenEvent {
 
 data class OtpScreenState(
     val isLoading: Boolean = false,
-    val messageResult: String? = null,
+    val error: String? = null,
     val isOtpVerified: Boolean = false,
     val isResend: Boolean = false,
     val time: String = "",

@@ -7,6 +7,7 @@ import com.example.wesign.domain.model.AccessToken
 import com.example.wesign.domain.repository.UserRepository
 import com.example.wesign.utils.Resource
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -16,6 +17,7 @@ class LoginUseCase @Inject constructor(private val userRepository: UserRepositor
     suspend operator fun invoke(loginRequest: LoginRequest): Flow<Resource<HostResponse<AccessToken>>> =
         flow {
             emit(Resource.Loading())
+            delay(2000)
             try {
                 val response = userRepository.login(loginRequest)
                 if (response.code == 200) {
