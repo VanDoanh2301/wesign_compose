@@ -11,44 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.example.wesign.R
 import com.example.wesign.presentation.theme.WeSignDimension
-import com.example.wesign.presentation.ui.main.home.home_page.components.CourseTopic
+
 
 @Composable
-fun VocabularyTabScreen(onClickVocal: (CourseTopic) -> Unit = {  }) {
-    val courseTopics = listOf(
-        CourseTopic(
-            "Biology for class XIII",
-            "Smith J.",
-            17,
-            "40 Mins",
-            R.drawable.teacher,
-            Color(0xFF2196F3)
-        ),
-        CourseTopic(
-            "Math for class XIII",
-            "Smith J.",
-            17,
-            "40 Mins",
-            R.drawable.teacher,
-            Color(0xFFFFA726)
-        ),
-        CourseTopic(
-            "Biology for class XIII",
-            "Smith J.",
-            17,
-            "40 Mins",
-            R.drawable.teacher,
-            Color(0xFF2196F3)
-        ),
-        CourseTopic(
-            "Math for class XIII",
-            "Smith J.",
-            17,
-            "40 Mins",
-            R.drawable.teacher,
-            Color(0xFFFFA726)
-        )
-    )
+fun VocabularyTabScreen(onClickVocal: () -> Unit = {  }) {
+
     Box(modifier = Modifier.fillMaxSize().padding(WeSignDimension.PaddingLarge)) {
         LazyVerticalGrid(
             modifier = Modifier
@@ -56,11 +23,11 @@ fun VocabularyTabScreen(onClickVocal: (CourseTopic) -> Unit = {  }) {
                 .wrapContentSize(unbounded = false),
             columns = androidx.compose.foundation.lazy.grid.GridCells.Fixed(2),
         ) {
-            items(courseTopics.size) { course ->
-                CourseTopic(course = courseTopics[course], isClassed = false) {
-                    onClickVocal(courseTopics[course])
-                }
-            }
+//            items(courseTopics.size) { course ->
+//                CourseTopic(course = courseTopics[course], isClassed = false) {
+//                    onClickVocal(courseTopics[course])
+//                }
+//            }
         }
     }
 }

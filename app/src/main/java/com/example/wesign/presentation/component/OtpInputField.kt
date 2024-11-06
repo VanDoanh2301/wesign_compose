@@ -65,7 +65,7 @@ private data class OtpField(
  * of these fields dynamically based on the current OTP value and provides functionality
  * for managing focus transitions between the fields.
  *
- * @param otp A mutable state holding the current OTP value. This state is observed for changes
+ * @param otp A mutable userDetailState holding the current OTP value. This userDetailState is observed for changes
  *            to update the individual fields and to reset focus as necessary.
  * @param count The number of OTP input boxes to display. This defines how many individual
  *              fields will be generated and managed.
@@ -79,8 +79,8 @@ private data class OtpField(
  *                    OTPs are required.
  * @param textColor The color used for the text within each OTP box, allowing for visual customization.
  *
- * The function sets up each input field with its own state and focus requester, managing
- * internal state updates in response to changes in the OTP value and user interactions.
+ * The function sets up each input field with its own userDetailState and focus requester, managing
+ * internal userDetailState updates in response to changes in the OTP value and user interactions.
  * The layout is organized as a horizontal row of text fields, with each field designed to
  * capture a single character of the OTP. Focus automatically advances to the next field upon
  * input, and if configured, input characters can be visually obscured for security.
@@ -110,7 +110,7 @@ fun OtpInputField(
 
     val scope = rememberCoroutineScope()
 
-    // Initialize state for each OTP box with its character and optional focus requester.
+    // Initialize userDetailState for each OTP box with its character and optional focus requester.
     val otpFieldsValues = remember {
         (0 until count).mapIndexed { index, i ->
             mutableStateOf(
@@ -154,7 +154,7 @@ fun OtpInputField(
                 isLastItem = index == count - 1, // Check if this box is the last in the sequence.
                 totalBoxCount = count,
                 onValueChange = { newValue ->
-                    // Handling logic for input changes, including moving focus and updating OTP state.
+                    // Handling logic for input changes, including moving focus and updating OTP userDetailState.
                     scope.launch {
                         handleOtpInputChange(index, count, newValue, otpFieldsValues, otp)
                     }
@@ -174,14 +174,14 @@ fun OtpInputField(
 }
 
 /**
- * Handles input changes for each OTP box and manages the logic for updating the OTP state
+ * Handles input changes for each OTP box and manages the logic for updating the OTP userDetailState
  * and managing focus transitions between OTP boxes.
  *
  * @param index The index of the OTP box where the input change occurred.
  * @param count The total number of OTP boxes.
  * @param newValue The new value inputted into the OTP box at the specified index.
- * @param otpFieldsValues A list of mutable states, each representing an individual OTP box's state.
- * @param otp A mutable state holding the current concatenated value of all OTP boxes.
+ * @param otpFieldsValues A list of mutable states, each representing an individual OTP box's userDetailState.
+ * @param otp A mutable userDetailState holding the current concatenated value of all OTP boxes.
  *
  * The function updates the text of the targeted OTP box based on the length and content of `newValue`.
  * If `newValue` contains only one character, it replaces the existing text in the current box.
@@ -222,7 +222,7 @@ private fun handleOtpInputChange(
         }
     }
 
-    // Update the overall OTP state.
+    // Update the overall OTP userDetailState.
     var currentOtp = ""
     otpFieldsValues.forEach {
         currentOtp += it.value.text

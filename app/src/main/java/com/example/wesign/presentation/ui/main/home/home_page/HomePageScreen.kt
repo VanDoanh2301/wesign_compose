@@ -9,10 +9,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.example.wesign.domain.model.UserDetail
+import androidx.paging.compose.LazyPagingItems
+import com.example.wesign.domain.model.ClassRoom
 import com.example.wesign.presentation.theme.WeSignDimension
+import com.example.wesign.presentation.ui.main.home.HomeScreenEvent
+import com.example.wesign.presentation.ui.main.home.UserDetailState
 import com.example.wesign.presentation.ui.main.home.components.CustomTopAppBar
 import com.example.wesign.presentation.ui.main.home.home_page.components.CoursesGrid
 import com.example.wesign.presentation.ui.main.home.home_page.components.RecommendedCoursesRow
@@ -21,7 +25,15 @@ import com.example.wesign.presentation.ui.main.home.home_page.components.SlideCo
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomePageScreen(userDetail: UserDetail?) {
+fun HomePageScreen(
+    userState: UserDetailState,
+    classRoomState: LazyPagingItems<ClassRoom>,
+    event: (HomeScreenEvent) -> Unit
+) {
+    LaunchedEffect(Unit) {
+        event(HomeScreenEvent.GetAllClassRooms)
+    }
+
     Scaffold(
         containerColor = Color.Transparent,
         content = { paddingValues ->
@@ -30,44 +42,40 @@ fun HomePageScreen(userDetail: UserDetail?) {
                     .fillMaxSize()
                     .padding(paddingValues)
             ) {
-                CustomBodyContent(userDetail)
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(WeSignDimension.PaddingLarge)
+                ) {
+                    item {
+                        CustomTopAppBar(userState.userDetail)
+                        Spacer(modifier = Modifier.height(WeSignDimension.PaddingExtraLarge))
+                    }
+                    item {
+                        SearchContent()
+                        Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
+                    }
+                    item {
+                        SlideContent()
+                        Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
+                    }
+                    item {
+                        CoursesGrid()
+                    }
+                    item {
+                        RecommendedCoursesRow(title = "Gợi ý lớp học", classrooms = classRoomState)
+                        Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
+                    }
+//                    item {
+//                        RecommendedCoursesRow(isClassed = false, title = "Gợi ý từ vựng")
+//                    }
+
+                }
             }
         }
     )
 }
 
-@Composable
-fun CustomBodyContent(userDetail: UserDetail?) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(WeSignDimension.PaddingLarge)
-    ) {
-        item {
-            CustomTopAppBar(userDetail)
-            Spacer(modifier = Modifier.height(WeSignDimension.PaddingExtraLarge))
-        }
-        item {
-            SearchContent()
-            Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
-        }
-        item {
-            SlideContent()
-            Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
-        }
-        item {
-            CoursesGrid()
-        }
-        item {
-            RecommendedCoursesRow(isClassed = true, title = "Gợi ý lớp học")
-            Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
-        }
-        item {
-            RecommendedCoursesRow(isClassed = false, title = "Gợi ý từ vựng")
-        }
-
-    }
-}
 
 
 

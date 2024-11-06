@@ -21,7 +21,7 @@ import com.example.wesign.presentation.ui.main.home.components.CustomBottomAppBa
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeScreen(appState: WeSignAppState, homeState: HomeScreenUiState) {
+fun HomeScreen(appState: WeSignAppState, viewModel: HomeViewModel) {
     val navController = rememberNavController()
     Scaffold(
         containerColor = Color.Transparent,
@@ -32,7 +32,7 @@ fun HomeScreen(appState: WeSignAppState, homeState: HomeScreenUiState) {
             Box(modifier = Modifier
                 .fillMaxSize()
                 .padding(it) ) {
-                BottomNavGraph(navController, appState, homeState.userDetail)
+                BottomNavGraph(navController, appState,  viewModel)
             }
         },
         bottomBar = {

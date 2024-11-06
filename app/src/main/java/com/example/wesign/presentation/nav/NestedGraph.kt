@@ -99,10 +99,9 @@ fun NavGraphBuilder.mainGraph(appState: WeSignAppState) {
     navigation(startDestination = MainRoutes.Home.route, route = Screen.Main.route) {
         composable(MainRoutes.Home.route) {
             val viewModel: HomeViewModel = hiltViewModel()
-            val state by viewModel.state.collectAsState()
             HomeScreen(
                 appState,
-                homeState = state)
+                viewModel)
         }
         composable(MainRoutes.Vocabulary.route) {
             VocabularyScreen {

@@ -6,8 +6,9 @@ import com.google.gson.annotations.SerializedName
 data class ClassRoom(
     val classRoomId: Int,
     val content: String,
-    val imageLocation: String,
-    val createdBy :String,
+    val imageLocation: String? = null
+    ,
+    val createdBy :String?,
 )
 
 fun ClassResponse.toDomainModel(): ClassRoom {

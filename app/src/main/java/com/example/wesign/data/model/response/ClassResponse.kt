@@ -8,8 +8,8 @@ data class ClassResponse(
     @SerializedName("content")
     val content: String,
     @SerializedName("imageLocation")
-    val imageLocation: String,
+    val imageLocation: String?,
     @SerializedName("createdBy")
-    val createdBy :String,
+    val createdBy :String?,
 
 )

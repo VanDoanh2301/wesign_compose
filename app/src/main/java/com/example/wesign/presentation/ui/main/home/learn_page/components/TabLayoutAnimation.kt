@@ -30,7 +30,6 @@ import com.example.wesign.presentation.theme.BlueStart
 import com.example.wesign.presentation.theme.GreenStart
 import com.example.wesign.presentation.theme.OrangeStart
 import com.example.wesign.presentation.theme.PurpleStart
-import com.example.wesign.presentation.ui.main.home.home_page.components.CourseTopic
 import kotlinx.coroutines.launch
 
 
@@ -113,27 +112,27 @@ fun Tabs(pagerState: PagerState) {
 @Composable
 fun TabsContent(
     pagerState: PagerState,
-    onClickClass: (CourseTopic) -> Unit = { },
-    onClickTopic: (CourseTopic) -> Unit = { },
-    onClickVocal: (CourseTopic) -> Unit = { },
+    onClickClass: () -> Unit = { },
+    onClickTopic: () -> Unit = { },
+    onClickVocal: () -> Unit = { },
     onClickNumber: () -> Unit = { },
     onClickAlphabet: () -> Unit = { }
 ) {
     HorizontalPager(state = pagerState) { page ->
         when (page) {
             0 -> ClassTabScreen(onClickClass = {
-                onClickClass(it)
+                onClickClass()
             })
 
             1 -> TopicTabScreen(
                 onClickTopic = {
-                    onClickTopic(it)
+                    onClickTopic()
                 }
             )
 
             2 -> VocabularyTabScreen(
                 onClickVocal = {
-                    onClickVocal(it)
+                    onClickVocal()
                 }
             )
 

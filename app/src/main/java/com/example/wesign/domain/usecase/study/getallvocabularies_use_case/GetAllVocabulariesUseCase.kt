@@ -1,4 +1,4 @@
-package com.example.wesign.domain.usecase.study.getallclassrooms_use_case
+package com.example.wesign.domain.usecase.study.getallvocabularies_use_case
 
 import com.example.wesign.data.model.response.HostResponse
 import com.example.wesign.domain.model.Vocabulary

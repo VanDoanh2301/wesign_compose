@@ -106,6 +106,7 @@ dependencies {
     implementation(libs.core)
     implementation(libs.androidx.ui.test.android)
     implementation(libs.androidx.runner)
+    implementation(libs.androidx.paging.common.android)
     testImplementation(libs.junit)
 //    testImplementation (libs.kotlinx.coroutines.test)
 //    testImplementation (libs.mockito.kotlin)
@@ -163,9 +164,10 @@ dependencies {
     implementation(libs.compose.material.icons.extended)
     implementation(libs.splashscreen)
     implementation(libs.coil.kt.compose)
-
-    implementation ("androidx.media3:media3-exoplayer:1.4.1")
-    implementation ("androidx.media3:media3-ui:1.4.1")
+    implementation (libs.androidx.media3.exoplayer)
+    implementation (libs.androidx.media3.ui)
+    implementation (libs.androidx.paging.compose)
+    implementation(libs.androidx.paging.runtime)
 
 }
 java {

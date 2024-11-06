@@ -1,15 +1,19 @@
 package com.example.wesign.presentation.nav
 
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.wesign.domain.model.UserDetail
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.wesign.presentation.ui.main.home.HomeViewModel
 import com.example.wesign.presentation.ui.main.home.home_page.HomePageScreen
 import com.example.wesign.presentation.ui.main.home.learn_page.LearnPageScreen
 import com.example.wesign.presentation.ui.main.home.profile_page.ProfilePageScreen
@@ -87,7 +91,7 @@ fun AppNavGraph(appState: WeSignAppState = rememberWeSignAppState()) {
 fun BottomNavGraph(
     navController: NavHostController,
     appState: WeSignAppState,
-    userDetail: UserDetail?
+    viewModel: HomeViewModel
 ) {
     AnimatedNavHost(
         navController = navController,
@@ -95,7 +99,10 @@ fun BottomNavGraph(
         route = MainRoutes.Home.route
     ) {
         composable(BottomHomeRoutes.BottomHome.route) {
-            HomePageScreen(userDetail)
+            val userState by viewModel.userDetailState.collectAsState()
+            val classRoomState =viewModel.classRoomState.collectAsLazyPagingItems()
+
+            HomePageScreen(userState,  classRoomState, viewModel::onEvent)
         }
         composable(BottomHomeRoutes.Learn.route) {
             LearnPageScreen(appState)

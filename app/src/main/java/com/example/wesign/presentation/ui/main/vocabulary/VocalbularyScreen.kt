@@ -23,13 +23,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.wesign.R
 import com.example.wesign.presentation.theme.Typography
 import com.example.wesign.presentation.theme.WeSignDimension
-import com.example.wesign.presentation.ui.main.home.home_page.components.CourseTopic
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 @Preview(showBackground = true)
-fun VocabularyScreen(onClickTopic: (CourseTopic) -> Unit = { }) {
+fun VocabularyScreen(onClickTopic: () -> Unit = { }) {
     Scaffold(
         containerColor = Color.Transparent,
         topBar = {
@@ -53,40 +52,7 @@ fun VocabularyScreen(onClickTopic: (CourseTopic) -> Unit = { }) {
             )
         }
     ) {
-        val courseTopics = listOf(
-            CourseTopic(
-                "Biology for class XIII",
-                "Smith J.",
-                17,
-                "40 Mins",
-                R.drawable.teacher,
-                Color(0xFF2196F3)
-            ),
-            CourseTopic(
-                "Math for class XIII",
-                "Smith J.",
-                17,
-                "40 Mins",
-                R.drawable.teacher,
-                Color(0xFFFFA726)
-            ),
-            CourseTopic(
-                "Biology for class XIII",
-                "Smith J.",
-                17,
-                "40 Mins",
-                R.drawable.teacher,
-                Color(0xFF2196F3)
-            ),
-            CourseTopic(
-                "Math for class XIII",
-                "Smith J.",
-                17,
-                "40 Mins",
-                R.drawable.teacher,
-                Color(0xFFFFA726)
-            )
-        )
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -98,11 +64,11 @@ fun VocabularyScreen(onClickTopic: (CourseTopic) -> Unit = { }) {
                     .padding(start = WeSignDimension.PaddingLarge),
                 columns = androidx.compose.foundation.lazy.grid.GridCells.Fixed(2),
             ) {
-                items(courseTopics.size) { course ->
-                    CourseTopic(course = courseTopics[course], isClassed = false) {
-                        onClickTopic(courseTopics[course])
-                    }
-                }
+//                items(courseTopics.size) { course ->
+//                    CourseTopic(course = courseTopics[course], isClassed = false) {
+//                        onClickTopic(courseTopics[course])
+//                    }
+//                }
             }
         }
     }

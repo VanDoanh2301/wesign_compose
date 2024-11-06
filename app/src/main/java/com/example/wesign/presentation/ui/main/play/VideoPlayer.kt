@@ -108,7 +108,7 @@ fun VideoPlayerScreen(modifier: Modifier = Modifier) {
 
         Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
 
-        RecommendedCoursesRow(modifier = Modifier.padding(horizontal = WeSignDimension.PaddingLarge))
+//        RecommendedCoursesRow(modifier = Modifier.padding(horizontal = WeSignDimension.PaddingLarge))
     }
 
 }

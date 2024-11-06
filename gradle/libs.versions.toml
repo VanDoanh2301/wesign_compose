@@ -22,10 +22,12 @@ composeBom = "2024.10.00"
 icon = "0.27.0"
 constraintlayout = "2.1.4"
 lottieCompose = "6.0.0"
+media3Exoplayer = "1.4.1"
 mockitoCore = "5.11.0"
 mockitoInline = "4.5.1"
 mockitoKotlin = "4.0.0"
 mockk = "1.13.13"
+pagingCompose = "3.3.2"
 splashscreen = "1.0.1"
 composeIcon = "1.7.4"        # Replace with the appropriate version
 dagger = "2.51.1"            # Replace with your Dagger version
@@ -43,6 +45,7 @@ coreTesting = "2.1.0"
 coil = "2.6.0"
 uiTestAndroid = "1.7.4"
 runner = "1.6.2"
+pagingCommonAndroid = "3.3.2"
 
 
 
@@ -55,6 +58,10 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-core-testing-v220 = { module = "androidx.arch.core:core-testing", version.ref = "coreTestingVersion" }
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "media3Exoplayer" }
+androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "media3Exoplayer" }
+androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingCompose" }
+androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "pagingCompose" }
 hilt-android-compiler-v2511 = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroidTesting" }
 hilt-android-testing-v2461 = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroidTestingVersion" }
@@ -117,6 +124,7 @@ androidx-core-testing = { group = "androidx.arch.core", name = "core-testing", v
 coil-kt-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 androidx-ui-test-android = { group = "androidx.compose.ui", name = "ui-test-android", version.ref = "uiTestAndroid" }
 androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
+androidx-paging-common-android = { group = "androidx.paging", name = "paging-common-android", version.ref = "pagingCommonAndroid" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
