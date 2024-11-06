@@ -25,7 +25,9 @@ import com.example.wesign.presentation.ui.auth.success.LottieAnimationCustom
 
 @Composable
 @Preview(showBackground = true)
-fun CustomLoading() {
+fun CustomLoading(
+    modifier: Modifier = Modifier,
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()

@@ -17,16 +17,3 @@ data class UserDetailState(
     val userDetail: UserDetail? = null,
     val error: String? = null
 )
-
-data class ClassRoomState(
-    val isLoading: Boolean = false,
-    val classrooms: StateFlow<PagingData<ClassRoom>> ?= null,
-    val error: String? = null
-)
-
-
-data class VocabularyState(
-    val isLoading: Boolean = false,
-    val vocabularies: List<Vocabulary> = emptyList(),
-    val error: String? = null
-)

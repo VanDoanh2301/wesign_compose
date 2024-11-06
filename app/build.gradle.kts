@@ -107,6 +107,7 @@ dependencies {
     implementation(libs.androidx.ui.test.android)
     implementation(libs.androidx.runner)
     implementation(libs.androidx.paging.common.android)
+    implementation(libs.androidx.hilt.common)
     testImplementation(libs.junit)
 //    testImplementation (libs.kotlinx.coroutines.test)
 //    testImplementation (libs.mockito.kotlin)
@@ -168,6 +169,8 @@ dependencies {
     implementation (libs.androidx.media3.ui)
     implementation (libs.androidx.paging.compose)
     implementation(libs.androidx.paging.runtime)
+    implementation (libs.androidx.work.runtime.ktx)
+    implementation ("androidx.hilt:hilt-work:1.2.0")
 
 }
 java {

@@ -101,8 +101,9 @@ fun BottomNavGraph(
         composable(BottomHomeRoutes.BottomHome.route) {
             val userState by viewModel.userDetailState.collectAsState()
             val classRoomState =viewModel.classRoomState.collectAsLazyPagingItems()
+            val vocabularyState = viewModel.vocabularyState.collectAsLazyPagingItems()
 
-            HomePageScreen(userState,  classRoomState, viewModel::onEvent)
+            HomePageScreen(userState,  classRoomState, vocabularyState, viewModel::onEvent)
         }
         composable(BottomHomeRoutes.Learn.route) {
             LearnPageScreen(appState)

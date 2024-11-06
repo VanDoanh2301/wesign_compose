@@ -4,8 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.flatMap
 import com.example.wesign.domain.model.ClassRoom
 import com.example.wesign.domain.model.UserDetail
+import com.example.wesign.domain.model.Vocabulary
 import com.example.wesign.domain.usecase.study.getallclassrooms_use_case.GetAllClassroomsUseCase
 import com.example.wesign.domain.usecase.study.getallvocabularies_use_case.GetAllVocabulariesUseCase
 import com.example.wesign.domain.usecase.user.user_detail_use_case.GetUserDetailUseCase
@@ -29,7 +31,7 @@ class HomeViewModel @Inject constructor(
     private val _userDetailState = MutableStateFlow(UserDetailState())
     val userDetailState = _userDetailState.asStateFlow()
 
-    private val _vocabularyState = MutableStateFlow(VocabularyState())
+    private val _vocabularyState = MutableStateFlow<PagingData<Vocabulary>>(PagingData.empty())
     val vocabularyState = _vocabularyState.asStateFlow()
 
     private var _classRoomState = MutableStateFlow<PagingData<ClassRoom>>(PagingData.empty())
@@ -64,7 +66,6 @@ class HomeViewModel @Inject constructor(
             is HomeScreenEvent.GetAllVocabularies -> {
                 getAllVocabularies()
             }
-
             else -> {}
         }
     }
@@ -78,25 +79,12 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getAllVocabularies() = viewModelScope.launch {
-        _vocabularyState.value = _vocabularyState.value.copy(isLoading = true)
-        getAllVocabulariesUseCase().collect { result ->
-            when (result) {
-                is Resource.Loading -> {
-                    _vocabularyState.value = _vocabularyState.value.copy(isLoading = true)
-                }
+      viewModelScope.launch {
+          getAllVocabulariesUseCase.invoke().cachedIn(viewModelScope).collect {
+              _vocabularyState.value = it
 
-                is Resource.Success -> {
-                    _vocabularyState.value = _vocabularyState.value.copy(
-                        vocabularies = result.dataResource?.data ?: emptyList(), isLoading = false
-                    )
-                }
-
-                is Resource.Error -> {
-                    _vocabularyState.value =
-                        _vocabularyState.value.copy(error = result.message, isLoading = false)
-                }
-            }
-        }
+          }
+      }
     }
 
     private fun getUserDetail() = viewModelScope.launch {

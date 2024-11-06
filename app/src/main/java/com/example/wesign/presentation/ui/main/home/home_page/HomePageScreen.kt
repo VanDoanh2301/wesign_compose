@@ -14,12 +14,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.paging.compose.LazyPagingItems
 import com.example.wesign.domain.model.ClassRoom
+import com.example.wesign.domain.model.Vocabulary
 import com.example.wesign.presentation.theme.WeSignDimension
 import com.example.wesign.presentation.ui.main.home.HomeScreenEvent
 import com.example.wesign.presentation.ui.main.home.UserDetailState
 import com.example.wesign.presentation.ui.main.home.components.CustomTopAppBar
 import com.example.wesign.presentation.ui.main.home.home_page.components.CoursesGrid
-import com.example.wesign.presentation.ui.main.home.home_page.components.RecommendedCoursesRow
+import com.example.wesign.presentation.ui.main.home.home_page.components.RecommendedClassroomsRow
+import com.example.wesign.presentation.ui.main.home.home_page.components.RecommendedVocabularyRow
 import com.example.wesign.presentation.ui.main.home.home_page.components.SearchContent
 import com.example.wesign.presentation.ui.main.home.home_page.components.SlideContent
 
@@ -28,10 +30,12 @@ import com.example.wesign.presentation.ui.main.home.home_page.components.SlideCo
 fun HomePageScreen(
     userState: UserDetailState,
     classRoomState: LazyPagingItems<ClassRoom>,
+    vocabularyState: LazyPagingItems<Vocabulary>,
     event: (HomeScreenEvent) -> Unit
 ) {
     LaunchedEffect(Unit) {
         event(HomeScreenEvent.GetAllClassRooms)
+        event(HomeScreenEvent.GetAllVocabularies)
     }
 
     Scaffold(
@@ -63,12 +67,12 @@ fun HomePageScreen(
                         CoursesGrid()
                     }
                     item {
-                        RecommendedCoursesRow(title = "Gợi ý lớp học", classrooms = classRoomState)
+                        RecommendedClassroomsRow(title = "Gợi ý lớp học", classrooms = classRoomState)
                         Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
                     }
-//                    item {
-//                        RecommendedCoursesRow(isClassed = false, title = "Gợi ý từ vựng")
-//                    }
+                    item {
+                        RecommendedVocabularyRow(title = "Gợi ý từ vựng", vocabularies = vocabularyState)
+                    }
 
                 }
             }

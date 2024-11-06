@@ -7,8 +7,8 @@ import com.example.wesign.data.model.response.VocabularyVideoResList
 data class Vocabulary(
     val id: Int,
     val content: String,
-    val images: List<VocabularyImage>,
-    val videos: List<VocabularyVideo>,
+    val images: List<VocabularyImage> ?= null,
+    val videos: List<VocabularyVideo> ?= null,
     val topicId: Int,
     val topicContent: String,
     val note: String?,
