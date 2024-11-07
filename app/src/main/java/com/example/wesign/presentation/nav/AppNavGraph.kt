@@ -3,6 +3,10 @@ package com.example.wesign.presentation.nav
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -81,40 +85,52 @@ fun BottomNavGraph(
     appState: WeSignAppState,
     viewModel: HomeViewModel
 ) {
-   NavHost(
+    AnimatedNavHost(
         navController = navController,
         startDestination = BottomHomeRoutes.BottomHome.route,
-        route = MainRoutes.Home.route
+        route = MainRoutes.Home.route,
+
     ) {
-        composable(BottomHomeRoutes.BottomHome.route,   enterTransition = {
-            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, animationSpec = tween(700))
-        },
+        composable(BottomHomeRoutes.BottomHome.route,
+            enterTransition = {
+                // Custom animation when entering a screen
+                slideInHorizontally(initialOffsetX = { 1000 }) + fadeIn(initialAlpha = 0f)
+            },
             exitTransition = {
-                slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left, animationSpec = tween(700))
+                // Custom animation when exiting a screen
+                slideOutHorizontally(targetOffsetX = { -1000 }) + fadeOut(targetAlpha = 0f)
             },
             popEnterTransition = {
-                slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right, animationSpec = tween(700))
+                // Custom animation for when navigating back
+                slideInHorizontally(initialOffsetX = { -1000 }) + fadeIn(initialAlpha = 0f)
             },
             popExitTransition = {
-                slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, animationSpec = tween(700))
-            }) {
+                // Custom animation for when popping a screen
+                slideOutHorizontally(targetOffsetX = { 1000 }) + fadeOut(targetAlpha = 0f)
+            }
+        ) {
             val userState by viewModel.userDetailState.collectAsState()
             val classRoomState =viewModel.classRoomState.collectAsLazyPagingItems()
             val vocabularyState = viewModel.vocabularyState.collectAsLazyPagingItems()
 
             HomePageScreen(userState,  classRoomState, vocabularyState, viewModel::onEvent)
         }
-        composable(BottomHomeRoutes.Learn.route,   enterTransition = {
-            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, animationSpec = tween(700))
-        },
+        composable(BottomHomeRoutes.Learn.route,
+            enterTransition = {
+                // Custom animation when entering a screen
+                slideInHorizontally(initialOffsetX = { 1000 }) + fadeIn(initialAlpha = 0f)
+            },
             exitTransition = {
-                slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left, animationSpec = tween(700))
+                // Custom animation when exiting a screen
+                slideOutHorizontally(targetOffsetX = { -1000 }) + fadeOut(targetAlpha = 0f)
             },
             popEnterTransition = {
-                slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right, animationSpec = tween(700))
+                // Custom animation for when navigating back
+                slideInHorizontally(initialOffsetX = { -1000 }) + fadeIn(initialAlpha = 0f)
             },
             popExitTransition = {
-                slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, animationSpec = tween(700))
+                // Custom animation for when popping a screen
+                slideOutHorizontally(targetOffsetX = { 1000 }) + fadeOut(targetAlpha = 0f)
             }) {
             val classRoomState =viewModel.classRoomState.collectAsLazyPagingItems()
             val vocabularyState = viewModel.vocabularyState.collectAsLazyPagingItems()
@@ -122,17 +138,22 @@ fun BottomNavGraph(
 
             LearnPageScreen(appState,classRoomState, vocabularyState, topicState, viewModel::onEvent)
         }
-        composable(BottomHomeRoutes.Profile.route,   enterTransition = {
-            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, animationSpec = tween(700))
-        },
+        composable(BottomHomeRoutes.Profile.route,
+            enterTransition = {
+                // Custom animation when entering a screen
+                slideInHorizontally(initialOffsetX = { 1000 }) + fadeIn(initialAlpha = 0f)
+            },
             exitTransition = {
-                slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left, animationSpec = tween(700))
+                // Custom animation when exiting a screen
+                slideOutHorizontally(targetOffsetX = { -1000 }) + fadeOut(targetAlpha = 0f)
             },
             popEnterTransition = {
-                slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right, animationSpec = tween(700))
+                // Custom animation for when navigating back
+                slideInHorizontally(initialOffsetX = { -1000 }) + fadeIn(initialAlpha = 0f)
             },
             popExitTransition = {
-                slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, animationSpec = tween(700))
+                // Custom animation for when popping a screen
+                slideOutHorizontally(targetOffsetX = { 1000 }) + fadeOut(targetAlpha = 0f)
             }) {
             ProfilePageScreen(appState)
         }

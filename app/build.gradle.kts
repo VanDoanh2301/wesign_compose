@@ -92,6 +92,11 @@ android {
             merges += "META-INF/LICENSE-notice.md"
         }
     }
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true
+        mlModelBinding = true
+    }
 }
 
 dependencies {
@@ -109,6 +114,7 @@ dependencies {
     implementation(libs.androidx.runner)
     implementation(libs.androidx.paging.common.android)
     implementation(libs.androidx.hilt.common)
+    implementation(libs.androidx.ui.viewbinding)
     testImplementation(libs.junit)
 //    testImplementation (libs.kotlinx.coroutines.test)
 //    testImplementation (libs.mockito.kotlin)
@@ -173,6 +179,7 @@ dependencies {
     implementation (libs.androidx.work.runtime.ktx)
     implementation ("androidx.hilt:hilt-work:1.2.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+
 
 }
 java {

@@ -187,7 +187,8 @@ fun CourseClassScreen(course: ClassRoom, onClickItem: () -> Unit = {}) {
                     text = course.content,
                     style = Typography.titleSmall.copy(
                         fontFamily = FontFamily(Font(R.font.inter_medium))
-                    ), maxLines = 1,
+                    ),
+                    maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
                 Spacer(modifier = Modifier.height(4.dp))
@@ -271,6 +272,7 @@ fun RecommendedVocabularyRow(
         }
     }
 }
+
 val ColorSaver = Saver<Color, Int>(
     save = { color -> color.toArgb() },
     restore = { Color(it) }
@@ -283,7 +285,7 @@ fun CourseVocabularyScreen(course: Vocabulary, onClickItem: () -> Unit) {
     }
     Card(
         modifier = Modifier
-            .widthIn(160.dp, 180.dp)
+            .fillMaxWidth()
             .wrapContentHeight()
             .padding(WeSignDimension.PaddingMedium)
             .border(2.dp, color, shape = WeSignShape.medium),
@@ -298,7 +300,7 @@ fun CourseVocabularyScreen(course: Vocabulary, onClickItem: () -> Unit) {
         ) {
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .widthIn(160.dp, 180.dp)
                     .height(160.dp)
                     .background(
                         brush = Brush.verticalGradient(
@@ -360,7 +362,8 @@ fun CourseVocabularyScreen(course: Vocabulary, onClickItem: () -> Unit) {
                         fontFamily = FontFamily(Font(R.font.inter_medium))
                     ),
                     overflow = TextOverflow.Ellipsis,
-                    maxLines = 1
+                    maxLines = 1,
+                    modifier = Modifier.fillMaxWidth(0.5f)
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(

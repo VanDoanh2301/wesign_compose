@@ -48,6 +48,7 @@ runner = "1.6.2"
 pagingCommonAndroid = "3.3.2"
 hiltCommon = "1.2.0"
 workRuntimeKtx = "2.8.0"
+uiViewbinding = "1.7.5"
 
 
 
@@ -129,6 +130,7 @@ androidx-ui-test-android = { group = "androidx.compose.ui", name = "ui-test-andr
 androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
 androidx-paging-common-android = { group = "androidx.paging", name = "paging-common-android", version.ref = "pagingCommonAndroid" }
 androidx-hilt-common = { group = "androidx.hilt", name = "hilt-common", version.ref = "hiltCommon" }
+androidx-ui-viewbinding = { group = "androidx.compose.ui", name = "ui-viewbinding", version.ref = "uiViewbinding" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

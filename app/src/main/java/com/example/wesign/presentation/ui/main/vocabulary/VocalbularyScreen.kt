@@ -1,6 +1,11 @@
 package com.example.wesign.presentation.ui.main.vocabulary
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -24,6 +29,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,11 +38,13 @@ import androidx.paging.compose.LazyPagingItems
 import com.example.wesign.R
 import com.example.wesign.domain.model.Vocabulary
 import com.example.wesign.presentation.component.ShimmerListItem
+import com.example.wesign.presentation.nav.ARG_KEY_VOCABULARY
 import com.example.wesign.presentation.theme.Typography
 import com.example.wesign.presentation.theme.WeSignDimension
 import com.example.wesign.presentation.ui.main.home.HomeScreenEvent
 import com.example.wesign.presentation.ui.main.home.home_page.components.CourseTopicScreen
 import com.example.wesign.presentation.ui.main.home.home_page.components.CourseVocabularyScreen
+import com.example.wesign.presentation.ui.main.play.PlayActivity
 import com.example.wesign.utils.objectToJson
 import com.google.gson.Gson
 
@@ -53,6 +61,9 @@ fun VocabularyScreen(
     LaunchedEffect(Unit) {
         event(HomeScreenEvent.GetAllVocabularies(topicId))
     }
+    val startForResult = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult -> }
+    val activity = LocalContext.current as Activity
+
     Scaffold(
         containerColor = Color.Transparent,
         topBar = {
@@ -116,7 +127,9 @@ fun VocabularyScreen(
                     }
                     items(vocabularyState.itemCount) { course ->
                         CourseVocabularyScreen(vocabularyState[course]!!, onClickItem = {
-                            onClickVocabulary(vocabularyState[course]!!)
+                            val intent = Intent(activity, PlayActivity::class.java)
+                            intent.putExtra(ARG_KEY_VOCABULARY,vocabularyState[course]!!)
+                            startForResult.launch(intent)
                         })
 
                     }

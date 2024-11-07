@@ -1,9 +1,11 @@
 package com.example.wesign.presentation.nav
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -121,15 +123,13 @@ fun NavGraphBuilder.mainGraph(appState: WeSignAppState) {
             val name = it.arguments?.getString(ARG_KEY_TOPIC_NAME)
             val homeViewModel: HomeViewModel = hiltViewModel()
             val vocabularyState = homeViewModel.vocabularyState.collectAsLazyPagingItems()
-
             VocabularyScreen(
                 name ?: "",
                 topicId ?: -1,
                 vocabularyState,
                 homeViewModel::onEvent
             ) { vocabulary ->
-                appState.navigateWithPopUpTo(MainRoutes.Play.route, params = mapOf(ARG_KEY_VOCABULARY to vocabulary))
-
+//                appState.navigateWithPopUpTo(MainRoutes.Play.route, params = mapOf(ARG_KEY_VOCABULARY to vocabulary))
             }
         }
         composable(MainRoutes.Topic.route, arguments = listOf(
