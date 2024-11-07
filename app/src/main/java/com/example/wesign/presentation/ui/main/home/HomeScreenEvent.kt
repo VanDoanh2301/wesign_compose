@@ -9,7 +9,9 @@ import kotlinx.coroutines.flow.StateFlow
 sealed class HomeScreenEvent {
     data object GetUserDetail : HomeScreenEvent()
     data object GetAllClassRooms : HomeScreenEvent()
-    data object GetAllVocabularies : HomeScreenEvent()
+    data class GetAllVocabularies(val topicId: Int? = null) : HomeScreenEvent()
+    data class GetAllTopics(val classRoomId: Int? = null) : HomeScreenEvent()
+
 }
 
 data class UserDetailState(

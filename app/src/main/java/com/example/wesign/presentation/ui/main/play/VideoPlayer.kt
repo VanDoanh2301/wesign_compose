@@ -7,6 +7,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -17,7 +19,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
@@ -31,24 +32,32 @@ import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
+import coil.compose.AsyncImage
 import com.example.wesign.R
+import com.example.wesign.domain.model.Vocabulary
+import com.example.wesign.domain.model.VocabularyVideo
 import com.example.wesign.presentation.theme.WeSignDimension
 import com.example.wesign.presentation.theme.WeSignShape
 
 
 @Composable
-@Preview(showSystemUi = true)
-fun VideoPlayerScreen(modifier: Modifier = Modifier) {
+fun VideoPlayerScreen(vocabulary: Vocabulary) {
     Column(
         modifier = Modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Player()
+        val pagerState = rememberPagerState() {
+            vocabulary.videos!!.size
+        }
+        HorizontalPager(state = pagerState) { page ->
+            if (vocabulary.videos!!.isNotEmpty()) {
+                Player(vocabulary.videos[page])
+            }
 
+        }
         Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
-
         Text(
             text = "Image Information",
             style = MaterialTheme.typography.titleLarge.copy(fontFamily = FontFamily(Font(R.font.inter_bold))),
@@ -56,42 +65,44 @@ fun VideoPlayerScreen(modifier: Modifier = Modifier) {
                 .align(Alignment.Start)
                 .padding(start = WeSignDimension.PaddingLarge)
         )
-
         Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
 
-        LazyRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(18f / 9f)
-        ) {
-            items(10) {
-                Card(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = WeSignDimension.PaddingLarge)
-                        .border(2f.dp, Color.Black, WeSignShape.medium)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.img_login),
-                        contentDescription = "",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
+        if (vocabulary.images!!.isNotEmpty()) {
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(18f / 9f)
+            ) {
+                items(vocabulary.images.size) {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = WeSignDimension.PaddingLarge)
+                            .border(2f.dp, Color.Black, WeSignShape.medium)
+                    ) {
+                        AsyncImage(
+                            model = vocabulary.images[it].location,
+                            contentDescription = "",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    }
 
+                }
             }
         }
 
+
         Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
 
-//        RecommendedClassroomsRow(modifier = Modifier.padding(horizontal = WeSignDimension.PaddingLarge))
+
     }
 
 }
 
 @OptIn(UnstableApi::class)
 @Composable
-fun Player() {
+fun Player(vocabularyVideo: VocabularyVideo) {
     var lifecycle by remember {
         mutableStateOf(Lifecycle.Event.ON_CREATE)
     }
@@ -99,7 +110,7 @@ fun Player() {
 
     val mediaItem =
         MediaItem.fromUri(
-            "https://videos.pexels.com/video-files/7172249/7172249-uhd_1440_2560_25fps.mp4"
+            vocabularyVideo.location!!
         )
 
     val mediaSource: MediaSource =
@@ -140,12 +151,6 @@ fun Player() {
                     setShowNextButton(false)
                     setShowPreviousButton(false)
                     setShowShuffleButton(false)
-                    resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
-                    layoutParams =
-                        FrameLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.MATCH_PARENT
-                        )
                 }
             },
             update = {

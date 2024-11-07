@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 
 val gradient1 = listOf(Color(0xFFad5389), Color(0xFF3c1053))
 val gradient2 = listOf(Color(0xFF3A6073), Color(0xFF16222A))
-val gradient3 = listOf(Color(0xFFF857A6), Color(0xFFFF5858))
+val gradient3 = listOf(Color(0xFFFF8400), Color(0xFFFF8444))
 val gradient4 = listOf(Color(0xFF00d2ff), Color(0xFF3a7bd5))
 val gradient5 = listOf(Color(0xFF99f2c8), Color(0xFF1f4037))
 

@@ -1,20 +1,17 @@
 package com.example.wesign.domain.paging
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.wesign.domain.model.ClassRoom
 import com.example.wesign.domain.model.Vocabulary
 import com.example.wesign.domain.repository.StudyRepository
 import com.example.wesign.utils.DataPreferences
 import com.example.wesign.utils.SharedPreferencesUtils
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.delay
+import com.example.wesign.utils.jsonToList
+import com.example.wesign.utils.listToJson
 
 class VocabulariesPagingSource(
     private val studyRepository: StudyRepository,
-    private val dataPreferences: DataPreferences
+    private val topicId: Int ?= null
 ) : PagingSource<Int, Vocabulary>() {
 
     private var cachedVocabularies: List<Vocabulary>? = null
@@ -26,17 +23,21 @@ class VocabulariesPagingSource(
         if (cachedVocabularies == null) {
             val cachedVocabulariesJson = SharedPreferencesUtils.getString("DATA_VOCAL")
             if (cachedVocabulariesJson != null) {
-                cachedVocabularies = jsonToVocabularyList(cachedVocabulariesJson)
+                cachedVocabularies = jsonToList(cachedVocabulariesJson, Vocabulary::class.java)
             } else {
                 val response = studyRepository.getAllVocabularies()
                 if (response.code == 200) {
                     cachedVocabularies = response.data
-                    val vocabulariesJson = vocabularyListToJson(cachedVocabularies!!)
+                    val vocabulariesJson = listToJson(cachedVocabularies!!)
                     SharedPreferencesUtils.setString("DATA_VOCAL", vocabulariesJson)
                 } else {
                     return LoadResult.Error(Exception(response.message))
                 }
             }
+        }
+
+        if (topicId != null) {
+            cachedVocabularies = cachedVocabularies?.filter { it.topicId == topicId }
         }
 
         val vocabularies =cachedVocabularies?: emptyList()
@@ -59,11 +60,3 @@ class VocabulariesPagingSource(
     }
 }
 
-private fun vocabularyListToJson(vocabularyList: List<Vocabulary>): String {
-    return Gson().toJson(vocabularyList)
-}
-
-private fun jsonToVocabularyList(json: String): List<Vocabulary> {
-    val listType = object : TypeToken<List<Vocabulary>>() {}.type
-    return Gson().fromJson(json, listType)
-}

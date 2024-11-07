@@ -1,13 +1,18 @@
 package com.example.wesign.presentation.nav
 
+import android.os.Bundle
+import android.util.Log
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.wesign.domain.model.Vocabulary
 import com.example.wesign.presentation.ui.auth.login.LoginScreen
 import com.example.wesign.presentation.ui.auth.login.LoginViewModel
 import com.example.wesign.presentation.ui.auth.otp.OtpScreen
@@ -20,6 +25,7 @@ import com.example.wesign.presentation.ui.main.home.HomeViewModel
 import com.example.wesign.presentation.ui.main.play.VideoPlayerScreen
 import com.example.wesign.presentation.ui.main.topic.TopicScreen
 import com.example.wesign.presentation.ui.main.vocabulary.VocabularyScreen
+import com.example.wesign.utils.jsonToObject
 
 
 fun NavGraphBuilder.authGraph(appState: WeSignAppState) {
@@ -103,22 +109,58 @@ fun NavGraphBuilder.mainGraph(appState: WeSignAppState) {
                 appState,
                 viewModel)
         }
-        composable(MainRoutes.Vocabulary.route) {
-            VocabularyScreen {
-                appState.navigateWithPopUpTo(
-                    MainRoutes.Play.route
-                )
+        composable(MainRoutes.Vocabulary.route, arguments = listOf(
+            navArgument(ARG_KEY_TOPIC_ID) {
+                type = NavType.IntType
+            },
+            navArgument(ARG_KEY_TOPIC_NAME) {
+                type = NavType.StringType
+            }
+        )) {
+            val topicId = it.arguments?.getInt(ARG_KEY_TOPIC_ID)
+            val name = it.arguments?.getString(ARG_KEY_TOPIC_NAME)
+            val homeViewModel: HomeViewModel = hiltViewModel()
+            val vocabularyState = homeViewModel.vocabularyState.collectAsLazyPagingItems()
+
+            VocabularyScreen(
+                name ?: "",
+                topicId ?: -1,
+                vocabularyState,
+                homeViewModel::onEvent
+            ) { vocabulary ->
+                appState.navigateWithPopUpTo(MainRoutes.Play.route, params = mapOf(ARG_KEY_VOCABULARY to vocabulary))
+
             }
         }
-        composable(MainRoutes.Topic.route) {
-            TopicScreen {
+        composable(MainRoutes.Topic.route, arguments = listOf(
+            navArgument(ARG_KEY_CLASS_ROOM_ID) {
+                type = NavType.IntType
+            },
+            navArgument(ARG_KEY_CLASS_ROOM_NAME) {
+                type = NavType.StringType
+            }
+        )) {
+            val homeViewModel: HomeViewModel = hiltViewModel()
+            val topicState = homeViewModel.topicState.collectAsLazyPagingItems()
+            val classRoomId = it.arguments?.getInt(ARG_KEY_CLASS_ROOM_ID)
+            val className = it.arguments?.getString(ARG_KEY_CLASS_ROOM_NAME)
+
+            TopicScreen(
+                className ?: "",
+                classRoomId ?: -1,
+                topicState,
+                 homeViewModel::onEvent
+            ) {topicId, name ->
                 appState.navigateWithPopUpTo(
-                    MainRoutes.Vocabulary.route
+                    MainRoutes.Vocabulary.sendTopicIdAndName(topicId, name)
                 )
             }
         }
         composable(MainRoutes.Play.route) {
-            VideoPlayerScreen()
+            val vocabulary = appState.controller.previousBackStackEntry?.savedStateHandle?.get<Vocabulary>(ARG_KEY_VOCABULARY)
+            if (vocabulary != null) {
+                VideoPlayerScreen(vocabulary)
+            }
         }
 
     }

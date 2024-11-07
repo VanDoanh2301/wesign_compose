@@ -49,7 +49,7 @@ import com.example.wesign.presentation.theme.gradient5
 @Preview(showSystemUi = true)
 fun NumberScreen(onClickNumber: (String) -> Unit = {}) {
     val numbers = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
-    val colors = listOf(gradient1, gradient2, gradient3, gradient4, gradient5)
+    val colors = listOf(gradient3, gradient4)
     LazyColumn {
         items(numbers.size) { number ->
             CardItemNumber(number = numbers[number].toString(), colors.shuffled().first()) {

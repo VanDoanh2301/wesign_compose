@@ -17,7 +17,7 @@ class WeSignApp : Application() {
     }
     private fun scheduleDataUpdateWorker() {
         val updateDataRequest = PeriodicWorkRequest.Builder(
-            DataUpdateWorker::class.java, 24, TimeUnit.HOURS) // Đặt worker chạy mỗi 24 giờ
+            DataUpdateWorker::class.java, 24, TimeUnit.HOURS)
             .build()
 
         WorkManager.getInstance(applicationContext).enqueue(updateDataRequest)

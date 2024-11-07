@@ -4,11 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.flatMap
 import com.example.wesign.domain.model.ClassRoom
+import com.example.wesign.domain.model.Topic
 import com.example.wesign.domain.model.UserDetail
 import com.example.wesign.domain.model.Vocabulary
 import com.example.wesign.domain.usecase.study.getallclassrooms_use_case.GetAllClassroomsUseCase
+import com.example.wesign.domain.usecase.study.getalltopic_use_case.GetAllTopicUseCase
 import com.example.wesign.domain.usecase.study.getallvocabularies_use_case.GetAllVocabulariesUseCase
 import com.example.wesign.domain.usecase.user.user_detail_use_case.GetUserDetailUseCase
 import com.example.wesign.utils.DataPreferences
@@ -25,6 +26,7 @@ class HomeViewModel @Inject constructor(
     private val getUserDetailUseCase: GetUserDetailUseCase,
     private val getAllClassRoomsUseCase: GetAllClassroomsUseCase,
     private val getAllVocabulariesUseCase: GetAllVocabulariesUseCase,
+    private val getAllTopicsUseCase: GetAllTopicUseCase,
     private val dataPreferences: DataPreferences
 ) :
     ViewModel() {
@@ -36,6 +38,9 @@ class HomeViewModel @Inject constructor(
 
     private var _classRoomState = MutableStateFlow<PagingData<ClassRoom>>(PagingData.empty())
     val classRoomState  =_classRoomState.asStateFlow()
+
+    private val _topicState = MutableStateFlow<PagingData<Topic>>(PagingData.empty())
+    val topicState = _topicState.asStateFlow()
 
 
 
@@ -64,9 +69,20 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeScreenEvent.GetAllVocabularies -> {
-                getAllVocabularies()
+                getAllVocabularies(event.topicId)
+            }
+            is HomeScreenEvent.GetAllTopics -> {
+                getAllTopics(event.classRoomId)
             }
             else -> {}
+        }
+    }
+
+    private fun getAllTopics(classRoomId: Int? = null) {
+        viewModelScope.launch {
+            getAllTopicsUseCase.invoke(classRoomId).cachedIn(viewModelScope).collect {
+                _topicState.value = it
+            }
         }
     }
 
@@ -78,9 +94,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getAllVocabularies() = viewModelScope.launch {
+    private fun getAllVocabularies(topicId: Int? = null) = viewModelScope.launch {
       viewModelScope.launch {
-          getAllVocabulariesUseCase.invoke().cachedIn(viewModelScope).collect {
+          getAllVocabulariesUseCase.invoke(topicId).cachedIn(viewModelScope).collect {
               _vocabularyState.value = it
 
           }

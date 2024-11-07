@@ -17,11 +17,11 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class GetAllVocabulariesUseCase @Inject constructor(private val studyRepository: StudyRepository, private val dataPreferences: DataPreferences) {
-    suspend operator fun invoke(): Flow<PagingData<Vocabulary>> {
+class GetAllVocabulariesUseCase @Inject constructor(private val studyRepository: StudyRepository) {
+    suspend operator fun invoke(topicId: Int? = null): Flow<PagingData<Vocabulary>> {
         return Pager(
             config = PagingConfig(pageSize = 10, enablePlaceholders = false),
-            pagingSourceFactory = { VocabulariesPagingSource(studyRepository, dataPreferences) }
+            pagingSourceFactory = { VocabulariesPagingSource(studyRepository, topicId) }
         ).flow.flowOn(Dispatchers.Default)
     }
 }

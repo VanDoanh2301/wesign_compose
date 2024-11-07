@@ -25,7 +25,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.paging.compose.LazyPagingItems
 import com.example.wesign.R
+import com.example.wesign.domain.model.ClassRoom
+import com.example.wesign.domain.model.Topic
+import com.example.wesign.domain.model.Vocabulary
 import com.example.wesign.presentation.theme.BlueStart
 import com.example.wesign.presentation.theme.GreenStart
 import com.example.wesign.presentation.theme.OrangeStart
@@ -111,28 +115,35 @@ fun Tabs(pagerState: PagerState) {
 
 @Composable
 fun TabsContent(
+    classRoomState: LazyPagingItems<ClassRoom>,
+    vocabularyState: LazyPagingItems<Vocabulary>,
+    topicState: LazyPagingItems<Topic>,
     pagerState: PagerState,
-    onClickClass: () -> Unit = { },
+    onClickClass: (Int,String) -> Unit = {_,_ -> },
     onClickTopic: () -> Unit = { },
-    onClickVocal: () -> Unit = { },
+    onClickVocal: (Vocabulary) -> Unit = { },
     onClickNumber: () -> Unit = { },
     onClickAlphabet: () -> Unit = { }
 ) {
     HorizontalPager(state = pagerState) { page ->
         when (page) {
-            0 -> ClassTabScreen(onClickClass = {
-                onClickClass()
+            0 -> ClassTabScreen(
+                classRoomState,
+                onClickClass = { classRoomId, name ->
+                onClickClass(classRoomId, name)
             })
 
             1 -> TopicTabScreen(
+                topicState,
                 onClickTopic = {
                     onClickTopic()
                 }
             )
 
             2 -> VocabularyTabScreen(
-                onClickVocal = {
-                    onClickVocal()
+                vocabularyState,
+                onClickVocal = {vocabulary ->
+                    onClickVocal(vocabulary)
                 }
             )
 

@@ -16,6 +16,9 @@ import javax.inject.Inject
 const val TOKEN_KEY = "token_key"
 const val USER_DETAIL_KEY = "user_detail_key"
 const val IS_FIRST_APP = "IS_FIRST_APP"
+const val DATA_VOCAL = "DATA_VOCAL"
+const val DATA_CLASSROOM = "DATA_CLASSROOM"
+const val DATA_TOPIC = "DATA_TOPIC"
 
 private val Context.dataStore: DataStore<androidx.datastore.preferences.core.Preferences> by preferencesDataStore(name = "my_data_store")
 

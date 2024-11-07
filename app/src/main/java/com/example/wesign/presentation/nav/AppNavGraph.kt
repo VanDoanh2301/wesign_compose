@@ -1,6 +1,5 @@
 package com.example.wesign.presentation.nav
 
-import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -8,7 +7,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -35,19 +33,6 @@ fun AppNavGraph(appState: WeSignAppState = rememberWeSignAppState()) {
     ) {
         composable(Screen.Splash.route) {
             val viewModel: SplashViewModel = hiltViewModel()
-            val token = viewModel.token.collectAsState().value
-            val isFirstApp = viewModel.isFirstApp.collectAsState().value
-            SplashScreen(onSplashFinished = {
-                if (isFirstApp) {
-                    appState.navigateWithPopUpTo(Screen.OnBoard.route)
-                } else {
-                    if (token.isNotEmpty()) {
-                        appState.navigateWithPopUpTo(Screen.Main.route)
-                    } else {
-                        appState.navigateWithPopUpTo(Screen.Auth.route)
-                    }
-                }
-            })
             viewModel.isFirstApp.collectAsState().value.let {
                 if (it) {
                     SplashScreen(onSplashFinished = {
@@ -106,7 +91,11 @@ fun BottomNavGraph(
             HomePageScreen(userState,  classRoomState, vocabularyState, viewModel::onEvent)
         }
         composable(BottomHomeRoutes.Learn.route) {
-            LearnPageScreen(appState)
+            val classRoomState =viewModel.classRoomState.collectAsLazyPagingItems()
+            val vocabularyState = viewModel.vocabularyState.collectAsLazyPagingItems()
+            val topicState = viewModel.topicState.collectAsLazyPagingItems()
+
+            LearnPageScreen(appState,classRoomState, vocabularyState, topicState, viewModel::onEvent)
         }
         composable(BottomHomeRoutes.Profile.route) {
             ProfilePageScreen(appState)
@@ -151,8 +140,11 @@ class WeSignAppState(
         inclusive: Boolean = false,
         params: Map<String, Any>? = null
     ) {
+//        params?.forEach { data ->
+//            controller.getBackStackEntry(destinationRoute).savedStateHandle[data.key] = data.value
+//        }
         params?.forEach { data ->
-            controller.getBackStackEntry(destinationRoute).savedStateHandle[data.key] = data.value
+            controller.currentBackStackEntry?.savedStateHandle?.set(data.key, data.value)
         }
 
         controller.navigate(destinationRoute) {

@@ -28,12 +28,18 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -46,21 +52,24 @@ import androidx.paging.compose.LazyPagingItems
 import coil.compose.AsyncImage
 import com.example.wesign.R
 import com.example.wesign.domain.model.ClassRoom
+import com.example.wesign.domain.model.Topic
 import com.example.wesign.domain.model.Vocabulary
-import com.example.wesign.presentation.component.CustomLoading
+import com.example.wesign.presentation.component.ShimmerListItem
 import com.example.wesign.presentation.theme.BlueStart
 import com.example.wesign.presentation.theme.Typography
 import com.example.wesign.presentation.theme.WeSignDimension
 import com.example.wesign.presentation.theme.WeSignShape
 import com.example.wesign.presentation.theme.primaryLight
-import com.example.wesign.presentation.ui.auth.success.LottieAnimationCustom
+import com.example.wesign.utils.generateRandomColor
 
 
 @Composable
 fun RecommendedClassroomsRow(
     modifier: Modifier = Modifier,
     title: String = "Recommended for you",
-    classrooms: LazyPagingItems<ClassRoom>, ) {
+    classrooms: LazyPagingItems<ClassRoom>,
+) {
+
     Column(modifier = modifier) {
         // Header
         Row(
@@ -82,22 +91,12 @@ fun RecommendedClassroomsRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .heightIn(260.dp, 280.dp)
-                .wrapContentSize(unbounded = false)
+                .wrapContentSize(unbounded = false),
+            horizontalArrangement = Arrangement.Absolute.Left
         ) {
-            item {
+            items(count = 3) {
                 if (classrooms.loadState.refresh is LoadState.Loading) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        LottieAnimationCustom(
-                            modifier = Modifier
-                                .size(120.dp),
-                            resId = R.raw.loading_row,
-                            autoPlay = true,
-                            loop = true
-                        )
-                    }
+                    ShimmerListItem(isClass = true)
                 }
             }
             items(count = classrooms.itemCount) { index ->
@@ -105,25 +104,21 @@ fun RecommendedClassroomsRow(
                 CourseClassScreen(
                     course = item!!,
                 )
-        }
+            }
 
+        }
     }
-}
 }
 
 
 @Composable
 fun CourseClassScreen(course: ClassRoom, onClickItem: () -> Unit = {}) {
-    val randomColor = listOf(
-        Color(0xFFFFA726),
-        Color(0xFF2196F3)
-    ).shuffled().first()
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(end = WeSignDimension.PaddingLarge, bottom = WeSignDimension.PaddingLarge)
-            .border(2.dp, randomColor, shape = WeSignShape.medium),
+            .padding(WeSignDimension.PaddingMedium)
+            .border(2.dp, course.color, shape = WeSignShape.medium),
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),
@@ -141,8 +136,8 @@ fun CourseClassScreen(course: ClassRoom, onClickItem: () -> Unit = {}) {
                         brush = Brush.verticalGradient(
                             colors = listOf(
                                 Color.White,
-                                randomColor.copy(alpha = 0.2f),
-                                randomColor,
+                                course.color.copy(alpha = 0.2f),
+                                course.color,
 
                                 )
                         ), shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
@@ -190,7 +185,10 @@ fun CourseClassScreen(course: ClassRoom, onClickItem: () -> Unit = {}) {
             ) {
                 Text(
                     text = course.content,
-                    style = Typography.titleSmall.copy(fontFamily = FontFamily(Font(R.font.inter_medium)))
+                    style = Typography.titleSmall.copy(
+                        fontFamily = FontFamily(Font(R.font.inter_medium))
+                    ), maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
@@ -221,14 +219,16 @@ fun CourseClassScreen(course: ClassRoom, onClickItem: () -> Unit = {}) {
 }
 
 
-
 @Composable
 fun RecommendedVocabularyRow(
     modifier: Modifier = Modifier,
     title: String = "Recommended for you",
-    vocabularies: LazyPagingItems<Vocabulary>, ) {
+    vocabularies: LazyPagingItems<Vocabulary>,
+) {
 
-    val randomItems = vocabularies.itemSnapshotList.shuffled().take(10)
+    val randomItems = rememberSaveable(vocabularies) {
+        vocabularies.itemSnapshotList.shuffled().take(10)
+    }
 
     Column(modifier = modifier) {
         // Header
@@ -250,23 +250,13 @@ fun RecommendedVocabularyRow(
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(260.dp, 280.dp)
-                .wrapContentSize(unbounded = false)
+                .heightIn(260.dp, 280.dp),
+            horizontalArrangement = Arrangement.Absolute.Left
+
         ) {
-            item {
+            items(count = 3) {
                 if (vocabularies.loadState.refresh is LoadState.Loading) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        LottieAnimationCustom(
-                            modifier = Modifier
-                                .size(120.dp),
-                            resId = R.raw.loading_row,
-                            autoPlay = true,
-                            loop = true
-                        )
-                    }
+                    ShimmerListItem()
                 }
             }
 
@@ -275,24 +265,28 @@ fun RecommendedVocabularyRow(
                 CourseVocabularyScreen(course = item!!) {
 
                 }
+
             }
 
         }
     }
 }
+val ColorSaver = Saver<Color, Int>(
+    save = { color -> color.toArgb() },
+    restore = { Color(it) }
+)
 
 @Composable
 fun CourseVocabularyScreen(course: Vocabulary, onClickItem: () -> Unit) {
-    val randomColor = listOf(
-        Color(0xFFFFA726),
-        Color(0xFF2196F3)
-    ).shuffled().first()
+    val color = rememberSaveable(saver = ColorSaver) {
+        generateRandomColor()
+    }
     Card(
         modifier = Modifier
             .widthIn(160.dp, 180.dp)
             .wrapContentHeight()
-            .padding(end = WeSignDimension.PaddingLarge, bottom = WeSignDimension.PaddingLarge)
-            .border(2.dp, randomColor, shape = WeSignShape.medium),
+            .padding(WeSignDimension.PaddingMedium)
+            .border(2.dp, color, shape = WeSignShape.medium),
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),
@@ -310,8 +304,8 @@ fun CourseVocabularyScreen(course: Vocabulary, onClickItem: () -> Unit) {
                         brush = Brush.verticalGradient(
                             colors = listOf(
                                 Color.White,
-                                randomColor.copy(alpha = 0.2f),
-                                randomColor,
+                                color.copy(alpha = 0.2f),
+                                color,
 
                                 )
                         ), shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
@@ -362,7 +356,8 @@ fun CourseVocabularyScreen(course: Vocabulary, onClickItem: () -> Unit) {
             ) {
                 Text(
                     text = course.content,
-                    style = Typography.titleSmall.copy(fontFamily = FontFamily(Font(R.font.inter_medium))
+                    style = Typography.titleSmall.copy(
+                        fontFamily = FontFamily(Font(R.font.inter_medium))
                     ),
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1
@@ -376,3 +371,150 @@ fun CourseVocabularyScreen(course: Vocabulary, onClickItem: () -> Unit) {
         }
     }
 }
+
+
+@Composable
+fun RecommendedTopicRow(
+    modifier: Modifier = Modifier,
+    title: String = "Recommended for you",
+    vocabularies: LazyPagingItems<Vocabulary>,
+) {
+    val randomItems = vocabularies.itemSnapshotList.shuffled().take(10)
+
+    Column(modifier = modifier) {
+        // Header
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = title,
+                style = Typography.headlineSmall.copy(fontFamily = FontFamily(Font(R.font.inter_medium))),
+            )
+            Text(
+                text = "See all",
+                style = Typography.titleMedium.copy(color = BlueStart),
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(260.dp, 280.dp)
+                .wrapContentSize(unbounded = false)
+        ) {
+            items(count = 3) {
+                if (vocabularies.loadState.refresh is LoadState.Loading) {
+                    ShimmerListItem()
+                }
+            }
+
+            items(count = randomItems.size) { index ->
+                val item = randomItems[index]
+                CourseVocabularyScreen(course = item!!) {
+
+                }
+
+            }
+
+        }
+    }
+}
+
+
+@Composable
+fun CourseTopicScreen(course: Topic, onClickItem: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .widthIn(160.dp, 180.dp)
+            .wrapContentHeight()
+            .padding(WeSignDimension.PaddingMedium)
+            .border(2.dp, course.color, shape = WeSignShape.medium),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
+        shape = WeSignShape.medium,
+        onClick = { onClickItem() }
+    ) {
+        Column(
+            modifier = Modifier
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(160.dp)
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                Color.White,
+                                course.color.copy(alpha = 0.2f),
+                                course.color,
+
+                                )
+                        ), shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
+
+                    ), contentAlignment = Alignment.Center
+            ) {
+                val imageUrl = course.imageLocation
+
+                if (imageUrl != null) {
+                    AsyncImage(
+                        model = imageUrl,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .alpha(0.4f)
+                    )
+                } else {
+                    Image(
+                        painter = painterResource(id = R.drawable.teacher),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .alpha(0.4f)
+                    )
+                }
+
+
+                Icon(
+                    imageVector = Icons.Default.PlayCircle,
+                    contentDescription = "Play",
+                    tint = Color.White,
+                    modifier = Modifier
+                        .size(40.dp)
+                        .align(Alignment.Center)
+                )
+
+            }
+            Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
+
+            Column(
+                modifier = Modifier.padding(
+                    start = WeSignDimension.PaddingLarge,
+                    end = WeSignDimension.PaddingLarge,
+                    bottom = WeSignDimension.PaddingLarge
+                ),
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = course.content,
+                    style = Typography.titleSmall.copy(
+                        fontFamily = FontFamily(Font(R.font.inter_medium))
+                    ),
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = "Tạo bởi IBME lab",
+                    style = Typography.labelSmall.copy(color = Color.Gray)
+                )
+            }
+        }
+    }
+}
+
+
+

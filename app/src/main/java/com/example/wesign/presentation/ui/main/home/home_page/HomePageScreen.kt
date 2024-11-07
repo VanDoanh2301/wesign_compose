@@ -7,11 +7,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.paging.compose.LazyPagingItems
 import com.example.wesign.domain.model.ClassRoom
 import com.example.wesign.domain.model.Vocabulary
@@ -35,49 +33,43 @@ fun HomePageScreen(
 ) {
     LaunchedEffect(Unit) {
         event(HomeScreenEvent.GetAllClassRooms)
-        event(HomeScreenEvent.GetAllVocabularies)
+        event(HomeScreenEvent.GetAllVocabularies())
     }
 
-    Scaffold(
-        containerColor = Color.Transparent,
-        content = { paddingValues ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-            ) {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(WeSignDimension.PaddingLarge)
-                ) {
-                    item {
-                        CustomTopAppBar(userState.userDetail)
-                        Spacer(modifier = Modifier.height(WeSignDimension.PaddingExtraLarge))
-                    }
-                    item {
-                        SearchContent()
-                        Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
-                    }
-                    item {
-                        SlideContent()
-                        Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
-                    }
-                    item {
-                        CoursesGrid()
-                    }
-                    item {
-                        RecommendedClassroomsRow(title = "Gợi ý lớp học", classrooms = classRoomState)
-                        Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
-                    }
-                    item {
-                        RecommendedVocabularyRow(title = "Gợi ý từ vựng", vocabularies = vocabularyState)
-                    }
 
-                }
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = WeSignDimension.PaddingLarge, end = WeSignDimension.PaddingLarge, top = WeSignDimension.PaddingLarge)
+        ) {
+            item {
+                CustomTopAppBar(userState.userDetail)
+                Spacer(modifier = Modifier.height(WeSignDimension.PaddingExtraLarge))
             }
+            item {
+                SearchContent()
+                Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
+            }
+            item {
+                SlideContent()
+                Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
+            }
+            item {
+                CoursesGrid()
+            }
+            item {
+                RecommendedClassroomsRow(title = "Gợi ý lớp học", classrooms = classRoomState)
+                Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
+            }
+            item {
+                RecommendedVocabularyRow(title = "Gợi ý từ vựng", vocabularies = vocabularyState)
+            }
+
         }
-    )
+    }
 }
 
 

@@ -5,6 +5,7 @@ plugins {
     id ("kotlin-kapt")
     id ("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
+    kotlin("plugin.serialization") version "2.0.21"
 }
 
 android {
@@ -171,6 +172,7 @@ dependencies {
     implementation(libs.androidx.paging.runtime)
     implementation (libs.androidx.work.runtime.ktx)
     implementation ("androidx.hilt:hilt-work:1.2.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 
 }
 java {

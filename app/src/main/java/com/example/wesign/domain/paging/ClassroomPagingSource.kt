@@ -4,7 +4,13 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.wesign.domain.model.ClassRoom
+import com.example.wesign.domain.model.Topic
 import com.example.wesign.domain.repository.StudyRepository
+import com.example.wesign.utils.DATA_CLASSROOM
+import com.example.wesign.utils.DATA_TOPIC
+import com.example.wesign.utils.SharedPreferencesUtils
+import com.example.wesign.utils.jsonToList
+import com.example.wesign.utils.listToJson
 import kotlinx.coroutines.delay
 
 class ClassroomPagingSource(
@@ -17,26 +23,31 @@ class ClassroomPagingSource(
         val page = params.key ?: 0
         val pageSize = params.loadSize
 
-        delay(2000L)
         if (cachedClassrooms == null) {
-
-            val response = studyRepository.getAllClassrooms()
-            if (response.code == 200) {
-                cachedClassrooms = response.data
+            val cachedVocabulariesJson = SharedPreferencesUtils.getString(DATA_CLASSROOM)
+            if (cachedVocabulariesJson != null) {
+                cachedClassrooms= jsonToList(cachedVocabulariesJson, ClassRoom::class.java)
             } else {
-                return LoadResult.Error(Exception(response.message))
+                val response = studyRepository.getAllClassrooms()
+                if (response.code == 200) {
+                    cachedClassrooms = response.data
+                    val topicsJson = listToJson( cachedClassrooms!!)
+                    SharedPreferencesUtils.setString(DATA_CLASSROOM, topicsJson)
+                } else {
+                    return LoadResult.Error(Exception(response.message))
+                }
             }
         }
 
-        val classrooms = cachedClassrooms ?: emptyList()
+        val classRooms = cachedClassrooms?: emptyList()
         val fromIndex = page * pageSize
-        val toIndex = minOf(fromIndex + pageSize, classrooms.size)
-        val pagedData = if (fromIndex < classrooms.size) classrooms.subList(fromIndex, toIndex) else emptyList()
+        val toIndex = minOf(fromIndex + pageSize,  classRooms.size)
+        val pagedData = if (fromIndex <  classRooms.size)  classRooms.subList(fromIndex, toIndex) else emptyList()
 
         return LoadResult.Page(
             data = pagedData,
             prevKey = if (page == 0) null else page - 1,
-            nextKey = if (toIndex < classrooms.size) page + 1 else null
+            nextKey = if (toIndex <  classRooms.size) page + 1 else null
         )
     }
 

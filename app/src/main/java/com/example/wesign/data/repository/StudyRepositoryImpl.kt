@@ -4,6 +4,7 @@ import com.example.wesign.data.model.response.HostResponse
 import com.example.wesign.data.remote.ApiStudy
 import com.example.wesign.domain.mapper.toDomain
 import com.example.wesign.domain.model.ClassRoom
+import com.example.wesign.domain.model.Topic
 import com.example.wesign.domain.model.Vocabulary
 import com.example.wesign.domain.model.toDomainModel
 import com.example.wesign.domain.repository.StudyRepository
@@ -61,6 +62,31 @@ class StudyRepositoryImpl @Inject constructor(private val apiStudy: ApiStudy) : 
 
         }
 
+    }
+
+    /**
+     * Get all topics from the API.
+     */
+    override suspend fun getAllTopic(): HostResponse<List<Topic>> {
+        try {
+            val response = apiStudy.getAllTopic()
+            if (response.isSuccessful && response.body() != null) {
+                val responseBody = response.body()
+                return responseBody!!.toDomain { list ->
+                    list.map { it.toDomainModel() }
+                }
+            } else {
+                return HostResponse(
+                    code = response.code(),
+                    message = response.errorBody()?.string() ?: "Unknown error occurred"
+                )
+            }
+        } catch (e: Exception) {
+            return HostResponse(
+                code = -1,
+                message = e.localizedMessage ?: "Unknown error occurred"
+            )
+        }
     }
 
 }
