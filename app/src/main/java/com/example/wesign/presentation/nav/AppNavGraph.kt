@@ -1,6 +1,8 @@
 package com.example.wesign.presentation.nav
 
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -8,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -78,26 +81,59 @@ fun BottomNavGraph(
     appState: WeSignAppState,
     viewModel: HomeViewModel
 ) {
-    AnimatedNavHost(
+   NavHost(
         navController = navController,
         startDestination = BottomHomeRoutes.BottomHome.route,
         route = MainRoutes.Home.route
     ) {
-        composable(BottomHomeRoutes.BottomHome.route) {
+        composable(BottomHomeRoutes.BottomHome.route,   enterTransition = {
+            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, animationSpec = tween(700))
+        },
+            exitTransition = {
+                slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left, animationSpec = tween(700))
+            },
+            popEnterTransition = {
+                slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right, animationSpec = tween(700))
+            },
+            popExitTransition = {
+                slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, animationSpec = tween(700))
+            }) {
             val userState by viewModel.userDetailState.collectAsState()
             val classRoomState =viewModel.classRoomState.collectAsLazyPagingItems()
             val vocabularyState = viewModel.vocabularyState.collectAsLazyPagingItems()
 
             HomePageScreen(userState,  classRoomState, vocabularyState, viewModel::onEvent)
         }
-        composable(BottomHomeRoutes.Learn.route) {
+        composable(BottomHomeRoutes.Learn.route,   enterTransition = {
+            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, animationSpec = tween(700))
+        },
+            exitTransition = {
+                slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left, animationSpec = tween(700))
+            },
+            popEnterTransition = {
+                slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right, animationSpec = tween(700))
+            },
+            popExitTransition = {
+                slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, animationSpec = tween(700))
+            }) {
             val classRoomState =viewModel.classRoomState.collectAsLazyPagingItems()
             val vocabularyState = viewModel.vocabularyState.collectAsLazyPagingItems()
             val topicState = viewModel.topicState.collectAsLazyPagingItems()
 
             LearnPageScreen(appState,classRoomState, vocabularyState, topicState, viewModel::onEvent)
         }
-        composable(BottomHomeRoutes.Profile.route) {
+        composable(BottomHomeRoutes.Profile.route,   enterTransition = {
+            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, animationSpec = tween(700))
+        },
+            exitTransition = {
+                slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left, animationSpec = tween(700))
+            },
+            popEnterTransition = {
+                slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right, animationSpec = tween(700))
+            },
+            popExitTransition = {
+                slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, animationSpec = tween(700))
+            }) {
             ProfilePageScreen(appState)
         }
     }

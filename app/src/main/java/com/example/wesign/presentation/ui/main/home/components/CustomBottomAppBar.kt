@@ -140,7 +140,10 @@ fun CustomBottomBarItem(
         modifier = Modifier
             .size(56.dp)
             .background(color = backgroundColor, shape = CircleShape)
-            .clickable {
+            .clickable(
+                indication = null,
+                interactionSource = null
+            ) {
                 onClickItem()
             },
         contentAlignment = Alignment.Center
