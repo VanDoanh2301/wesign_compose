@@ -60,6 +60,7 @@ import com.example.wesign.presentation.theme.Typography
 import com.example.wesign.presentation.theme.WeSignDimension
 import com.example.wesign.presentation.theme.WeSignShape
 import com.example.wesign.presentation.theme.primaryLight
+import com.example.wesign.utils.SharedPreferencesUtils
 import com.example.wesign.utils.generateRandomColor
 
 
@@ -80,10 +81,6 @@ fun RecommendedClassroomsRow(
             Text(
                 text = title,
                 style = Typography.headlineSmall.copy(fontFamily = FontFamily(Font(R.font.inter_medium))),
-            )
-            Text(
-                text = "See all",
-                style = Typography.titleMedium.copy(color = BlueStart),
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
@@ -227,26 +224,32 @@ fun RecommendedVocabularyRow(
     vocabularies: LazyPagingItems<Vocabulary>,
 ) {
 
-    val randomItems = rememberSaveable(vocabularies) {
+    val randomItems = if (SharedPreferencesUtils.getBoolean("first_load", true)) {
+        SharedPreferencesUtils.setBoolean("first_load", false)
         vocabularies.itemSnapshotList.shuffled().take(10)
+    } else {
+        rememberSaveable(vocabularies) {
+            vocabularies.itemSnapshotList.shuffled().take(10)
+        }
     }
+
 
     Column(modifier = modifier) {
         // Header
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = title,
-                style = Typography.headlineSmall.copy(fontFamily = FontFamily(Font(R.font.inter_medium))),
-            )
-            Text(
-                text = "See all",
-                style = Typography.titleMedium.copy(color = BlueStart),
-            )
+        if (randomItems.isNotEmpty()) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = title,
+                    style = Typography.titleLarge.copy(fontFamily = FontFamily(Font(R.font.inter_bold))),
+                )
+            }
         }
+
+
         Spacer(modifier = Modifier.height(8.dp))
         LazyRow(
             modifier = Modifier
@@ -296,11 +299,11 @@ fun CourseVocabularyScreen(course: Vocabulary, onClickItem: () -> Unit) {
         onClick = { onClickItem() }
     ) {
         Column(
-            modifier = Modifier
+            modifier = Modifier.widthIn(160.dp, 180.dp)
+
         ) {
             Box(
                 modifier = Modifier
-                    .widthIn(160.dp, 180.dp)
                     .height(160.dp)
                     .background(
                         brush = Brush.verticalGradient(
@@ -335,7 +338,6 @@ fun CourseVocabularyScreen(course: Vocabulary, onClickItem: () -> Unit) {
                     )
                 }
 
-
                 Icon(
                     imageVector = Icons.Default.PlayCircle,
                     contentDescription = "Play",
@@ -349,11 +351,13 @@ fun CourseVocabularyScreen(course: Vocabulary, onClickItem: () -> Unit) {
             Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
 
             Column(
-                modifier = Modifier.padding(
-                    start = WeSignDimension.PaddingLarge,
-                    end = WeSignDimension.PaddingLarge,
-                    bottom = WeSignDimension.PaddingLarge
-                ),
+                modifier = Modifier
+                    .padding(
+                        start = WeSignDimension.PaddingLarge,
+                        end = WeSignDimension.PaddingLarge,
+                        bottom = WeSignDimension.PaddingLarge
+                    )
+                    .fillMaxWidth(0.5f),
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
@@ -363,7 +367,7 @@ fun CourseVocabularyScreen(course: Vocabulary, onClickItem: () -> Unit) {
                     ),
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
-                    modifier = Modifier.fillMaxWidth(0.5f)
+                    modifier = Modifier
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(

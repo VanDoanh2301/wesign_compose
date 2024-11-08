@@ -9,6 +9,8 @@ const val ARG_KEY_CLASS_ROOM_NAME = "arg_key_class_room_name"
 const val ARG_KEY_TOPIC_ID = "arg_key_topic_id"
 const val ARG_KEY_TOPIC_NAME = "arg_key_topic_name"
 const val ARG_KEY_VOCABULARY = "arg_key_vocabulary"
+const val ARG_KEY_TYPE_SEARCH = "arg_key_type_search"
+const val ARG_KEY_TYPE_SEARCH_NAME = "arg_key_type_search_name"
 
 //Root
 const val ROOT_GRAPH_ROUTE = "root"
@@ -27,6 +29,7 @@ const val AUTH_SUCCESS_ROUTE = "auth/success"
 const val MAIN_HOME_ROUTE = "main/home"
 const val MAIN_TEST_ROUTE = "main/test"
 const val MAIN_UPDATE_ROUTE = "main/update"
+const val MAIN_SEARCH_ROUTE = "main/search/{$ARG_KEY_TYPE_SEARCH}/{$ARG_KEY_TYPE_SEARCH_NAME}"
 const val MAIN_TOPIC_ROUTE = "main/home/topic/{$ARG_KEY_CLASS_ROOM_ID}/{$ARG_KEY_CLASS_ROOM_NAME}"
 const val MAIN_VOCABULARY_ROUTE = "main/home/topic/vocabulary/{$ARG_KEY_TOPIC_ID}/{$ARG_KEY_TOPIC_NAME}"
 const val MAIN_PLAY_ROUTE = "main/home/topic/vocabulary/play/{$ARG_KEY_VOCABULARY}"
@@ -80,6 +83,12 @@ sealed class MainRoutes(route: String) : Screen(route) {
         }
     }
     object Play : MainRoutes(MAIN_PLAY_ROUTE)
+    object Search : MainRoutes(MAIN_SEARCH_ROUTE) {
+        fun sendTypeSearch(typeSearch: String, name: String): String {
+            return MAIN_SEARCH_ROUTE.replace("{$ARG_KEY_TYPE_SEARCH}", typeSearch)
+                .replace("{$ARG_KEY_TYPE_SEARCH_NAME}", name)
+        }
+    }
 }
 
 sealed class BottomHomeRoutes(route: String) : Screen(route) {

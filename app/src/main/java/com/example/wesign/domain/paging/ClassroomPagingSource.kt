@@ -14,7 +14,8 @@ import com.example.wesign.utils.listToJson
 import kotlinx.coroutines.delay
 
 class ClassroomPagingSource(
-    private val studyRepository: StudyRepository
+    private val studyRepository: StudyRepository,
+    private val query: String ?= null
 ) : PagingSource<Int, ClassRoom>() {
 
     private var cachedClassrooms: List<ClassRoom>? = null
@@ -39,7 +40,9 @@ class ClassroomPagingSource(
             }
         }
 
-        val classRooms = cachedClassrooms?: emptyList()
+        var classRooms = cachedClassrooms?: emptyList()
+        if (query != null) { classRooms = classRooms.filter { it.content.contains(query, ignoreCase = true) } }
+
         val fromIndex = page * pageSize
         val toIndex = minOf(fromIndex + pageSize,  classRooms.size)
         val pagedData = if (fromIndex <  classRooms.size)  classRooms.subList(fromIndex, toIndex) else emptyList()

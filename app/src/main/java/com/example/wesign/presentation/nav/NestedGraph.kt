@@ -1,16 +1,11 @@
 package com.example.wesign.presentation.nav
 
-import android.app.Activity
-import android.os.Bundle
-import android.util.Log
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -24,10 +19,10 @@ import com.example.wesign.presentation.ui.auth.register.RegisterViewModel
 import com.example.wesign.presentation.ui.auth.success.SuccessScreen
 import com.example.wesign.presentation.ui.main.home.HomeScreen
 import com.example.wesign.presentation.ui.main.home.HomeViewModel
-import com.example.wesign.presentation.ui.main.play.VideoPlayerScreen
+import com.example.wesign.presentation.ui.main.search.SearchScreen
+import com.example.wesign.presentation.ui.main.search.SearchViewModel
 import com.example.wesign.presentation.ui.main.topic.TopicScreen
 import com.example.wesign.presentation.ui.main.vocabulary.VocabularyScreen
-import com.example.wesign.utils.jsonToObject
 
 
 fun NavGraphBuilder.authGraph(appState: WeSignAppState) {
@@ -127,7 +122,8 @@ fun NavGraphBuilder.mainGraph(appState: WeSignAppState) {
                 name ?: "",
                 topicId ?: -1,
                 vocabularyState,
-                homeViewModel::onEvent
+                homeViewModel::onEvent,
+                appState
             ) { vocabulary ->
 //                appState.navigateWithPopUpTo(MainRoutes.Play.route, params = mapOf(ARG_KEY_VOCABULARY to vocabulary))
             }
@@ -149,7 +145,8 @@ fun NavGraphBuilder.mainGraph(appState: WeSignAppState) {
                 className ?: "",
                 classRoomId ?: -1,
                 topicState,
-                 homeViewModel::onEvent
+                 homeViewModel::onEvent,
+                appState
             ) {topicId, name ->
                 appState.navigateWithPopUpTo(
                     MainRoutes.Vocabulary.sendTopicIdAndName(topicId, name)
@@ -159,8 +156,25 @@ fun NavGraphBuilder.mainGraph(appState: WeSignAppState) {
         composable(MainRoutes.Play.route) {
             val vocabulary = appState.controller.previousBackStackEntry?.savedStateHandle?.get<Vocabulary>(ARG_KEY_VOCABULARY)
             if (vocabulary != null) {
-                VideoPlayerScreen(vocabulary)
+//                VideoPlayerScreen(vocabulary)
             }
+        }
+        composable(MainRoutes.Search.route, arguments = listOf(
+            navArgument(ARG_KEY_TYPE_SEARCH) {
+                type = NavType.StringType
+            },
+            navArgument(ARG_KEY_TYPE_SEARCH_NAME) {
+                type = NavType.StringType
+            }
+        )) {
+            val typeSearch = it.arguments?.getString(ARG_KEY_TYPE_SEARCH)
+            val name = it.arguments?.getString(ARG_KEY_TYPE_SEARCH_NAME)
+            val searchViewModel :SearchViewModel = hiltViewModel()
+            val vocabularyState = searchViewModel.vocabularyState.collectAsLazyPagingItems()
+            val classRoomState = searchViewModel.classRoomState.collectAsLazyPagingItems()
+            val topicState = searchViewModel.topicState.collectAsLazyPagingItems()
+
+            SearchScreen(typeSearch, name, vocabularyState, classRoomState, topicState, searchViewModel::onEvent, appState)
         }
 
     }

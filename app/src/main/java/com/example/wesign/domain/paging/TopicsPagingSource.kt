@@ -14,7 +14,8 @@ import com.example.wesign.utils.listToJson
 
 class TopicsPagingSource(
     private val studyRepository: StudyRepository,
-    private val classRoomId: Int? = null
+    private val classRoomId: Int? = null,
+    private val query: String? = null
 ) : PagingSource<Int, Topic>() {
 
     private var cachedTopics: List<Topic>? = null
@@ -42,7 +43,12 @@ class TopicsPagingSource(
             cachedTopics = cachedTopics?.filter { it.classRoomId == classRoomId }
         }
 
-        val topics = cachedTopics?: emptyList()
+        var topics = cachedTopics?: emptyList()
+
+        if (query != null) {
+            topics = topics.filter { it.content.contains(query, ignoreCase = true) }
+        }
+
         val fromIndex = page * pageSize
         val toIndex = minOf(fromIndex + pageSize, topics.size)
         val pagedData = if (fromIndex < topics.size) topics.subList(fromIndex, toIndex) else emptyList()

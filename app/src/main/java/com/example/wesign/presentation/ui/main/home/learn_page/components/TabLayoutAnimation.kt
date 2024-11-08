@@ -120,7 +120,7 @@ fun TabsContent(
     topicState: LazyPagingItems<Topic>,
     pagerState: PagerState,
     onClickClass: (Int,String) -> Unit = {_,_ -> },
-    onClickTopic: () -> Unit = { },
+    onClickTopic: (Int,String) -> Unit = {_,_-> },
     onClickVocal: (Vocabulary) -> Unit = { },
     onClickNumber: () -> Unit = { },
     onClickAlphabet: () -> Unit = { }
@@ -135,8 +135,8 @@ fun TabsContent(
 
             1 -> TopicTabScreen(
                 topicState,
-                onClickTopic = {
-                    onClickTopic()
+                onClickTopic = {topicId, name ->
+                    onClickTopic(topicId, name)
                 }
             )
 

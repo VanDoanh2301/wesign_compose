@@ -18,10 +18,10 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class GetAllVocabulariesUseCase @Inject constructor(private val studyRepository: StudyRepository) {
-    suspend operator fun invoke(topicId: Int? = null): Flow<PagingData<Vocabulary>> {
+    suspend operator fun invoke(topicId: Int? = null, query: String? = null): Flow<PagingData<Vocabulary>> {
         return Pager(
             config = PagingConfig(pageSize = 10, enablePlaceholders = false),
-            pagingSourceFactory = { VocabulariesPagingSource(studyRepository, topicId) }
+            pagingSourceFactory = { VocabulariesPagingSource(studyRepository, topicId, query) }
         ).flow.flowOn(Dispatchers.Default)
     }
 }

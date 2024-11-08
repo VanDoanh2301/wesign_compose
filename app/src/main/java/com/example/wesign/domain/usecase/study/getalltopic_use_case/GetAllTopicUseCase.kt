@@ -14,10 +14,10 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class GetAllTopicUseCase @Inject constructor(private val studyRepository: StudyRepository) {
-    suspend operator fun invoke(classRoomId: Int ?= null): Flow<PagingData<Topic>> {
+    suspend operator fun invoke(classRoomId: Int ?= null, query: String? = null): Flow<PagingData<Topic>> {
         return Pager(
             config = PagingConfig(pageSize = 10, enablePlaceholders = false),
-            pagingSourceFactory = { TopicsPagingSource(studyRepository, classRoomId) }
+            pagingSourceFactory = { TopicsPagingSource(studyRepository, classRoomId, query) }
         ).flow.flowOn(Dispatchers.Default)
     }
 

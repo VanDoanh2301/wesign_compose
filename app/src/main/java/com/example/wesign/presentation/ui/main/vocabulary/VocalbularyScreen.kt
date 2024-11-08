@@ -39,6 +39,7 @@ import com.example.wesign.R
 import com.example.wesign.domain.model.Vocabulary
 import com.example.wesign.presentation.component.ShimmerListItem
 import com.example.wesign.presentation.nav.ARG_KEY_VOCABULARY
+import com.example.wesign.presentation.nav.WeSignAppState
 import com.example.wesign.presentation.theme.Typography
 import com.example.wesign.presentation.theme.WeSignDimension
 import com.example.wesign.presentation.ui.main.home.HomeScreenEvent
@@ -56,6 +57,7 @@ fun VocabularyScreen(
     topicId: Int = 0,
     vocabularyState: LazyPagingItems<Vocabulary>,
     event: (HomeScreenEvent) -> Unit = { },
+    appState: WeSignAppState,
     onClickVocabulary: (Vocabulary) -> Unit = { }
 ) {
     LaunchedEffect(Unit) {
@@ -81,7 +83,7 @@ fun VocabularyScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = { appState.popBackStack()}) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                     }
                 },
@@ -108,7 +110,8 @@ fun VocabularyScreen(
                     contentDescription = "Empty"
                 )
             }
-        } else {
+        }
+        else {
             Box(
                 modifier = Modifier
                     .fillMaxSize()

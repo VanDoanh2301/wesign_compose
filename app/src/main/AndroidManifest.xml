@@ -13,6 +13,8 @@
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
 
     <application
         android:name=".WeSignApp"
@@ -30,6 +32,7 @@
             android:name=".presentation.ui.main.play.PlayActivity"
             android:exported="false"
             android:label="@string/title_activity_play"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/Theme.WeSign" />
         <activity
             android:name=".presentation.ui.MainActivity"

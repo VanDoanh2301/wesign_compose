@@ -43,16 +43,16 @@ fun AppNavGraph(appState: WeSignAppState = rememberWeSignAppState()) {
             viewModel.isFirstApp.collectAsState().value.let {
                 if (it) {
                     SplashScreen(onSplashFinished = {
-                        appState.navigateWithPopUpTo(Screen.OnBoard.route)
+                        appState.navigateWithPopUpTo(Screen.OnBoard.route, inclusive = true, popUpToRoute = Screen.Splash.route)
                     })
                 } else {
                     if (viewModel.token.value.isNotEmpty()) {
                         SplashScreen(onSplashFinished = {
-                            appState.navigateWithPopUpTo(Screen.Main.route)
+                            appState.navigateWithPopUpTo(Screen.Main.route, inclusive = true, popUpToRoute = Screen.Splash.route)
                         })
                     } else {
                         SplashScreen(onSplashFinished = {
-                            appState.navigateWithPopUpTo(Screen.Auth.route)
+                            appState.navigateWithPopUpTo(Screen.Auth.route, inclusive = true, popUpToRoute = Screen.Splash.route)
                         })
                     }
 
@@ -93,19 +93,15 @@ fun BottomNavGraph(
     ) {
         composable(BottomHomeRoutes.BottomHome.route,
             enterTransition = {
-                // Custom animation when entering a screen
                 slideInHorizontally(initialOffsetX = { 1000 }) + fadeIn(initialAlpha = 0f)
             },
             exitTransition = {
-                // Custom animation when exiting a screen
                 slideOutHorizontally(targetOffsetX = { -1000 }) + fadeOut(targetAlpha = 0f)
             },
             popEnterTransition = {
-                // Custom animation for when navigating back
                 slideInHorizontally(initialOffsetX = { -1000 }) + fadeIn(initialAlpha = 0f)
             },
             popExitTransition = {
-                // Custom animation for when popping a screen
                 slideOutHorizontally(targetOffsetX = { 1000 }) + fadeOut(targetAlpha = 0f)
             }
         ) {
@@ -113,15 +109,13 @@ fun BottomNavGraph(
             val classRoomState =viewModel.classRoomState.collectAsLazyPagingItems()
             val vocabularyState = viewModel.vocabularyState.collectAsLazyPagingItems()
 
-            HomePageScreen(userState,  classRoomState, vocabularyState, viewModel::onEvent)
+            HomePageScreen(appState,userState,  classRoomState, vocabularyState, viewModel::onEvent)
         }
         composable(BottomHomeRoutes.Learn.route,
             enterTransition = {
-                // Custom animation when entering a screen
                 slideInHorizontally(initialOffsetX = { 1000 }) + fadeIn(initialAlpha = 0f)
             },
             exitTransition = {
-                // Custom animation when exiting a screen
                 slideOutHorizontally(targetOffsetX = { -1000 }) + fadeOut(targetAlpha = 0f)
             },
             popEnterTransition = {
@@ -129,7 +123,6 @@ fun BottomNavGraph(
                 slideInHorizontally(initialOffsetX = { -1000 }) + fadeIn(initialAlpha = 0f)
             },
             popExitTransition = {
-                // Custom animation for when popping a screen
                 slideOutHorizontally(targetOffsetX = { 1000 }) + fadeOut(targetAlpha = 0f)
             }) {
             val classRoomState =viewModel.classRoomState.collectAsLazyPagingItems()
@@ -140,19 +133,15 @@ fun BottomNavGraph(
         }
         composable(BottomHomeRoutes.Profile.route,
             enterTransition = {
-                // Custom animation when entering a screen
                 slideInHorizontally(initialOffsetX = { 1000 }) + fadeIn(initialAlpha = 0f)
             },
             exitTransition = {
-                // Custom animation when exiting a screen
                 slideOutHorizontally(targetOffsetX = { -1000 }) + fadeOut(targetAlpha = 0f)
             },
             popEnterTransition = {
-                // Custom animation for when navigating back
                 slideInHorizontally(initialOffsetX = { -1000 }) + fadeIn(initialAlpha = 0f)
             },
             popExitTransition = {
-                // Custom animation for when popping a screen
                 slideOutHorizontally(targetOffsetX = { 1000 }) + fadeOut(targetAlpha = 0f)
             }) {
             ProfilePageScreen(appState)

@@ -1,6 +1,7 @@
 package com.example.wesign.presentation.ui.onboar
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -50,15 +51,24 @@ import kotlinx.coroutines.launch
 @Preview(showBackground = true, showSystemUi = true)
 fun OnBoardingScreen(
     event: (OnBoardingScreenEvent) -> Unit = {},
-    onBoardingFinished: () -> Unit = {}) {
+    onBoardingFinished: () -> Unit = {}
+) {
     val statePager = rememberPagerState(0, 0F) { 3 }
     val scope = rememberCoroutineScope()
     val buttonText by remember {
         derivedStateOf {
             when (statePager.currentPage) {
-                0 -> { listOf("Skip", "Next") }
-                1 -> { listOf("Skip", "Next") }
-                else -> { listOf("", "Get Started") }
+                0 -> {
+                    listOf("Skip", "Next")
+                }
+
+                1 -> {
+                    listOf("Skip", "Next")
+                }
+
+                else -> {
+                    listOf("", "Get Started")
+                }
             }
         }
     }
@@ -73,7 +83,8 @@ fun OnBoardingScreen(
                             onBoardingFinished()
                             return@launch
                         }
-                        statePager.animateScrollToPage(statePager.currentPage + 1) }
+                        statePager.animateScrollToPage(statePager.currentPage + 1)
+                    }
                 }, onSkip = {
                     scope.launch {
                         statePager.animateScrollToPage(statePager.currentPage - 1)
@@ -177,30 +188,29 @@ fun ItemOnBoarding(
                         modifier = Modifier
                             .padding(WeSignDimension.PaddingLarge)
                             .background(
-                                color = if (buttonText[0].isNotEmpty()) Color.Transparent else Color(
+                                color = if (buttonText[0].isNotEmpty()) Color(
+                                    0xFF5F61F0
+                                ) else Color(
                                     0xFF5F61F0
                                 ), shape = WeSignShape.medium
                             )
+                            .clickable {
+                                onNext()
+                            }
                             .weight(1f),
-                        contentAlignment = if (buttonText[0].isNotEmpty()) Alignment.BottomEnd else Alignment.Center
+                        contentAlignment = if (buttonText[0].isNotEmpty()) Alignment.Center else Alignment.Center
 
                     ) {
-                        Button(
-                            onClick = {
-                                onNext()
-                            },
-                            shape = WeSignShape.medium,
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color(0xFF5F61F0),
-                            )
-                        ) {
-                            Text(
-                                text = buttonText[1],
-                                style = Typography.titleSmall,
-                                modifier = Modifier.padding(WeSignDimension.PaddingMedium)
 
-                            )
-                        }
+                        Text(
+                            text = buttonText[1],
+                            style = Typography.titleSmall,
+                            color = Color.White,
+                            modifier = Modifier
+                                .padding(vertical = WeSignDimension.PaddingLarge)
+
+
+                        )
                     }
                 }
             }

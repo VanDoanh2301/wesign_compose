@@ -11,7 +11,8 @@ import com.example.wesign.utils.listToJson
 
 class VocabulariesPagingSource(
     private val studyRepository: StudyRepository,
-    private val topicId: Int ?= null
+    private val topicId: Int ?= null,
+    private val query: String ?= null
 ) : PagingSource<Int, Vocabulary>() {
 
     private var cachedVocabularies: List<Vocabulary>? = null
@@ -39,8 +40,12 @@ class VocabulariesPagingSource(
         if (topicId != null) {
             cachedVocabularies = cachedVocabularies?.filter { it.topicId == topicId }
         }
+        var vocabularies =cachedVocabularies?: emptyList()
 
-        val vocabularies =cachedVocabularies?: emptyList()
+        if (query != null) {
+            vocabularies = vocabularies.filter { it.content.contains(query, ignoreCase = true) }
+        }
+
         val fromIndex = page * pageSize
         val toIndex = minOf(fromIndex + pageSize, vocabularies.size)
         val pagedData = if (fromIndex < vocabularies.size) vocabularies.subList(fromIndex, toIndex) else emptyList()

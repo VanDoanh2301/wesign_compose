@@ -33,6 +33,7 @@ import androidx.paging.compose.LazyPagingItems
 import com.example.wesign.R
 import com.example.wesign.domain.model.Topic
 import com.example.wesign.presentation.component.ShimmerListItem
+import com.example.wesign.presentation.nav.WeSignAppState
 import com.example.wesign.presentation.theme.Typography
 import com.example.wesign.presentation.theme.WeSignDimension
 import com.example.wesign.presentation.ui.main.home.HomeScreenEvent
@@ -47,6 +48,7 @@ fun TopicScreen(
     classRoomId: Int = 0,
     topicState: LazyPagingItems<Topic>,
     event: (HomeScreenEvent) -> Unit,
+    appState: WeSignAppState,
     onClickTopic: (Int, String) -> Unit = { _, _ -> }
 ) {
     LaunchedEffect(Unit) {
@@ -69,7 +71,7 @@ fun TopicScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = { appState.popBackStack()}) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                     }
                 },
@@ -97,7 +99,8 @@ fun TopicScreen(
                     contentDescription = "Empty"
                 )
             }
-        } else {
+        }
+        else {
             Box(
                 modifier = Modifier
                     .fillMaxSize()

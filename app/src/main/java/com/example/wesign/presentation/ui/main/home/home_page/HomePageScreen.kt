@@ -9,10 +9,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.paging.compose.LazyPagingItems
 import com.example.wesign.domain.model.ClassRoom
 import com.example.wesign.domain.model.Vocabulary
+import com.example.wesign.presentation.nav.MainRoutes
+import com.example.wesign.presentation.nav.WeSignAppState
 import com.example.wesign.presentation.theme.WeSignDimension
 import com.example.wesign.presentation.ui.main.home.HomeScreenEvent
 import com.example.wesign.presentation.ui.main.home.UserDetailState
@@ -26,6 +32,7 @@ import com.example.wesign.presentation.ui.main.home.home_page.components.SlideCo
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomePageScreen(
+    appState: WeSignAppState,
     userState: UserDetailState,
     classRoomState: LazyPagingItems<ClassRoom>,
     vocabularyState: LazyPagingItems<Vocabulary>,
@@ -37,6 +44,10 @@ fun HomePageScreen(
     }
 
 
+    var typeSearch by remember {
+        mutableStateOf("")
+    }
+
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -46,11 +57,26 @@ fun HomePageScreen(
                 .padding(start = WeSignDimension.PaddingLarge, end = WeSignDimension.PaddingLarge, top = WeSignDimension.PaddingLarge)
         ) {
             item {
-                CustomTopAppBar(userState.userDetail)
+                CustomTopAppBar(userState.userDetail) {
+                    appState.navigateWithPopUpTo(MainRoutes.Search.sendTypeSearch(
+                        typeSearch,
+                        it
+                    )
+                    )
+                }
                 Spacer(modifier = Modifier.height(WeSignDimension.PaddingExtraLarge))
             }
             item {
-                SearchContent()
+                SearchContent(
+                    onSearch = {typeSearch, textSearch ->
+                    appState.navigateWithPopUpTo(MainRoutes.Search.sendTypeSearch(
+                        typeSearch,
+                        textSearch
+                    )
+                    )
+                }, addTypeChange = {
+                    typeSearch = it
+                    })
                 Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
             }
             item {

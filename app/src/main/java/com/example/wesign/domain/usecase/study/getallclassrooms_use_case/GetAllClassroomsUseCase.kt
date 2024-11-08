@@ -20,10 +20,10 @@ import javax.inject.Inject
 class GetAllClassroomsUseCase @Inject constructor(
     private val studyRepository: StudyRepository
 ) {
-   suspend operator fun invoke(): Flow<PagingData<ClassRoom>> {
+   suspend operator fun invoke(query: String? = null): Flow<PagingData<ClassRoom>> {
         return Pager(
             config = PagingConfig(pageSize = 3, enablePlaceholders = false),
-            pagingSourceFactory = { ClassroomPagingSource(studyRepository) }
+            pagingSourceFactory = { ClassroomPagingSource(studyRepository, query) }
         ).flow.flowOn(Dispatchers.Default)
     }
 }

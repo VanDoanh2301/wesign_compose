@@ -56,8 +56,13 @@ fun LearnPageScreen(
                     )
                 )
             },
-            onClickTopic = {
-
+            onClickTopic = {topicId, name ->
+                appState.navigateWithPopUpTo(
+                    MainRoutes.Vocabulary.sendTopicIdAndName(
+                        topicId,
+                        name
+                    )
+                )
             },
             onClickVocal = { vocabulary ->
                 appState.navigateWithPopUpTo(MainRoutes.Play.route, params = mapOf(ARG_KEY_VOCABULARY to vocabulary))

@@ -5,6 +5,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -21,7 +22,8 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun SearchOnBoarding(
     modifier: Modifier = Modifier,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    onSearch: () -> Unit
 ) {
     var name by remember { mutableStateOf("") }
 
@@ -33,14 +35,17 @@ fun SearchOnBoarding(
         },
         modifier = modifier,
         placeholder = {
-            Text(text = "Search", fontSize = 14.sp, color = Color.Gray)
+            Text(text = "Tìm kiếm...", fontSize = 14.sp, color = Color.Gray)
         },
         trailingIcon = {
-            Icon(
-                imageVector = Icons.Default.Search,
-                contentDescription = "Search",
-                modifier = Modifier.padding(8.dp)
-            )
+            IconButton(onClick = {onSearch()}) {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = "Search",
+                    modifier = Modifier.padding(8.dp)
+                )
+            }
+
         },
         singleLine = true,
         shape = RoundedCornerShape(

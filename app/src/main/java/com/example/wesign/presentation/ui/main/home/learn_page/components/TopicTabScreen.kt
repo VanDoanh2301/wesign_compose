@@ -23,7 +23,7 @@ import com.example.wesign.presentation.ui.main.home.home_page.components.CourseT
 @Composable
 fun TopicTabScreen(
     topicState: LazyPagingItems<Topic>,
-    onClickTopic: () -> Unit = {  }
+    onClickTopic: (Int,String) -> Unit = {_,_ ->  }
 ) {
 
     Box(
@@ -45,7 +45,7 @@ fun TopicTabScreen(
             }
             items(topicState.itemCount) { course ->
                 CourseTopicScreen (topicState[course]!!, onClickItem = {
-                    onClickTopic()
+                    onClickTopic(topicState[course]!!.id, topicState[course]!!.content)
                 })
 
             }

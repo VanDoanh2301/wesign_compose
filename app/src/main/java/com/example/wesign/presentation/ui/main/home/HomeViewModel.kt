@@ -98,7 +98,6 @@ class HomeViewModel @Inject constructor(
       viewModelScope.launch {
           getAllVocabulariesUseCase.invoke(topicId).cachedIn(viewModelScope).collect {
               _vocabularyState.value = it
-
           }
       }
     }
