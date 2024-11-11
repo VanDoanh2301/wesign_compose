@@ -26,7 +26,6 @@ fun ClassTabScreen(
     classRoomState: LazyPagingItems<ClassRoom>,
     onClickClass: (Int, String) -> Unit = {_,_ -> }
 ) {
-
     Box(
         modifier = Modifier
             .fillMaxSize()

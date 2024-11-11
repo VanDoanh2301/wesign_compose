@@ -50,13 +50,18 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomTopAppBar(userDetail: UserDetail?, onTextChanged: (String) -> Unit = {}) {
+fun CustomTopAppBar(
+    userDetail: UserDetail? = null,
+    onTextChanged: (String) -> Unit = {},
+    onNextIntro: (Boolean) -> Unit = {}
+) {
     val speechRecognizerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val data = result.data
-            val recognizedText = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull()
+            val recognizedText =
+                data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull()
             recognizedText?.let {
                 onTextChanged(it)
             }
@@ -74,17 +79,20 @@ fun CustomTopAppBar(userDetail: UserDetail?, onTextChanged: (String) -> Unit = {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    "Hello,",
+                    "Xin chào,",
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = Typography.labelSmall.copy(color = Color.Gray, fontSize = 14.sp)
                 )
                 Spacer(modifier = Modifier.height(WeSignDimension.PaddingSmall))
                 Text(
-                    "${userDetail?.name}",
+                    text = userDetail?.name ?: "Chúc bạn vui vẻ",
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    style = Typography.labelMedium.copy(fontFamily = FontFamily(Font(R.font.inter_bold)), fontSize = 20.sp)
+                    style = Typography.labelMedium.copy(
+                        fontFamily = FontFamily(Font(R.font.inter_bold)),
+                        fontSize = 20.sp
+                    )
                 )
             }
 
@@ -96,7 +104,7 @@ fun CustomTopAppBar(userDetail: UserDetail?, onTextChanged: (String) -> Unit = {
                     .size(62.dp)
                     .background(Color.White)
             ) {
-                if (userDetail?.avatarLocation!= null) {
+                if (userDetail?.avatarLocation != null) {
                     AsyncImage(
                         model = userDetail.avatarLocation,
                         contentDescription = "Avatar",
@@ -121,7 +129,10 @@ fun CustomTopAppBar(userDetail: UserDetail?, onTextChanged: (String) -> Unit = {
         actions = {
             IconButton(onClick = {
                 val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-                    putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                    putExtra(
+                        RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                        RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+                    )
                     putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
                     putExtra(RecognizerIntent.EXTRA_PROMPT, "Nói vào mic")
                 }
@@ -130,7 +141,9 @@ fun CustomTopAppBar(userDetail: UserDetail?, onTextChanged: (String) -> Unit = {
                 Icon(
                     painter = painterResource(R.drawable.ic_mic),
                     contentDescription = "Notification Icon",
-                    modifier = Modifier.padding(WeSignDimension.PaddingSmall).size(34.dp),
+                    modifier = Modifier
+                        .padding(WeSignDimension.PaddingSmall)
+                        .size(34.dp),
                     tint = primaryLight,
 
                     )
@@ -146,16 +159,23 @@ fun CustomTopAppBar(userDetail: UserDetail?, onTextChanged: (String) -> Unit = {
                     }
                 }
             ) {
-                Icon(
-                    imageVector = Icons.Filled.Notifications,
-                    contentDescription = "Notification Icon",
-                    modifier = Modifier.padding(WeSignDimension.PaddingSmall).size(34.dp),
-                    tint = primaryLight,
+                IconButton(onClick = {
+                    onNextIntro(false)
+                }) {
+                    Icon(
+                        imageVector = Icons.Filled.Notifications,
+                        contentDescription = "Notification Icon",
+                        modifier = Modifier
+                            .padding(WeSignDimension.PaddingSmall)
+                            .size(34.dp),
+                        tint = primaryLight,
 
-                )
+                        )
+                }
+
             }
 
         },
 
-    )
+        )
 }

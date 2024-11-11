@@ -12,13 +12,19 @@ import com.example.wesign.domain.usecase.study.getallclassrooms_use_case.GetAllC
 import com.example.wesign.domain.usecase.study.getalltopic_use_case.GetAllTopicUseCase
 import com.example.wesign.domain.usecase.study.getallvocabularies_use_case.GetAllVocabulariesUseCase
 import com.example.wesign.domain.usecase.user.user_detail_use_case.GetUserDetailUseCase
+import com.example.wesign.utils.DATA_CLASSROOM
+import com.example.wesign.utils.DATA_TOPIC
+import com.example.wesign.utils.DATA_VOCAL
 import com.example.wesign.utils.DataPreferences
 import com.example.wesign.utils.Resource
+import com.example.wesign.utils.SharedPreferencesUtils
+import com.example.wesign.utils.TOKEN_KEY
 import com.example.wesign.utils.USER_DETAIL_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,24 +50,12 @@ class HomeViewModel @Inject constructor(
 
 
 
-    init {
-        viewModelScope.launch {
-            dataPreferences.getDecryptedString(USER_DETAIL_KEY, UserDetail::class.java).collect {
-                if (it != null) {
-                    _userDetailState.value = _userDetailState.value.copy(userDetail = it )
-                } else {
-                    getUserDetail()
-                }
-            }
-        }
 
-
-    }
 
     fun onEvent(event: HomeScreenEvent) {
         when (event) {
             is HomeScreenEvent.GetUserDetail -> {
-                getUserDetail()
+                launchGetUserDetail()
             }
 
             is HomeScreenEvent.GetAllClassRooms -> {
@@ -74,7 +68,38 @@ class HomeViewModel @Inject constructor(
             is HomeScreenEvent.GetAllTopics -> {
                 getAllTopics(event.classRoomId)
             }
+            is HomeScreenEvent.Logout -> {
+                launchLogout()
+            }
             else -> {}
+        }
+    }
+
+    private fun launchLogout() {
+        viewModelScope.launch {
+            dataPreferences.deleteString(USER_DETAIL_KEY)
+            dataPreferences.deleteString(TOKEN_KEY)
+            SharedPreferencesUtils.setString(DATA_CLASSROOM, null)
+            SharedPreferencesUtils.setString(DATA_TOPIC, null)
+            SharedPreferencesUtils.setString(DATA_VOCAL, null)
+            SharedPreferencesUtils.setBoolean("first_load", true)
+            _topicState.value = PagingData.empty()
+            _classRoomState.value = PagingData.empty()
+            _vocabularyState.value = PagingData.empty()
+
+            _userDetailState.value = _userDetailState.value.copy(userDetail = null)
+        }
+    }
+
+
+    private fun launchGetUserDetail() = viewModelScope.launch {
+        dataPreferences.getToken() ?: return@launch
+        dataPreferences.getDecryptedString(USER_DETAIL_KEY, UserDetail::class.java).collect {
+            if (it != null) {
+                _userDetailState.value = _userDetailState.value.copy(userDetail = it)
+            } else {
+                getUserDetail()
+            }
         }
     }
 
@@ -110,14 +135,17 @@ class HomeViewModel @Inject constructor(
                 }
 
                 is Resource.Success -> {
-                    dataPreferences.saveEncryptedString(
-                        USER_DETAIL_KEY,
-                        result.dataResource?.data!!
-                    )
-                    _userDetailState.value = _userDetailState.value.copy(
-                        userDetail = result.dataResource?.data,
-                        isLoading = false
-                    )
+                    if (result.dataResource?.data != null) {
+                        dataPreferences.saveEncryptedString(
+                            USER_DETAIL_KEY,
+                            result.dataResource.data
+                        )
+                        _userDetailState.value = _userDetailState.value.copy(
+                            userDetail = result.dataResource.data,
+                            isLoading = false
+                        )
+                    }
+
                 }
 
                 is Resource.Error -> {

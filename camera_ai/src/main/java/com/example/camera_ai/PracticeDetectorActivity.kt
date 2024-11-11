@@ -15,6 +15,8 @@
  */
 package com.example.camera_ai
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -29,6 +31,7 @@ import android.util.Size
 import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.example.camera_ai.util.env.BorderedText
 import com.example.camera_ai.util.env.ImageUtils
 import com.example.camera_ai.util.env.Logger
@@ -58,9 +61,21 @@ class PracticeDetectorActivity : PracticeActivity(), OnImageAvailableListener {
     private var tracker: MultiBoxTrackerPractice? = null
     private var borderedText: BorderedText? = null
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         indexPractice = intent.getIntExtra("indexPractice", 0)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Request the permission
+            requestCameraPermission.launch(Manifest.permission.CAMERA)
+        } else {
+            // Permission already granted, proceed with camera access
+//            Toast.makeText(this, "Camera permission already granted", Toast.LENGTH_SHORT).show()
+            finish()
+        }
     }
 
     public override fun onPreviewSizeChosen(size: Size, rotation: Int) {

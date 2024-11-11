@@ -52,7 +52,12 @@ fun TopicScreen(
     onClickTopic: (Int, String) -> Unit = { _, _ -> }
 ) {
     LaunchedEffect(Unit) {
-        event(HomeScreenEvent.GetAllTopics(classRoomId))
+        if (classRoomId == -1) {
+            event(HomeScreenEvent.GetAllTopics())
+        } else {
+            event(HomeScreenEvent.GetAllTopics(classRoomId))
+        }
+
     }
     Scaffold(
         containerColor = Color.Transparent,
@@ -63,7 +68,7 @@ fun TopicScreen(
                 ),
                 title = {
                     Text(
-                        text = "Chủ đề $className",
+                        text = className,
                         style = Typography.headlineSmall,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
@@ -76,9 +81,9 @@ fun TopicScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { }) {
-                        Icon(Icons.Default.Menu, contentDescription = "Filter")
-                    }
+//                    IconButton(onClick = { }) {
+//                        Icon(Icons.Default.Menu, contentDescription = "Filter")
+//                    }
                 }
             )
         }

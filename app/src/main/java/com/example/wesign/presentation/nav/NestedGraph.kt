@@ -17,6 +17,7 @@ import com.example.wesign.presentation.ui.auth.otp.OtpViewModel
 import com.example.wesign.presentation.ui.auth.register.RegisterScreen
 import com.example.wesign.presentation.ui.auth.register.RegisterViewModel
 import com.example.wesign.presentation.ui.auth.success.SuccessScreen
+import com.example.wesign.presentation.ui.main.classroom.ClassRoomScreen
 import com.example.wesign.presentation.ui.main.exam.ExamScreen
 import com.example.wesign.presentation.ui.main.exam.ExamViewModel
 import com.example.wesign.presentation.ui.main.home.HomeScreen
@@ -109,7 +110,8 @@ fun NavGraphBuilder.mainGraph(appState: WeSignAppState) {
             val viewModel: HomeViewModel = hiltViewModel()
             HomeScreen(
                 appState,
-                viewModel)
+                viewModel
+            )
         }
         composable(MainRoutes.Vocabulary.route, arguments = listOf(
             navArgument(ARG_KEY_TOPIC_ID) {
@@ -180,6 +182,19 @@ fun NavGraphBuilder.mainGraph(appState: WeSignAppState) {
             val topicState = searchViewModel.topicState.collectAsLazyPagingItems()
 
             SearchScreen(typeSearch, name, vocabularyState, classRoomState, topicState, searchViewModel::onEvent, appState)
+        }
+        composable(MainRoutes.ClassRoom.route) {
+            val homeViewModel: HomeViewModel = hiltViewModel()
+            val classRoomState = homeViewModel.classRoomState.collectAsLazyPagingItems()
+            ClassRoomScreen(
+                classRoomState,
+                homeViewModel::onEvent,
+                appState
+            ) { classRoomId, name ->
+                appState.navigateWithPopUpTo(
+                    MainRoutes.Topic.sendClassRoomIdAndName(classRoomId, name)
+                )
+            }
         }
 
         composable(MainRoutes.Exam.route) {

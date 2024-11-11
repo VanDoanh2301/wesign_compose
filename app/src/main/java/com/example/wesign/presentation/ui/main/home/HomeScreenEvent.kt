@@ -11,6 +11,8 @@ sealed class HomeScreenEvent {
     data object GetAllClassRooms : HomeScreenEvent()
     data class GetAllVocabularies(val topicId: Int? = null) : HomeScreenEvent()
     data class GetAllTopics(val classRoomId: Int? = null) : HomeScreenEvent()
+    data object Logout : HomeScreenEvent()
+
 
 }
 

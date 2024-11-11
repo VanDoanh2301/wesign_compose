@@ -88,9 +88,9 @@ fun VocabularyScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { }) {
-                        Icon(Icons.Default.Menu, contentDescription = "Filter")
-                    }
+//                    IconButton(onClick = { }) {
+//                        Icon(Icons.Default.Menu, contentDescription = "Filter")
+//                    }
                 }
             )
         }

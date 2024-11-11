@@ -14,6 +14,7 @@ const val ARG_KEY_TYPE_SEARCH_NAME = "arg_key_type_search_name"
 const val ARG_KEY_CLASS_ROOM_ID_LIST = "arg_key_class_room_id_list"
 const val ARG_KEY_COUNT_CORRECT = "arg_key_count_correct"
 const val ARG_KEY_TOTAL_QUESTION = "arg_key_total_question"
+const val ARG_KEY_INTRO = "arg_key_intro"
 
 //Root
 const val ROOT_GRAPH_ROUTE = "root"
@@ -21,6 +22,8 @@ const val AUTH_GRAPH_ROUTE = "auth"
 const val MAIN_GRAPH_ROUTE = "main"
 const val SPLASH_GRAPH_ROUTE = "splash"
 const val ONBOARD_GRAPH_ROUTE = "onboard"
+const val INTRO_GRAPH_ROUTE = "intro/{$ARG_KEY_INTRO}"
+
 
 // Auth Routes
 const val AUTH_LOGIN_ROUTE = "auth/login"
@@ -32,6 +35,7 @@ const val AUTH_SUCCESS_ROUTE = "auth/success"
 const val MAIN_HOME_ROUTE = "main/home"
 const val MAIN_TEST_ROUTE = "main/test"
 const val MAIN_UPDATE_ROUTE = "main/update"
+const val MAIN_CLASSROOM_ROUTE = "main/classroom"
 const val MAIN_SEARCH_ROUTE = "main/search/{$ARG_KEY_TYPE_SEARCH}/{$ARG_KEY_TYPE_SEARCH_NAME}"
 const val MAIN_TOPIC_ROUTE = "main/home/topic/{$ARG_KEY_CLASS_ROOM_ID}/{$ARG_KEY_CLASS_ROOM_NAME}"
 const val MAIN_VOCABULARY_ROUTE = "main/home/topic/vocabulary/{$ARG_KEY_TOPIC_ID}/{$ARG_KEY_TOPIC_NAME}"
@@ -48,6 +52,11 @@ const val BOTTOM_PROFILE_ROUTE = "profile_page"
 sealed class Screen(val route: String) {
     object Splash : Screen(SPLASH_GRAPH_ROUTE)
     object OnBoard : Screen(ONBOARD_GRAPH_ROUTE)
+    object Intro : Screen(INTRO_GRAPH_ROUTE) {
+        fun sendIntro(intro: Boolean): String {
+            return INTRO_GRAPH_ROUTE.replace("{$ARG_KEY_INTRO}", intro.toString())
+        }
+    }
     object Auth : Screen(AUTH_GRAPH_ROUTE)
     object Main : Screen(MAIN_GRAPH_ROUTE)
 }
@@ -95,6 +104,7 @@ sealed class MainRoutes(route: String) : Screen(route) {
                 .replace("{$ARG_KEY_TYPE_SEARCH_NAME}", name)
         }
     }
+    object ClassRoom : MainRoutes(MAIN_CLASSROOM_ROUTE)
     object Exam : MainRoutes(MAIN_EXAM_ROUTE)
     object Question : MainRoutes(MAIN_QUESTION_ROUTE) {
         fun sendClassRoomId(classRoomId: Int): String {

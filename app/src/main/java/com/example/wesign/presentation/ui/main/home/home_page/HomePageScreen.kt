@@ -22,6 +22,7 @@ import com.example.camera_ai.PracticeDetectorActivity
 import com.example.wesign.domain.model.ClassRoom
 import com.example.wesign.domain.model.Vocabulary
 import com.example.wesign.presentation.nav.MainRoutes
+import com.example.wesign.presentation.nav.Screen
 import com.example.wesign.presentation.nav.WeSignAppState
 import com.example.wesign.presentation.theme.WeSignDimension
 import com.example.wesign.presentation.ui.main.home.HomeScreenEvent
@@ -45,6 +46,7 @@ fun HomePageScreen(
     LaunchedEffect(Unit) {
         event(HomeScreenEvent.GetAllClassRooms)
         event(HomeScreenEvent.GetAllVocabularies())
+        event(HomeScreenEvent.GetUserDetail)
     }
 
     val activity = LocalContext.current as Activity
@@ -65,14 +67,16 @@ fun HomePageScreen(
                 )
         ) {
             item {
-                CustomTopAppBar(userState.userDetail) {
+                CustomTopAppBar(userState.userDetail, onTextChanged = {
                     appState.navigateWithPopUpTo(
                         MainRoutes.Search.sendTypeSearch(
                             typeSearch,
                             it
                         )
                     )
-                }
+                }, onNextIntro = {
+                    appState.navigateWithPopUpTo(Screen.Intro.sendIntro(it))
+                })
                 Spacer(modifier = Modifier.height(WeSignDimension.PaddingExtraLarge))
             }
             item {
@@ -96,16 +100,45 @@ fun HomePageScreen(
             item {
                 CoursesGrid(onClickNext = {
                     when (it) {
-                        1 -> {
-                           activity.startActivity(Intent(activity, PracticeDetectorActivity::class.java))
+                        0 -> {
+                            appState.navigateWithPopUpTo(
+                                MainRoutes.Topic.sendClassRoomIdAndName(
+                                    -1,
+                                    "Tất cả"
+                                )
+                            )
                         }
+
+                        1 -> {
+                            appState.navigateWithPopUpTo(MainRoutes.ClassRoom.route)
+                        }
+
                         2 -> appState.navigateWithPopUpTo(MainRoutes.Exam.route)
+                        3 -> {
+                            activity.startActivity(
+                                Intent(
+                                    activity,
+                                    PracticeDetectorActivity::class.java
+                                )
+                            )
+                        }
+
                         else -> {}
                     }
                 })
             }
             item {
-                RecommendedClassroomsRow(title = "Gợi ý lớp học", classrooms = classRoomState)
+                RecommendedClassroomsRow(
+                    title = "Gợi ý lớp học",
+                    classrooms = classRoomState
+                ) { classId, content ->
+                    appState.navigateWithPopUpTo(
+                        MainRoutes.Topic.sendClassRoomIdAndName(
+                            classId,
+                            content
+                        )
+                    )
+                }
                 Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
             }
             item {

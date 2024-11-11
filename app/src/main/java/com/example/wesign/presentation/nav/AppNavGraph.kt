@@ -1,8 +1,6 @@
 package com.example.wesign.presentation.nav
 
-import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
@@ -14,10 +12,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.wesign.presentation.ui.intro.IntroductionScreen
 import com.example.wesign.presentation.ui.main.home.HomeViewModel
 import com.example.wesign.presentation.ui.main.home.home_page.HomePageScreen
 import com.example.wesign.presentation.ui.main.home.learn_page.LearnPageScreen
@@ -52,7 +52,7 @@ fun AppNavGraph(appState: WeSignAppState = rememberWeSignAppState()) {
                         })
                     } else {
                         SplashScreen(onSplashFinished = {
-                            appState.navigateWithPopUpTo(Screen.Auth.route, inclusive = true, popUpToRoute = Screen.Splash.route)
+                            appState.navigateWithPopUpTo(AuthRoutes.Login.route, inclusive = true, popUpToRoute = Screen.Splash.route)
                         })
                     }
 
@@ -65,8 +65,20 @@ fun AppNavGraph(appState: WeSignAppState = rememberWeSignAppState()) {
             OnBoardingScreen(
                 event = viewModel::onEvent,
                 onBoardingFinished = {
-                    appState.navigateWithPopUpTo(Screen.Auth.route)
+                    appState.navigateWithPopUpTo(Screen.Intro.sendIntro(true))
                 })
+        }
+        composable(Screen.Intro.route, arguments = listOf(
+            navArgument(ARG_KEY_INTRO) {
+                type = NavType.BoolType
+            }
+        )) {
+            val isIntro = it.arguments?.getBoolean(ARG_KEY_INTRO) ?: false
+            IntroductionScreen(isIntro, onNext = {
+                appState.navigateWithPopUpTo(Screen.Auth.route)
+            }, onBack = {
+                appState.popBackStack()
+            })
         }
         // Auth Graph
         authGraph(appState)
@@ -144,7 +156,7 @@ fun BottomNavGraph(
             popExitTransition = {
                 slideOutHorizontally(targetOffsetX = { 1000 }) + fadeOut(targetAlpha = 0f)
             }) {
-            ProfilePageScreen(appState)
+            ProfilePageScreen(appState, viewModel::onEvent)
         }
     }
 }

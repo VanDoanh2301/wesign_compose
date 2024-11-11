@@ -50,11 +50,12 @@ import com.example.wesign.presentation.ui.auth.register.RegisterScreenEvent
 import com.example.wesign.utils.showToast
 
 //String constants
-const val ENTER_OTP_TEXT = "Enter OTP"
-const val TITLE_TEXT =
-    "5 digit code sent to your email please check and confirm the code to continue"
-const val SUBMIT_TEXT = "Submit"
-const val RESEND_TEXT = "Didn't receive the code? Resend in"
+//String constants
+const val ENTER_OTP_TEXT = "Nhập mã OTP"
+const val TITLE_TEXT = "Mã 5 chữ số đã được gửi đến email của bạn, vui lòng kiểm tra và xác nhận để tiếp tục"
+const val SUBMIT_TEXT = "Xác nhận"
+const val RESEND_TEXT = "Không nhận được mã? Gửi lại trong"
+
 
 @Composable
 fun OtpScreen(

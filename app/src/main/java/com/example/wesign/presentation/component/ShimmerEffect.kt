@@ -65,7 +65,7 @@ fun ShimmerListItem(
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(WeSignDimension.PaddingMedium)
-            .padding(WeSignDimension.PaddingLarge)
+
     ) {
         Column(
             modifier = Modifier.widthIn(160.dp, 180.dp)

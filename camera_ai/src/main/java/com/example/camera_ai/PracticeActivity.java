@@ -31,6 +31,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -70,6 +72,17 @@ public abstract class PracticeActivity extends AppCompatActivity
     protected int score = 0;
     protected String textTest = "";
 
+    protected final ActivityResultLauncher<String> requestCameraPermission =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(),
+                    isGranted -> {
+                        if (isGranted) {
+                            // Permission granted, proceed with camera access
+                            Toast.makeText(this, "Camera permission granted", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Permission denied
+                            Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show();
+                        }
+                    });
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(final Bundle savedInstanceState) {

@@ -65,13 +65,14 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 // String constants
-const val LOGIN_TEXT = "Log in"
+const val LOGIN_TEXT = "Đăng nhập"
 const val EMAIL_LABEL = "Email"
-const val PASSWORD_LABEL = "Password"
-const val OR_TEXT = "OR"
-const val GOOGLE_LOGIN_TEXT = "Login without account"
-const val NO_ACCOUNT_TEXT = "Don't have any account?"
-const val REGISTER_TEXT = "Register"
+const val PASSWORD_LABEL = "Mật khẩu"
+const val OR_TEXT = "HOẶC"
+const val GOOGLE_LOGIN_TEXT = "Đăng nhập không cần tài khoản"
+const val NO_ACCOUNT_TEXT = "Chưa có tài khoản?"
+const val REGISTER_TEXT = "Đăng ký"
+
 
 //@Composable
 //@Preview(showBackground = true)
@@ -213,7 +214,7 @@ fun LoginScreen(
 
             // Google Login Button
             OutlinedButton(
-                onClick = { /* handle google login */ },
+                onClick = { onLoginClick() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),

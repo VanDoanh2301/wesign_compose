@@ -1,5 +1,10 @@
 package com.example.wesign.presentation.ui.main.home.home_page.components
 
+import android.app.Activity
+import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -41,6 +46,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -55,11 +61,13 @@ import com.example.wesign.domain.model.ClassRoom
 import com.example.wesign.domain.model.Topic
 import com.example.wesign.domain.model.Vocabulary
 import com.example.wesign.presentation.component.ShimmerListItem
+import com.example.wesign.presentation.nav.ARG_KEY_VOCABULARY
 import com.example.wesign.presentation.theme.BlueStart
 import com.example.wesign.presentation.theme.Typography
 import com.example.wesign.presentation.theme.WeSignDimension
 import com.example.wesign.presentation.theme.WeSignShape
 import com.example.wesign.presentation.theme.primaryLight
+import com.example.wesign.presentation.ui.main.play.PlayActivity
 import com.example.wesign.utils.SharedPreferencesUtils
 import com.example.wesign.utils.generateRandomColor
 
@@ -69,6 +77,7 @@ fun RecommendedClassroomsRow(
     modifier: Modifier = Modifier,
     title: String = "Recommended for you",
     classrooms: LazyPagingItems<ClassRoom>,
+    onClickClass: (Int, String) -> Unit = { _, _ -> }
 ) {
 
     Column(modifier = modifier) {
@@ -100,7 +109,9 @@ fun RecommendedClassroomsRow(
                 val item = classrooms[index]
                 CourseClassScreen(
                     course = item!!,
-                )
+                ) {
+                    onClickClass(item.classRoomId, item.content)
+                }
             }
 
         }
@@ -223,7 +234,8 @@ fun RecommendedVocabularyRow(
     title: String = "Recommended for you",
     vocabularies: LazyPagingItems<Vocabulary>,
 ) {
-
+    val activity = LocalContext.current as Activity
+    val startForResult = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult -> }
     val randomItems = if (SharedPreferencesUtils.getBoolean("first_load", true)) {
         SharedPreferencesUtils.setBoolean("first_load", false)
         vocabularies.itemSnapshotList.shuffled().take(10)
@@ -254,20 +266,24 @@ fun RecommendedVocabularyRow(
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(260.dp, 280.dp),
+                .heightIn(260.dp, 280.dp)
+                .wrapContentSize(unbounded = false),
             horizontalArrangement = Arrangement.Absolute.Left
 
         ) {
-            items(count = 3) {
+            items(count = 4) {
                 if (vocabularies.loadState.refresh is LoadState.Loading) {
                     ShimmerListItem()
                 }
+
             }
 
             items(count = randomItems.size) { index ->
                 val item = randomItems[index]
                 CourseVocabularyScreen(course = item!!) {
-
+                    val intent = Intent(activity, PlayActivity::class.java)
+                    intent.putExtra(ARG_KEY_VOCABULARY,item)
+                    startForResult.launch(intent)
                 }
 
             }

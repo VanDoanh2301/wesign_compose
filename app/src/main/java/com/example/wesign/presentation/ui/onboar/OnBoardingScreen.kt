@@ -59,15 +59,15 @@ fun OnBoardingScreen(
         derivedStateOf {
             when (statePager.currentPage) {
                 0 -> {
-                    listOf("Skip", "Next")
+                    listOf("Lùi lại", "Tiếp")
                 }
 
                 1 -> {
-                    listOf("Skip", "Next")
+                    listOf("Lùi lại", "Tiếp")
                 }
 
                 else -> {
-                    listOf("", "Get Started")
+                    listOf("", "Bắt đầu")
                 }
             }
         }
@@ -222,17 +222,17 @@ fun ItemOnBoarding(
 val listOnBoarding = listOf(
     OnBoardItem(
         R.drawable.onboarding_page_1,
-        "Education is the best learn ever",
-        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. "
+        "Học ngôn ngữ ký hiệu dễ dàng",
+        "WeSign giúp bạn tiếp cận ngôn ngữ ký hiệu tiếng Việt một cách dễ dàng và hiệu quả qua ứng dụng và trang web."
     ),
     OnBoardItem(
         R.drawable.onboarding_page_2,
-        "Education is the best learn ever",
-        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. "
+        "Hỗ trợ cho người khiếm thính",
+        "WeSign cung cấp học liệu phong phú, phù hợp cho người điếc, trẻ khiếm thính, và cả phụ huynh muốn học ngôn ngữ ký hiệu."
     ),
     OnBoardItem(
         R.drawable.onboarding_page_3,
-        "Education is the best learn ever",
-        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. "
-    ),
+        "Cùng phát triển cộng đồng",
+        "Chúng tôi không ngừng cải tiến WeSign với sự đóng góp từ các tình nguyện viên và cộng đồng người học."
+    )
 )
