@@ -1,6 +1,8 @@
 package com.example.wesign.presentation.ui.main.home.home_page
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,7 +16,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.paging.compose.LazyPagingItems
+import com.example.camera_ai.PracticeDetectorActivity
 import com.example.wesign.domain.model.ClassRoom
 import com.example.wesign.domain.model.Vocabulary
 import com.example.wesign.presentation.nav.MainRoutes
@@ -43,7 +47,7 @@ fun HomePageScreen(
         event(HomeScreenEvent.GetAllVocabularies())
     }
 
-
+    val activity = LocalContext.current as Activity
     var typeSearch by remember {
         mutableStateOf("")
     }
@@ -92,6 +96,9 @@ fun HomePageScreen(
             item {
                 CoursesGrid(onClickNext = {
                     when (it) {
+                        1 -> {
+                           activity.startActivity(Intent(activity, PracticeDetectorActivity::class.java))
+                        }
                         2 -> appState.navigateWithPopUpTo(MainRoutes.Exam.route)
                         else -> {}
                     }

@@ -24,4 +24,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "WeSign"
 include(":app")
- 
+include(":camera_ai")
+include(":lib_task_api")
+include(":lib_interpreter")

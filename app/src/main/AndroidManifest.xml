@@ -35,6 +35,11 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/Theme.WeSign" />
         <activity
+            android:name="com.example.camera_ai.PracticeDetectorActivity"
+            android:exported="false"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
+        <activity
             android:name=".presentation.ui.MainActivity"
             android:exported="true"
             android:label="@string/app_name"

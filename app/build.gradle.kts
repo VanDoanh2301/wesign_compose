@@ -97,10 +97,29 @@ android {
         dataBinding = true
         mlModelBinding = true
     }
+    lintOptions {
+        isAbortOnError = false
+    }
+    flavorDimensions.add("tfliteInference")
+
+    productFlavors {
+        create("interpreter") {
+            dimension = "tfliteInference"
+        }
+        create("taskApi") {
+            isDefault = true
+            dimension = "tfliteInference"
+        }
+    }
+
+
+    aaptOptions {
+        noCompress("tflite")
+    }
 }
 
 dependencies {
-
+    implementation(project(":camera_ai"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -115,6 +134,8 @@ dependencies {
     implementation(libs.androidx.paging.common.android)
     implementation(libs.androidx.hilt.common)
     implementation(libs.androidx.ui.viewbinding)
+    implementation(libs.tensorflow.lite.support)
+    implementation(libs.tensorflow.lite.metadata)
     testImplementation(libs.junit)
 //    testImplementation (libs.kotlinx.coroutines.test)
 //    testImplementation (libs.mockito.kotlin)

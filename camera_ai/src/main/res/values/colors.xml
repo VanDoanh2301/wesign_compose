@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="book_loading_background">#ffffff</color>
+    <color name="book_loading_book">#ff33b5e5</color>
+    <color name="book_loading_page">#ffffff</color>
+    <color name="colorPrimary">#66BB6A</color>
+    <color name="colorPrimaryDark">#4caf50</color>
+    <color name="colorAccent">#66BB6A</color>
+    <color name="actionBarColor">@color/colorPrimary</color>
+    <color name="color_tint_icon">@color/colorPrimary</color>
+    <color name="colorRedPrimary">#EF5350</color>
+    <color name="color_text_item_setting">#3c3c3c</color>
+    <color name="color_text_item_setting_dim">#992C2C2C</color>
+    <color name="color_text_item_answer">#252525</color>
+    <color name="color_seekbar_bg">#66ACACAC</color>
+    <color name="color_line_view">#66cecece</color>
+    <color name="color_blue">#ff3f51b5</color>
+    <color name="blue_500">#3f91ff</color>
+    <color name="gray_800">#424242</color>
+    <color name="gray_700">#616161</color>
+    <color name="gray_500">#9E9E9E</color>
+    <color name="gray_300">#90ffffff</color>
+    <color name="gray_200">#EEEEEE</color>
+    <color name="gray_100">#F5F5F5</color>
+    <color name="bg_app">#fff2f2f2</color>
+    <color name="color_main_bg">#fff2f2f2</color>
+    <color name="rd_backgroundColor">#33c9c9c9</color>
+    <color name="color_text_actionbar_title">#ff0c0c0c</color>
+    <color name="rd_rippleColor">#44c9c9c9</color>
+    <color name="black">#000</color>
+    <color name="night">#0f0f0f</color>
+    <color name="shadow_dark">#CC212121</color>
+    <color name="shadow_light">#44212121</color>
+    <color name="light">#F3F3F3</color>
+    <color name="white">#FFFFFF</color>
+    <color name="whitealpha">#99FFFFFF</color>
+    <color name="color_black_6">#ffacacac</color>
+    <color name="transparent">@android:color/transparent</color>
+    <color name="color_bg_warning">#FFC107</color>
+    <color name="color_tint_arrow">#B9B9B9</color>
+    <color name="transperent_2">#20000000</color>
+    <color name="text">#212121</color>
+    <color name="text_secondary">#727272</color>
+    <color name="hint">#B8B8B8</color>
+    <color name="dividers">#66cecece</color>
+    <color name="blackalpha">#80000000</color>
+    <color name="pink_400">#fd81b5</color>
+    <color name="location_bar_bg">#ffe5e5e5</color>
+    <color name="day_mode_bg_default">#ffffffff</color>
+    <color name="night_mode_bg_default">#ff202020</color>
+    <color name="semi_transparent">#88676767</color>
+    <color name="locationbar_progress">#ff33CCFF</color>
+    <color name="night_mode_layer_bg">#A0000000</color>
+    <color name="night_mode_text_color">#FFDDDDDD</color>
+    <color name="tab_selector_listitem_border">#FF06A72E</color>
+    <color name="color_text_main">#298ae8</color>
+    <color name="color_text_main_primary">#298ae8</color>
+    <color name="text_main_color">#58595b</color>
+    <color name="ripple_color">#44c9c9c9</color>
+    <item name="blue" type="color">#FF33B5E5</item>
+    <item name="green" type="color">#FF99CC00</item>
+    <item name="orange" type="color">#ffaa00</item>
+    <item name="darkorange" type="color">#FFFF8800</item>
+    <item name="darkred" type="color">#FFCC0000</item>
+    <color name="colorControlHighlight">#fff0e2e2</color>
+    <color name="color_green_1">#ff6ebd52</color>
+    <color name="color_cyan_1">#ff50afdc</color>
+    <color name="color_orange_1">#fff57c00</color>
+    <color name="list_divider">#ffe0e0e0</color>
+    <color name="app_background">@color/color_main_bg</color>
+    <!-- MaterialDrawer DEFAULT DARK drawer colors -->
+    <color name="material_drawer_dark_selected">#202020</color>
+    <color name="material_drawer_dark_header_selection_text">#FFF</color>
+    <color name="color_progress_rim">#112c2c2c</color>
+    <color name="primary">@color/colorPrimary</color>
+    <color name="primary_dark">@color/colorPrimaryDark</color>
+    <color name="primary_light">@color/colorPrimaryLight</color>
+    <color name="colorPrimaryLight">#BBDEFB</color>
+    <color name="color_seekbar_bg_active">#9c9c9c</color>
+    <color name="bg_splotlight">#B3000000</color>
+
+
+    <color name="selected_background_color">#5843CC</color>
+    <color name="deselected_background_color">#D6D6D6</color>
+    <color name="deselected_text_color">#3F51B5</color>
+    <color name="blue_sea">#3a7bd5</color>
+    <color name="ultramarine_blue">#3567FA</color>
+    <color name="cornflower_blue">#6EA1F5</color>
+    <color name="maya_blue">#75B2FB</color>
+    <color name="united_nations_blue">#528FF1</color>
+    <color name="concrete">#F1F2F3</color>
+    <color name="jordy_blue">#92BBF1</color>
+    <color name="polo_blue">#93AFCF</color>
+    <color name="chateau_green">#3FB450</color>
+
+    <color name="my_primary">#FF5964</color>
+    <color name="my_secondary">#FFE74C</color>
+
+    <color name="off_white">#FAFAFA</color>
+    <color name="light_gray">#C3C3C3</color>
+
+    <color name="chat_color_sender">#1E88E5</color>
+    <color name="chat_color_receiver">#7CB342</color>
+
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="faded_white">#57FFFFFF</color>
+    <color name="faded_black">#57000000</color>
+    <color name="light_green">#3AAE09</color>
+    <color name="yellow">#EAE78F</color>
+    <color name="red">#E82039</color>
+
+    <color name="tfe_color_primary">#ffa800</color>
+    <color name="tfe_color_primary_dark">#ff6f00</color>
+    <color name="tfe_color_accent">#425066</color>
+    <color name="text_new">#FF5F61F0</color>
+    <color name="color_btn">#7875FF</color>
+
+    <color name="tfe_semi_transparent">#66000000</color>
+</resources>
