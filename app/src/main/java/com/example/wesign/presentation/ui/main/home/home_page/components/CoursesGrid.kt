@@ -2,6 +2,7 @@ package com.example.wesign.presentation.ui.main.home.home_page.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -35,8 +37,8 @@ import com.example.wesign.presentation.theme.WeSignDimension
 import com.example.wesign.presentation.theme.WeSignShape
 
 @Composable
-@Preview(showBackground = true)
-fun CoursesGrid() {
+
+fun CoursesGrid(onClickNext: (Int) -> Unit) {
     Column(modifier = Modifier) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -47,10 +49,7 @@ fun CoursesGrid() {
                 text = "Học tập",
                 style = Typography.headlineSmall.copy(fontFamily = FontFamily(Font(R.font.inter_medium))),
             )
-//            Text(
-//                text = "See all",
-//                style = Typography.titleMedium.copy(color = BlueStart),
-//            )
+
         }
         Spacer(modifier = Modifier.height(16.dp))
         LazyVerticalGrid(
@@ -59,7 +58,9 @@ fun CoursesGrid() {
 
         ) {
             items(courses.size) { course ->
-                CourseItem(course = courses[course],course)
+                CourseItem(course = courses[course],course) {
+                    onClickNext(course)
+                }
             }
         }
     }
@@ -67,7 +68,7 @@ fun CoursesGrid() {
 
 
 @Composable
-fun CourseItem(course: Course, index: Int) {
+fun CourseItem(course: Course, index: Int, onCourseClick: (Course) -> Unit = {}) {
     val spacerStart = if (index % 2 != 0) WeSignDimension.PaddingMedium else 0.dp
     val spacerEnd = if (index % 2 == 0) WeSignDimension.PaddingMedium else 0.dp
 
@@ -77,6 +78,9 @@ fun CourseItem(course: Course, index: Int) {
             .fillMaxWidth()
             .height(48.dp)
             .background(color = Color.White, shape = WeSignShape.large)
+            .clip(shape = WeSignShape.large).clickable {
+                onCourseClick(course)
+            }
             .padding(start = WeSignDimension.PaddingMedium)
         ,
         horizontalArrangement = Arrangement.Start,

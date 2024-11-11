@@ -30,16 +30,15 @@ import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
-import com.example.wesign.domain.model.VocabularyVideo
 
 @OptIn(UnstableApi::class)
 @Composable
 fun Player(
-    vocabularyVideo: VocabularyVideo,
+    vocabularyVideo: String?,
     onFullscreenButtonClicked: (Boolean) -> Unit = {}
 ) {
     val context = LocalContext.current
-    val mediaItem = MediaItem.fromUri(vocabularyVideo.location!!)
+    val mediaItem = MediaItem.fromUri(vocabularyVideo!!)
     val mediaSource: MediaSource =
         ProgressiveMediaSource.Factory(DefaultHttpDataSource.Factory()).createMediaSource(mediaItem)
 

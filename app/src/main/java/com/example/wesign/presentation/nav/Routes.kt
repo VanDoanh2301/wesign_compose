@@ -11,6 +11,9 @@ const val ARG_KEY_TOPIC_NAME = "arg_key_topic_name"
 const val ARG_KEY_VOCABULARY = "arg_key_vocabulary"
 const val ARG_KEY_TYPE_SEARCH = "arg_key_type_search"
 const val ARG_KEY_TYPE_SEARCH_NAME = "arg_key_type_search_name"
+const val ARG_KEY_CLASS_ROOM_ID_LIST = "arg_key_class_room_id_list"
+const val ARG_KEY_COUNT_CORRECT = "arg_key_count_correct"
+const val ARG_KEY_TOTAL_QUESTION = "arg_key_total_question"
 
 //Root
 const val ROOT_GRAPH_ROUTE = "root"
@@ -33,6 +36,9 @@ const val MAIN_SEARCH_ROUTE = "main/search/{$ARG_KEY_TYPE_SEARCH}/{$ARG_KEY_TYPE
 const val MAIN_TOPIC_ROUTE = "main/home/topic/{$ARG_KEY_CLASS_ROOM_ID}/{$ARG_KEY_CLASS_ROOM_NAME}"
 const val MAIN_VOCABULARY_ROUTE = "main/home/topic/vocabulary/{$ARG_KEY_TOPIC_ID}/{$ARG_KEY_TOPIC_NAME}"
 const val MAIN_PLAY_ROUTE = "main/home/topic/vocabulary/play/{$ARG_KEY_VOCABULARY}"
+const val MAIN_EXAM_ROUTE = "main/exam"
+const val MAIN_QUESTION_ROUTE = "main/exam/question/{$ARG_KEY_CLASS_ROOM_ID_LIST}"
+const val Main_RESULT_ROUTE = "main/exam/question/result/{$ARG_KEY_COUNT_CORRECT}/{$ARG_KEY_TOTAL_QUESTION}"
 
 // Bottom Home Routes
 const val BOTTOM_HOME_ROUTE = "home_page"
@@ -87,6 +93,18 @@ sealed class MainRoutes(route: String) : Screen(route) {
         fun sendTypeSearch(typeSearch: String, name: String): String {
             return MAIN_SEARCH_ROUTE.replace("{$ARG_KEY_TYPE_SEARCH}", typeSearch)
                 .replace("{$ARG_KEY_TYPE_SEARCH_NAME}", name)
+        }
+    }
+    object Exam : MainRoutes(MAIN_EXAM_ROUTE)
+    object Question : MainRoutes(MAIN_QUESTION_ROUTE) {
+        fun sendClassRoomId(classRoomId: Int): String {
+            return MAIN_QUESTION_ROUTE.replace("{$ARG_KEY_CLASS_ROOM_ID_LIST}", classRoomId.toString())
+        }
+    }
+    object Result : MainRoutes(Main_RESULT_ROUTE) {
+        fun sendCountCorrectAndTotalQuestion(countCorrect: Int, totalQuestion: Int): String {
+            return Main_RESULT_ROUTE.replace("{$ARG_KEY_COUNT_CORRECT}", countCorrect.toString())
+                .replace("{$ARG_KEY_TOTAL_QUESTION}", totalQuestion.toString())
         }
     }
 }

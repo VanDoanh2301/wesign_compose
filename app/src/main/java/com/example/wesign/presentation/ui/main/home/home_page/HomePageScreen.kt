@@ -54,28 +54,34 @@ fun HomePageScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = WeSignDimension.PaddingLarge, end = WeSignDimension.PaddingLarge, top = WeSignDimension.PaddingLarge)
+                .padding(
+                    start = WeSignDimension.PaddingLarge,
+                    end = WeSignDimension.PaddingLarge,
+                    top = WeSignDimension.PaddingLarge
+                )
         ) {
             item {
                 CustomTopAppBar(userState.userDetail) {
-                    appState.navigateWithPopUpTo(MainRoutes.Search.sendTypeSearch(
-                        typeSearch,
-                        it
-                    )
+                    appState.navigateWithPopUpTo(
+                        MainRoutes.Search.sendTypeSearch(
+                            typeSearch,
+                            it
+                        )
                     )
                 }
                 Spacer(modifier = Modifier.height(WeSignDimension.PaddingExtraLarge))
             }
             item {
                 SearchContent(
-                    onSearch = {typeSearch, textSearch ->
-                    appState.navigateWithPopUpTo(MainRoutes.Search.sendTypeSearch(
-                        typeSearch,
-                        textSearch
-                    )
-                    )
-                }, addTypeChange = {
-                    typeSearch = it
+                    onSearch = { typeSearch, textSearch ->
+                        appState.navigateWithPopUpTo(
+                            MainRoutes.Search.sendTypeSearch(
+                                typeSearch,
+                                textSearch
+                            )
+                        )
+                    }, addTypeChange = {
+                        typeSearch = it
                     })
                 Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
             }
@@ -84,7 +90,12 @@ fun HomePageScreen(
                 Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
             }
             item {
-                CoursesGrid()
+                CoursesGrid(onClickNext = {
+                    when (it) {
+                        2 -> appState.navigateWithPopUpTo(MainRoutes.Exam.route)
+                        else -> {}
+                    }
+                })
             }
             item {
                 RecommendedClassroomsRow(title = "Gợi ý lớp học", classrooms = classRoomState)

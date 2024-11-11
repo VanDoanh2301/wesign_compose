@@ -62,16 +62,16 @@ fun ShimmerListItem(
 ) {
     Card(
         modifier = modifier
-            .widthIn(160.dp, 180.dp)
+            .fillMaxWidth()
             .wrapContentHeight()
+            .padding(WeSignDimension.PaddingMedium)
             .padding(WeSignDimension.PaddingLarge)
     ) {
         Column(
-            modifier = Modifier
+            modifier = Modifier.widthIn(160.dp, 180.dp)
         ) {
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
                     .height(160.dp)
                     .shimmerEffect()
             )

@@ -13,10 +13,8 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.paging.compose.LazyPagingItems
 import com.example.wesign.R
 import com.example.wesign.domain.model.Vocabulary
-import com.example.wesign.presentation.ui.main.home.HomeScreenEvent
 import com.example.wesign.presentation.ui.main.play.components.CustomBodyPlayer
 import com.example.wesign.presentation.ui.main.play.components.Player
 
@@ -92,7 +90,7 @@ fun VideoPlayerScreen(
 
         HorizontalPager(state = pagerState, modifier = Modifier) { page ->
             if (vocabulary.videos!!.isNotEmpty()) {
-                Player(vocabulary.videos[page], onFullscreenButtonClicked = {
+                Player(vocabulary.videos[page].location, onFullscreenButtonClicked = {
                     isFullScreen = it
                 })
             }

@@ -18,6 +18,10 @@ val OrangeEnd = Color(0xFFFDA35F)
 val GreenStart = Color(0xFF11B114)
 val GreenEnd = Color(0xFF52DB59)
 val Purple200 = Color(0xFFBB86FC)
+val SuccessColor = Color(0xFF009955)
+val ErrorColor = Color(0xFFEF5350)
+val WarningColor = Color(0xFFE0E0E0)
+val light_blue_a700 = Color(0xFF0091ea)
 
 val CardColor = Color(0xFF9F9F9)
 

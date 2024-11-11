@@ -17,10 +17,15 @@ import com.example.wesign.presentation.ui.auth.otp.OtpViewModel
 import com.example.wesign.presentation.ui.auth.register.RegisterScreen
 import com.example.wesign.presentation.ui.auth.register.RegisterViewModel
 import com.example.wesign.presentation.ui.auth.success.SuccessScreen
+import com.example.wesign.presentation.ui.main.exam.ExamScreen
+import com.example.wesign.presentation.ui.main.exam.ExamViewModel
 import com.example.wesign.presentation.ui.main.home.HomeScreen
 import com.example.wesign.presentation.ui.main.home.HomeViewModel
+import com.example.wesign.presentation.ui.main.result.ResultTestScreen
 import com.example.wesign.presentation.ui.main.search.SearchScreen
 import com.example.wesign.presentation.ui.main.search.SearchViewModel
+import com.example.wesign.presentation.ui.main.test.TestScreen
+import com.example.wesign.presentation.ui.main.test.TestViewModel
 import com.example.wesign.presentation.ui.main.topic.TopicScreen
 import com.example.wesign.presentation.ui.main.vocabulary.VocabularyScreen
 
@@ -175,6 +180,61 @@ fun NavGraphBuilder.mainGraph(appState: WeSignAppState) {
             val topicState = searchViewModel.topicState.collectAsLazyPagingItems()
 
             SearchScreen(typeSearch, name, vocabularyState, classRoomState, topicState, searchViewModel::onEvent, appState)
+        }
+
+        composable(MainRoutes.Exam.route) {
+            val viewModel: ExamViewModel = hiltViewModel()
+            val state by viewModel.state.collectAsState()
+            ExamScreen(state, viewModel::onEvent, onClickExam =  {
+                appState.navigateWithPopUpTo(
+                    MainRoutes.Question.sendClassRoomId(it)
+                )
+            }, onBackClick = {
+                appState.popBackStack()
+            })
+        }
+
+        composable(MainRoutes.Question.route, arguments = listOf(
+            navArgument(ARG_KEY_CLASS_ROOM_ID_LIST) {
+                type = NavType.IntType
+            }
+        )) {
+            val viewModel: TestViewModel = hiltViewModel()
+            val state by viewModel.state.collectAsState()
+            val classRoomId= it.arguments?.getInt(ARG_KEY_CLASS_ROOM_ID_LIST)
+            if (classRoomId!= null) {
+                TestScreen(state, viewModel::onEvent, classRoomId , onFinishTest = { countCorrect, totalQuestion ->
+                    appState.navigateWithPopUpTo(
+                        MainRoutes.Result.sendCountCorrectAndTotalQuestion(countCorrect, totalQuestion),
+                        popUpToRoute = MainRoutes.Question.route,
+                        inclusive = true
+                    )
+                }, onBackClick = {
+                    appState.popBackStack()
+                }
+                )
+            }
+        }
+        composable(MainRoutes.Result.route, arguments = listOf(
+            navArgument(ARG_KEY_COUNT_CORRECT) {
+                type = NavType.IntType
+            },
+            navArgument(ARG_KEY_TOTAL_QUESTION) {
+                type = NavType.IntType
+            }
+        )) {
+            val countCorrect = it.arguments?.getInt(ARG_KEY_COUNT_CORRECT)
+            val totalQuestion = it.arguments?.getInt(ARG_KEY_TOTAL_QUESTION)
+            if (countCorrect != null && totalQuestion != null) {
+                ResultTestScreen(
+                    countCorrect,
+                    totalQuestion
+
+                ) {
+                    appState.popBackStack()
+                }
+            }
+
         }
 
     }

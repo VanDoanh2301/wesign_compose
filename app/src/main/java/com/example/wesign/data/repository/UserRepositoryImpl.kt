@@ -1,6 +1,7 @@
 package com.example.wesign.data.repository
 
 import android.util.Log
+import com.example.wesign.data.model.request.ExamRequest
 import com.example.wesign.data.model.request.GenerateOtpRequest
 import com.example.wesign.data.model.request.LoginRequest
 import com.example.wesign.data.model.request.ValidateOtpRequest
@@ -9,6 +10,8 @@ import com.example.wesign.data.model.response.LoginResponse
 import com.example.wesign.data.remote.ApiUser
 import com.example.wesign.domain.mapper.toDomain
 import com.example.wesign.domain.model.AccessToken
+import com.example.wesign.domain.model.Exam
+import com.example.wesign.domain.model.Question
 import com.example.wesign.domain.model.UserDetail
 import com.example.wesign.domain.model.toDomain
 import com.example.wesign.domain.repository.UserRepository
@@ -131,11 +134,13 @@ class UserRepositoryImpl @Inject constructor(private val api: ApiUser) : UserRep
                     message = response.errorBody()?.string() ?: "Unknown error occurred"
                 )
             }
-        }catch (e : Exception) {
+        } catch (e: Exception) {
             return HostResponse(
                 code = -1,
                 message = e.localizedMessage ?: "Unknown error occurred"
             )
         }
     }
+
+
 }
