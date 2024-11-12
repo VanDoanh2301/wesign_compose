@@ -17,6 +17,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.wesign.presentation.ui.ThemeViewModel
 import com.example.wesign.presentation.ui.intro.IntroductionScreen
 import com.example.wesign.presentation.ui.main.home.HomeViewModel
 import com.example.wesign.presentation.ui.main.home.home_page.HomePageScreen
@@ -32,7 +33,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun AppNavGraph(appState: WeSignAppState = rememberWeSignAppState()) {
+fun AppNavGraph(appState: WeSignAppState = rememberWeSignAppState(), themeViewModel:  ThemeViewModel) {
     AnimatedNavHost(
         navController = appState.controller,
         startDestination = Screen.Splash.route,
@@ -84,7 +85,7 @@ fun AppNavGraph(appState: WeSignAppState = rememberWeSignAppState()) {
         authGraph(appState)
 
         // Main Graph
-        mainGraph(appState)
+        mainGraph(appState, themeViewModel)
 
     }
 }
@@ -95,7 +96,8 @@ fun AppNavGraph(appState: WeSignAppState = rememberWeSignAppState()) {
 fun BottomNavGraph(
     navController: NavHostController,
     appState: WeSignAppState,
-    viewModel: HomeViewModel
+    viewModel: HomeViewModel,
+    themeViewModel: ThemeViewModel
 ) {
     AnimatedNavHost(
         navController = navController,
@@ -156,7 +158,8 @@ fun BottomNavGraph(
             popExitTransition = {
                 slideOutHorizontally(targetOffsetX = { 1000 }) + fadeOut(targetAlpha = 0f)
             }) {
-            ProfilePageScreen(appState, viewModel::onEvent)
+            ProfilePageScreen(appState, viewModel::onEvent, themeViewModel)
+
         }
     }
 }

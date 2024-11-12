@@ -31,8 +31,10 @@ import androidx.compose.material.icons.filled.PlayCircle
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -194,7 +196,7 @@ fun CourseClassScreen(course: ClassRoom, onClickItem: () -> Unit = {}) {
                 Text(
                     text = course.content,
                     style = Typography.titleSmall.copy(
-                        fontFamily = FontFamily(Font(R.font.inter_medium))
+                        fontFamily = FontFamily(Font(R.font.inter_medium)), color = Color.Black
                     ),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -217,7 +219,7 @@ fun CourseClassScreen(course: ClassRoom, onClickItem: () -> Unit = {}) {
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = "Files",
-                        fontSize = 12.sp
+                        fontSize = 12.sp, color = Color.Black
                     )
                     Spacer(modifier = Modifier.width(16.dp))
                 }
@@ -236,18 +238,16 @@ fun RecommendedVocabularyRow(
 ) {
     val activity = LocalContext.current as Activity
     val startForResult = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult -> }
-    val randomItems = if (SharedPreferencesUtils.getBoolean("first_load", true)) {
-        SharedPreferencesUtils.setBoolean("first_load", false)
-        vocabularies.itemSnapshotList.shuffled().take(10)
-    } else {
-        rememberSaveable(vocabularies) {
-            vocabularies.itemSnapshotList.shuffled().take(10)
+
+    var randomItems by remember { mutableStateOf<List<Vocabulary>>(emptyList()) }
+
+    LaunchedEffect(vocabularies.loadState) {
+        if (vocabularies.loadState.refresh is LoadState.NotLoading) {
+            randomItems = vocabularies.itemSnapshotList.items.shuffled().take(10)
         }
     }
 
-
     Column(modifier = modifier) {
-        // Header
         if (randomItems.isNotEmpty()) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -379,7 +379,7 @@ fun CourseVocabularyScreen(course: Vocabulary, onClickItem: () -> Unit) {
                 Text(
                     text = course.content,
                     style = Typography.titleSmall.copy(
-                        fontFamily = FontFamily(Font(R.font.inter_medium))
+                        fontFamily = FontFamily(Font(R.font.inter_medium)), color = Color.Black
                     ),
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
@@ -524,7 +524,7 @@ fun CourseTopicScreen(course: Topic, onClickItem: () -> Unit) {
                 Text(
                     text = course.content,
                     style = Typography.titleSmall.copy(
-                        fontFamily = FontFamily(Font(R.font.inter_medium))
+                        fontFamily = FontFamily(Font(R.font.inter_medium)), color = Color.Black
                     ),
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1

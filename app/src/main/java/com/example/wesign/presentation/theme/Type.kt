@@ -1,6 +1,10 @@
 package com.example.wesign.presentation.theme
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -13,13 +17,13 @@ val Typography = Typography(
         fontSize = 57.sp,
         fontWeight = FontWeight.W400,
         lineHeight = 64.sp,
-        letterSpacing = (-0.25).sp
+        letterSpacing = (-0.25).sp,
     ),
     displayMedium = TextStyle(
         fontFamily = Montserrat,
         fontSize = 45.sp,
         fontWeight = FontWeight.W400,
-        lineHeight = 52.sp
+        lineHeight = 52.sp,
     ),
     displaySmall = TextStyle(
         fontFamily = Montserrat,
@@ -56,7 +60,7 @@ val Typography = Typography(
         fontSize = 16.sp,
         fontWeight = FontWeight.W500,
         lineHeight = 24.sp,
-        letterSpacing = 0.15.sp
+        letterSpacing = 0.15.sp,
     ),
     titleSmall = TextStyle(
         fontFamily = Montserrat,

@@ -41,7 +41,7 @@ fun CustomTestTopBar(
         },
         navigationIcon = {
             IconButton(onClick = {onBackClick() }) {
-                Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Color.Black)
             }
         },
         actions = {
@@ -55,7 +55,7 @@ fun CustomTestTopBar(
             }, modifier = modifier) {
                 Icon(
                     painter = painterResource(R.drawable.ic_list_question),
-                    contentDescription = "Favorite"
+                    contentDescription = "Favorite", tint = Color.Black
                 )
             }
         }

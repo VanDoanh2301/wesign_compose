@@ -151,7 +151,7 @@ fun CardItemNumber(number: String, gradient: List<Color>, onClickItem: () -> Uni
                             fontFamily = FontFamily(
                                 Font((R.font.inter_medium))
                             )
-                        ), textAlign = TextAlign.Start
+                        ), textAlign = TextAlign.Start, color = Color.Black
                     )
 
                     Spacer(modifier = Modifier.height(WeSignDimension.PaddingMedium))
@@ -159,7 +159,7 @@ fun CardItemNumber(number: String, gradient: List<Color>, onClickItem: () -> Uni
                         text = "Provide by teacher",
                         style = Typography.titleSmall.copy(
                             fontFamily = FontFamily(Font((R.font.inter_regular))),
-                            textAlign = TextAlign.Start
+                            textAlign = TextAlign.Start, color = Color.Black
                         )
                     )
                 }

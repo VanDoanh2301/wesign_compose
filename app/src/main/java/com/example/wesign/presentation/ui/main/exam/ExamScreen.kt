@@ -66,7 +66,7 @@ fun ExamScreen(
 
 
     Scaffold(
-        modifier = Modifier.fillMaxSize().paint(painterResource(R.drawable.bg_home_1), contentScale = ContentScale.Crop),
+        modifier = Modifier.fillMaxSize(),
         containerColor = Color.Transparent,
         topBar = {
             Box(modifier = Modifier.fillMaxWidth().height(56.dp).background(Color.White)) {
@@ -74,10 +74,10 @@ fun ExamScreen(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     IconButton(onClick = {onBackClick()}) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = null)
+                        Icon(Icons.Default.ArrowBack, contentDescription = null, tint =  Color.Black)
                     }
                     Spacer(modifier = Modifier.width(WeSignDimension.PaddingLarge))
-                    Text(text = "Danh sách bài kiểm tra", style = Typography.titleLarge.copy(fontFamily = FontFamily(Font(R.font.inter_bold))))
+                    Text(text = "Danh sách bài kiểm tra", style = Typography.titleLarge.copy(fontFamily = FontFamily(Font(R.font.inter_bold))), color = Color.Black)
                 }
 
             }
