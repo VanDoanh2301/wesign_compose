@@ -51,12 +51,12 @@ fun ClassRoomScreen(
                         style = Typography.headlineSmall,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.fillMaxWidth(0.5f)
+                        modifier = Modifier.fillMaxWidth(0.5f), color = Color.Black
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = { appState.popBackStack()}) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint =  Color.Black)
                     }
                 },
                 actions = {

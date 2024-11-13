@@ -79,12 +79,13 @@ fun VocabularyScreen(
                         style = Typography.headlineSmall,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.fillMaxWidth(0.7f)
+                        modifier = Modifier.fillMaxWidth(0.7f),
+                        color = Color.Black
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = { appState.popBackStack()}) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint =  Color.Black)
                     }
                 },
                 actions = {

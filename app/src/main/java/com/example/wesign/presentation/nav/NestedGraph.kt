@@ -10,6 +10,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.wesign.domain.model.Vocabulary
+import com.example.wesign.presentation.ui.ThemeViewModel
 import com.example.wesign.presentation.ui.auth.login.LoginScreen
 import com.example.wesign.presentation.ui.auth.login.LoginViewModel
 import com.example.wesign.presentation.ui.auth.otp.OtpScreen
@@ -104,13 +105,14 @@ fun NavGraphBuilder.authGraph(appState: WeSignAppState) {
     }
 }
 
-fun NavGraphBuilder.mainGraph(appState: WeSignAppState) {
+fun NavGraphBuilder.mainGraph(appState: WeSignAppState, themeViewModel: ThemeViewModel) {
     navigation(startDestination = MainRoutes.Home.route, route = Screen.Main.route) {
         composable(MainRoutes.Home.route) {
             val viewModel: HomeViewModel = hiltViewModel()
             HomeScreen(
                 appState,
-                viewModel
+                viewModel,
+                themeViewModel
             )
         }
         composable(MainRoutes.Vocabulary.route, arguments = listOf(

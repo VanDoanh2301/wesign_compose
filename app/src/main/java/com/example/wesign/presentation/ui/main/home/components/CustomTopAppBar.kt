@@ -24,6 +24,7 @@ import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -82,7 +83,7 @@ fun CustomTopAppBar(
                     "Xin chào,",
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    style = Typography.labelSmall.copy(color = Color.Gray, fontSize = 14.sp)
+                    style = Typography.labelSmall.copy(color = MaterialTheme.colorScheme.onBackground, fontSize = 14.sp)
                 )
                 Spacer(modifier = Modifier.height(WeSignDimension.PaddingSmall))
                 Text(

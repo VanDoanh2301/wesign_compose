@@ -18,17 +18,20 @@ import com.example.wesign.presentation.nav.ARG_KEY_VOCABULARY
 import com.example.wesign.presentation.theme.WeSignTheme
 import com.example.wesign.presentation.ui.main.home.HomeScreenEvent
 import com.example.wesign.presentation.ui.main.home.HomeViewModel
+import com.example.wesign.utils.SharedPreferencesUtils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class PlayActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        val themeDark = SharedPreferencesUtils.getBoolean("THEME_DARK")
         val vocabulary = intent.getParcelableExtra<Vocabulary>(ARG_KEY_VOCABULARY)
-
         setContent {
-            WeSignTheme {
+            WeSignTheme(
+                darkTheme = themeDark,
+                dynamicColor = false
+            ) {
                 if (vocabulary != null) {
                     VideoPlayerScreen(
                         vocabulary,

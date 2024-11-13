@@ -38,7 +38,7 @@ fun LearnPageScreen(
         event(HomeScreenEvent.GetAllTopics())
     }
     Column(
-        modifier = Modifier.background(Color.White),
+        modifier = Modifier,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.Start
     ) {

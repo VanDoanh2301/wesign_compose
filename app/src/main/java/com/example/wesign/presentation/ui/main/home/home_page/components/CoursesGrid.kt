@@ -101,6 +101,7 @@ fun CourseItem(course: Course, index: Int, onCourseClick: (Course) -> Unit = {})
         Text(
             text = course.title,
             style = Typography.titleSmall,
+             color = Color.Black
         )
     }
 }

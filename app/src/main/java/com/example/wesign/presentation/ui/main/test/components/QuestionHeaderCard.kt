@@ -47,7 +47,7 @@ fun QuestionHeaderCard(
     Card(
         shape = WeSignShape.medium,
         colors = CardDefaults.cardColors(
-            containerColor = Color.White,
+            containerColor = Color.Transparent,
             contentColor = Color.White
         ),
         modifier = modifier

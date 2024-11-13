@@ -82,7 +82,7 @@ class HomeViewModel @Inject constructor(
             SharedPreferencesUtils.setString(DATA_CLASSROOM, null)
             SharedPreferencesUtils.setString(DATA_TOPIC, null)
             SharedPreferencesUtils.setString(DATA_VOCAL, null)
-            SharedPreferencesUtils.setBoolean("first_load", true)
+            SharedPreferencesUtils.setBoolean("first_load", false)
             _topicState.value = PagingData.empty()
             _classRoomState.value = PagingData.empty()
             _vocabularyState.value = PagingData.empty()

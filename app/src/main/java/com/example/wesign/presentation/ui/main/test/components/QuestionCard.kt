@@ -86,6 +86,7 @@ fun QuestionCard(
             Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
             Text(
                 text = question, style = Typography.titleMedium.copy(textAlign = TextAlign.Center),
+                color = Color.Black,
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Color.White, shape = WeSignShape.medium)
