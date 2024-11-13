@@ -82,7 +82,6 @@ fun CustomBodyPlayer(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(76.dp)
                     .background(color = Color.White)
             ) {
                 Row(
@@ -91,7 +90,9 @@ fun CustomBodyPlayer(
                         .padding(WeSignDimension.PaddingLarge),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(0.4f)
+                    ) {
                         Text(
                             text = when (vocabulary.type) {
                                 WordType.WORD -> "Từ vựng: " + vocabulary.content
@@ -104,48 +105,57 @@ fun CustomBodyPlayer(
                                 )
                             ),
                             overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.fillMaxWidth(0.4f)
+                            modifier = Modifier
                         )
 
                         Text(
                             text = "Chủ đề: " + vocabulary.topicContent,
-                            style = MaterialTheme.typography.titleSmall
+                            style = MaterialTheme.typography.titleSmall,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
-                    Spacer(modifier = Modifier.weight(1f))
 
-                    IconButton(onClick = {
-                        scope.launch {
-                            if (pagerState.currentPage > 0) {
-                                pagerState.animateScrollToPage(pagerState.currentPage - 1)
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IconButton(onClick = {
+                            scope.launch {
+                                if (pagerState.currentPage > 0) {
+                                    pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                                }
+
                             }
-
+                        }) {
+                            Icon(
+                                Icons.Filled.SkipPrevious,
+                                contentDescription = "Play",
+                                Modifier.size(32.dp)
+                            )
                         }
-                    }) {
-                        Icon(
-                            Icons.Filled.SkipPrevious,
-                            contentDescription = "Play",
-                            Modifier.size(32.dp)
-                        )
-                    }
 
-                    IconButton(onClick = {
-                        scope.launch {
-                            pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                        IconButton(onClick = {
+                            scope.launch {
+                                pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                            }
+                        }) {
+                            Icon(
+                                Icons.Filled.SkipNext,
+                                contentDescription = "Play",
+                                Modifier.size(32.dp)
+                            )
                         }
-                    }) {
-                        Icon(
-                            Icons.Filled.SkipNext,
-                            contentDescription = "Play",
-                            Modifier.size(32.dp)
-                        )
+
+                        IconButton(onClick = {
+
+                        }) {
+                            Icon(Icons.Filled.Share, contentDescription = "Play")
+                        }
                     }
 
-                    IconButton(onClick = {
-
-                    }) {
-                        Icon(Icons.Filled.Share, contentDescription = "Play")
-                    }
 
                 }
             }

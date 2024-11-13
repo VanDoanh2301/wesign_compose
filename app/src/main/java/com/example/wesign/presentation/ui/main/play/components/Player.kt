@@ -7,6 +7,7 @@ import android.widget.FrameLayout
 import androidx.annotation.OptIn
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
@@ -83,7 +84,8 @@ fun Player(
         AndroidView(
             modifier = if (isFullScreen) Modifier.fillMaxSize() else Modifier
                 .fillMaxWidth()
-                .aspectRatio(18f / 9f),
+                .fillMaxHeight(0.3f)
+                ,
             factory = {
                 PlayerView(context).also { playerView ->
                     playerView.player = exoPlayer
@@ -92,11 +94,10 @@ fun Player(
                     setShowPreviousButton(false)
                     setShowShuffleButton(false)
                     resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
-                    layoutParams =
-                        FrameLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.MATCH_PARENT
-                        )
+                    layoutParams = FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
                     setFullscreenButtonClickListener {
                         isFullScreen = !isFullScreen
                         if (!isFullScreen) {

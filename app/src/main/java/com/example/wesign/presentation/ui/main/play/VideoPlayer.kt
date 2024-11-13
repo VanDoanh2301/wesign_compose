@@ -13,59 +13,63 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.wesign.R
 import com.example.wesign.domain.model.Vocabulary
+import com.example.wesign.domain.model.VocabularyImage
+import com.example.wesign.domain.model.VocabularyVideo
+import com.example.wesign.domain.model.WordType
 import com.example.wesign.presentation.ui.main.play.components.CustomBodyPlayer
 import com.example.wesign.presentation.ui.main.play.components.Player
 
-//@Preview(showBackground = true)
-//@Composable
-//fun VideoPlayerPreview() {
-//    val vocabularyImages = listOf(
-//        VocabularyImage(
-//            location = "https://inkythuatso.com/uploads/thumbnails/800/2022/05/hinh-nen-yasuo-cho-dien-thoai-dep-nhat-3-26-21-28-49.jpg",
-//            content = "Image 2 description",
-//            primary = false
-//        ),
-//        VocabularyImage(
-//            location = "https://static.gosugamers.net/c7/00/90/ec9fa1478899a0ec3fca6edc9062fd8bb7710c259f59000e20d9a21d9b.webp?w=1600",
-//            content = "Image 1 description",
-//            primary = true
-//        ),
-//        VocabularyImage(
-//            location = "https://inkythuatso.com/uploads/thumbnails/800/2022/05/hinh-nen-yasuo-cho-dien-thoai-dep-nhat-3-26-21-28-49.jpg",
-//            content = "Image 2 description",
-//            primary = false
-//        )
-//    )
-//
-//    val vocabularyVideos = listOf(
-//        VocabularyVideo(
-//            location = "https://wesign.ibme.edu.vn/upload/hust-app//TVL1KB20_02.webm",
-//            content = "Video 1 description",
-//            primary = true
-//        ),
-//        VocabularyVideo(
-//            location = "https://wesign.ibme.edu.vn/upload/hust-app//TVL1KB20_02.webm",
-//            content = "Video 2 description",
-//            primary = false
-//        )
-//    )
-//
-//    val vocabulary = Vocabulary(
-//        id = 1,
-//        content = "Hello",
-//        images = vocabularyImages,
-//        videos = vocabularyVideos,
-//        topicId = 101,
-//        topicContent = "Greetings",
-//        note = "Used for general greetings",
-//        type = WordType.WORD
-//    )
-//    VideoPlayerScreen(
-//        vocabulary = vocabulary
-//    )
-//}
+@Preview(showBackground = true)
+@Composable
+fun VideoPlayerPreview() {
+    val vocabularyImages = listOf(
+        VocabularyImage(
+            location = "https://inkythuatso.com/uploads/thumbnails/800/2022/05/hinh-nen-yasuo-cho-dien-thoai-dep-nhat-3-26-21-28-49.jpg",
+            content = "Image 2 description",
+            primary = false
+        ),
+        VocabularyImage(
+            location = "https://static.gosugamers.net/c7/00/90/ec9fa1478899a0ec3fca6edc9062fd8bb7710c259f59000e20d9a21d9b.webp?w=1600",
+            content = "Image 1 description",
+            primary = true
+        ),
+        VocabularyImage(
+            location = "https://inkythuatso.com/uploads/thumbnails/800/2022/05/hinh-nen-yasuo-cho-dien-thoai-dep-nhat-3-26-21-28-49.jpg",
+            content = "Image 2 description",
+            primary = false
+        )
+    )
+
+    val vocabularyVideos = listOf(
+        VocabularyVideo(
+            location = "https://wesign.ibme.edu.vn/upload/hust-app//TVL1KB20_02.webm",
+            content = "Video 1 description",
+            primary = true
+        ),
+        VocabularyVideo(
+            location = "https://wesign.ibme.edu.vn/upload/hust-app//TVL1KB20_02.webm",
+            content = "Video 2 description",
+            primary = false
+        )
+    )
+
+    val vocabulary = Vocabulary(
+        id = 1,
+        content = "Hello",
+        images = vocabularyImages,
+        videos = vocabularyVideos,
+        topicId = 101,
+        topicContent = "Greetings",
+        note = "Used for general greetings",
+        type = WordType.WORD
+    )
+    VideoPlayerScreen(
+        vocabulary = vocabulary
+    )
+}
 
 @Composable
 fun VideoPlayerScreen(
