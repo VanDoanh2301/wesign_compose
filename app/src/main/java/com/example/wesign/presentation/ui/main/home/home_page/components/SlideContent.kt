@@ -93,20 +93,20 @@ fun SlideContent() {
     }
 
     Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
-    ChatSupportCard(
-        title = CHAT_TITLE,
-        content = CHAT_CONTENT,
-        image = R.drawable.chat_service,
-        color = Color(0xFFdde2ff)
-    )
-    Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
-
-    ChatSupportCard(
-        title =  VIDEO_TITLE,
-        content = VIDEO_CONTENT,
-        image = R.drawable.video_update,
-        color = Color(0xFFf1a566)
-    )
+//    ChatSupportCard(
+//        title = CHAT_TITLE,
+//        content = CHAT_CONTENT,
+//        image = R.drawable.chat_service,
+//        color = Color(0xFFdde2ff)
+//    )
+//    Spacer(modifier = Modifier.height(WeSignDimension.PaddingLarge))
+//
+//    ChatSupportCard(
+//        title =  VIDEO_TITLE,
+//        content = VIDEO_CONTENT,
+//        image = R.drawable.video_update,
+//        color = Color(0xFFf1a566)
+//    )
 
 }
 

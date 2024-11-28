@@ -13,7 +13,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.wesign.R
+import com.example.wesign.domain.model.Part
 import com.example.wesign.domain.model.Vocabulary
+import com.example.wesign.presentation.nav.ARG_KEY_PART
 import com.example.wesign.presentation.nav.ARG_KEY_VOCABULARY
 import com.example.wesign.presentation.theme.WeSignTheme
 import com.example.wesign.presentation.ui.main.home.HomeScreenEvent
@@ -27,6 +29,7 @@ class PlayActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val themeDark = SharedPreferencesUtils.getBoolean("THEME_DARK")
         val vocabulary = intent.getParcelableExtra<Vocabulary>(ARG_KEY_VOCABULARY)
+        val part = intent.getParcelableExtra<Part>(ARG_KEY_PART)
         setContent {
             WeSignTheme(
                 darkTheme = themeDark,
@@ -35,6 +38,16 @@ class PlayActivity : ComponentActivity() {
                 if (vocabulary != null) {
                     VideoPlayerScreen(
                         vocabulary,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .paint(
+                                painterResource(id = R.drawable.bg_home_1),
+                                contentScale = ContentScale.Crop
+                            )
+                    )
+                } else if (part != null) {
+                    VideoPlayerScreen(
+                        part,
                         modifier = Modifier
                             .fillMaxSize()
                             .paint(

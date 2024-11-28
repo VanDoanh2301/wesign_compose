@@ -23,6 +23,8 @@ import com.example.wesign.presentation.ui.main.exam.ExamScreen
 import com.example.wesign.presentation.ui.main.exam.ExamViewModel
 import com.example.wesign.presentation.ui.main.home.HomeScreen
 import com.example.wesign.presentation.ui.main.home.HomeViewModel
+import com.example.wesign.presentation.ui.main.lesson.LessonScreen
+import com.example.wesign.presentation.ui.main.lesson.LessonViewModel
 import com.example.wesign.presentation.ui.main.result.ResultTestScreen
 import com.example.wesign.presentation.ui.main.search.SearchScreen
 import com.example.wesign.presentation.ui.main.search.SearchViewModel
@@ -194,7 +196,7 @@ fun NavGraphBuilder.mainGraph(appState: WeSignAppState, themeViewModel: ThemeVie
                 appState
             ) { classRoomId, name ->
                 appState.navigateWithPopUpTo(
-                    MainRoutes.Topic.sendClassRoomIdAndName(classRoomId, name)
+                    MainRoutes.Lesson.sendClassRoomId(classRoomId)
                 )
             }
         }
@@ -252,6 +254,20 @@ fun NavGraphBuilder.mainGraph(appState: WeSignAppState, themeViewModel: ThemeVie
                 }
             }
 
+        }
+        composable(MainRoutes.Lesson.route, arguments = listOf(
+            navArgument(ARG_KEY_CLASS_ROOM_ID) {
+                type = NavType.IntType
+            }
+        )) {
+            val classRoomId = it.arguments?.getInt(ARG_KEY_CLASS_ROOM_ID)
+            val viewModel:LessonViewModel = hiltViewModel()
+            val state by viewModel.state.collectAsState()
+            if (classRoomId != null) {
+                LessonScreen(classRoomId, state, viewModel::onEvent) {
+                    appState.popBackStack()
+                }
+            }
         }
 
     }

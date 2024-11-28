@@ -4,6 +4,8 @@ import com.example.wesign.data.model.request.ExamRequest
 import com.example.wesign.data.model.response.HostResponse
 import com.example.wesign.domain.model.ClassRoom
 import com.example.wesign.domain.model.Exam
+import com.example.wesign.domain.model.Lesson
+import com.example.wesign.domain.model.Part
 import com.example.wesign.domain.model.Question
 import com.example.wesign.domain.model.Topic
 import com.example.wesign.domain.model.Vocabulary
@@ -14,4 +16,7 @@ interface StudyRepository {
     suspend fun getAllTopic(): HostResponse<List<Topic>>
     suspend fun getAllExam(examRequest: ExamRequest): HostResponse<List<Exam>>
     suspend fun getAllQuestionByClassRoomId(classRoomId: Int): HostResponse<List<Question>>
+    suspend fun getAllLessons(classRoomId: Int? = null): HostResponse<List<Lesson>>
+    suspend fun getAllParts(lessonId: Int? = null): HostResponse<List<Part>>
+
 }

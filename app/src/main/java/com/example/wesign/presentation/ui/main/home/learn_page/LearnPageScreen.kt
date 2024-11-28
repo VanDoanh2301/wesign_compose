@@ -50,9 +50,8 @@ fun LearnPageScreen(
             pagerState = pagerState,
             onClickClass = {classRoomId, name ->
                 appState.navigateWithPopUpTo(
-                    MainRoutes.Topic.sendClassRoomIdAndName(
+                    MainRoutes.Lesson.sendClassRoomId(
                         classRoomId,
-                        name
                     )
                 )
             },

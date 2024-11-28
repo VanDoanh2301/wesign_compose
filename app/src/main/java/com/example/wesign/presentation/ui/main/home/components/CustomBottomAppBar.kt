@@ -58,6 +58,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -77,17 +78,17 @@ fun CustomBottomAppBar(
     val bottomBarItems = listOf(
         BottomBarItem(
             Icons.Filled.Home,
-            contentDescription = "Home",
+            contentDescription = "Trang chủ",
             BottomHomeRoutes.BottomHome.route
         ),
         BottomBarItem(
             Icons.Filled.MenuBook,
-            contentDescription = "Learn",
+            contentDescription = "Học tập",
             BottomHomeRoutes.Learn.route
         ),
         BottomBarItem(
             Icons.Filled.PermContactCalendar,
-            contentDescription = "Profile",
+            contentDescription = "Hồ sơ",
             BottomHomeRoutes.Profile.route
         )
     )
@@ -164,7 +165,7 @@ fun CustomBottomBarItem(
             AnimatedVisibility(visible = !isSelect) {
                 Text(
                     text = item.contentDescription,
-                    style = Typography.bodySmall,
+                    style = Typography.bodySmall.copy(fontSize = 8.sp),
                     color = iconTintColor,
                 )
             }

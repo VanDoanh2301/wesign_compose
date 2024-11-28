@@ -9,6 +9,7 @@ const val ARG_KEY_CLASS_ROOM_NAME = "arg_key_class_room_name"
 const val ARG_KEY_TOPIC_ID = "arg_key_topic_id"
 const val ARG_KEY_TOPIC_NAME = "arg_key_topic_name"
 const val ARG_KEY_VOCABULARY = "arg_key_vocabulary"
+const val ARG_KEY_PART = "arg_key_part"
 const val ARG_KEY_TYPE_SEARCH = "arg_key_type_search"
 const val ARG_KEY_TYPE_SEARCH_NAME = "arg_key_type_search_name"
 const val ARG_KEY_CLASS_ROOM_ID_LIST = "arg_key_class_room_id_list"
@@ -43,6 +44,7 @@ const val MAIN_PLAY_ROUTE = "main/home/topic/vocabulary/play/{$ARG_KEY_VOCABULAR
 const val MAIN_EXAM_ROUTE = "main/exam"
 const val MAIN_QUESTION_ROUTE = "main/exam/question/{$ARG_KEY_CLASS_ROOM_ID_LIST}"
 const val Main_RESULT_ROUTE = "main/exam/question/result/{$ARG_KEY_COUNT_CORRECT}/{$ARG_KEY_TOTAL_QUESTION}"
+const val MAIN_LESSON_ROUTE = "main/classRoom/lesson/{$ARG_KEY_CLASS_ROOM_ID}"
 
 // Bottom Home Routes
 const val BOTTOM_HOME_ROUTE = "home_page"
@@ -115,6 +117,11 @@ sealed class MainRoutes(route: String) : Screen(route) {
         fun sendCountCorrectAndTotalQuestion(countCorrect: Int, totalQuestion: Int): String {
             return Main_RESULT_ROUTE.replace("{$ARG_KEY_COUNT_CORRECT}", countCorrect.toString())
                 .replace("{$ARG_KEY_TOTAL_QUESTION}", totalQuestion.toString())
+        }
+    }
+    object Lesson : MainRoutes(MAIN_LESSON_ROUTE) {
+        fun sendClassRoomId(classRoomId: Int): String {
+            return MAIN_LESSON_ROUTE.replace("{$ARG_KEY_CLASS_ROOM_ID}", classRoomId.toString())
         }
     }
 }

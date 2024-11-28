@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.example.wesign.R
+import com.example.wesign.domain.model.Part
 import com.example.wesign.domain.model.Vocabulary
 import com.example.wesign.presentation.ui.main.play.components.CustomBodyPlayer
 import com.example.wesign.presentation.ui.main.play.components.Player
@@ -107,6 +108,45 @@ fun VideoPlayerScreen(
 }
 
 
+
+@Composable
+fun VideoPlayerScreen(
+    part: Part,
+    modifier: Modifier = Modifier
+) {
+
+    var isFullScreen by rememberSaveable { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+    val pagerState = rememberPagerState() {
+        part.videos!!.size
+    }
+
+
+    Column(
+        modifier = modifier
+            .background(color = Color.Transparent)
+            .paint(painterResource(R.drawable.bg_home_1), contentScale = ContentScale.Crop),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        HorizontalPager(state = pagerState, modifier = Modifier) { page ->
+            if (part.videos.isNotEmpty()) {
+                Player(part.videos[page].videoLocation, onFullscreenButtonClicked = {
+                    isFullScreen = it
+                })
+            }
+
+        }
+
+        AnimatedVisibility(visible = !isFullScreen) {
+            CustomBodyPlayer(pagerState, scope, part)
+        }
+
+
+    }
+
+}
 
 
 

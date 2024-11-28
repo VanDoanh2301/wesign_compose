@@ -25,6 +25,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -94,7 +95,6 @@ fun TopicScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(it)
                     .background(color = Color.White)
                 ,
                 contentAlignment = Alignment.Center
@@ -102,7 +102,8 @@ fun TopicScreen(
 
                 Image(
                     painter = painterResource(id = R.drawable.img_empty_data),
-                    contentDescription = "Empty"
+                    contentDescription = "Empty",
+                    contentScale = ContentScale.Crop
                 )
             }
         }

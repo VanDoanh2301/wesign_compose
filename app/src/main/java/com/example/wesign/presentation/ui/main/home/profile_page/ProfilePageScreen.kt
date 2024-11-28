@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.wesign.R
 import com.example.wesign.presentation.nav.MainRoutes
@@ -38,6 +39,7 @@ import com.example.wesign.utils.SharedPreferencesUtils
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
+
 fun ProfilePageScreen(
     appState: WeSignAppState,
     event: (HomeScreenEvent) -> Unit,
@@ -69,7 +71,7 @@ fun ProfilePageScreen(
                     .height(48.dp),
                 shape = WeSignShape.small
             ) {
-                Text(text = LOGIN_TEXT, style = Typography.titleSmall)
+                Text(text =  "Thoát" ,style = Typography.titleSmall)
             }
             Spacer(modifier = Modifier.height(16.dp))
             Button(
@@ -87,7 +89,7 @@ fun ProfilePageScreen(
                     .height(48.dp),
                 shape = WeSignShape.small
             ) {
-                Text(text = LOGIN_TEXT, style = Typography.titleSmall)
+                Text(text = "Thay đổi chế độ ", style = Typography.titleSmall)
             }
         }
 

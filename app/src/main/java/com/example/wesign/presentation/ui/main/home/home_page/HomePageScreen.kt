@@ -133,9 +133,8 @@ fun HomePageScreen(
                     classrooms = classRoomState
                 ) { classId, content ->
                     appState.navigateWithPopUpTo(
-                        MainRoutes.Topic.sendClassRoomIdAndName(
-                            classId,
-                            content
+                        MainRoutes.Lesson.sendClassRoomId(
+                            classId
                         )
                     )
                 }

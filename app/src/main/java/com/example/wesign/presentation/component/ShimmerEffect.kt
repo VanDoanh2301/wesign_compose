@@ -4,9 +4,11 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,6 +49,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.wesign.R
@@ -54,6 +57,8 @@ import com.example.wesign.presentation.theme.Black
 import com.example.wesign.presentation.theme.Typography
 import com.example.wesign.presentation.theme.WeSignDimension
 import com.example.wesign.presentation.theme.WeSignShape
+import com.example.wesign.presentation.theme.gradient2
+import com.example.wesign.presentation.theme.gradient5
 
 @Composable
 fun ShimmerListItem(
@@ -110,6 +115,51 @@ fun ShimmerListItem(
             }
         }
     }
+}
+
+@Composable
+fun ShimmerItemLessonScreen(
+    modifier: Modifier = Modifier,
+) {
+
+    Column {
+        repeat(3) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(80.dp)
+                    .padding(start = 10.dp, end = 10.dp, top = 10.dp)
+                    .background(
+                        color = Color.Gray.copy(alpha = 0.2f),shape = WeSignShape.medium
+                    )
+                    .shimmerEffect()
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(10.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(54.dp)
+                            .clip(CircleShape)
+                            .shimmerEffect()
+                    )
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(0.7f)
+                            .height(20.dp)
+                            .shimmerEffect()
+                    )
+                }
+            }
+        }
+
+    }
+
+
+
 }
 
 fun Modifier.shimmerEffect(): Modifier = composed {

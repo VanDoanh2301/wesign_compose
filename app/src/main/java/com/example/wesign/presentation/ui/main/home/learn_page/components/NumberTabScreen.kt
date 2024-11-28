@@ -52,7 +52,7 @@ fun NumberScreen(onClickNumber: (String) -> Unit = {}) {
     val colors = listOf(gradient3, gradient4)
     LazyColumn {
         items(numbers.size) { number ->
-            CardItemNumber(number = numbers[number].toString(), colors.shuffled().first()) {
+            CardItemNumber(number = numbers[number].toString(), colors.shuffled().first(), true) {
                 onClickNumber(numbers[number].toString())
             }
         }
@@ -65,7 +65,7 @@ fun AlphabetTabScreen(onClickAlphabet: (String) -> Unit = {}) {
     val colors = listOf(gradient1, gradient2, gradient3, gradient4, gradient5)
     LazyColumn {
         items(alphabet.size) { number ->
-            CardItemNumber(number = alphabet[number].toString(), colors.shuffled().first()) {
+            CardItemNumber(number = alphabet[number].toString(), colors.shuffled().first(), false) {
                 onClickAlphabet(alphabet[number].toString())
             }
         }
@@ -73,7 +73,7 @@ fun AlphabetTabScreen(onClickAlphabet: (String) -> Unit = {}) {
 }
 
 @Composable
-fun CardItemNumber(number: String, gradient: List<Color>, onClickItem: () -> Unit = {}) {
+fun CardItemNumber(number: String, gradient: List<Color>,isNumber:Boolean, onClickItem: () -> Unit = {}) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -147,7 +147,7 @@ fun CardItemNumber(number: String, gradient: List<Color>, onClickItem: () -> Uni
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "Number: $number", style = Typography.titleLarge.copy(
+                        text = if (isNumber) "Số: $number" else "Chữ: $number", style = Typography.titleLarge.copy(
                             fontFamily = FontFamily(
                                 Font((R.font.inter_medium))
                             )
@@ -156,7 +156,7 @@ fun CardItemNumber(number: String, gradient: List<Color>, onClickItem: () -> Uni
 
                     Spacer(modifier = Modifier.height(WeSignDimension.PaddingMedium))
                     Text(
-                        text = "Provide by teacher",
+                        text = "Cung cấp bởi IBME LAB",
                         style = Typography.titleSmall.copy(
                             fontFamily = FontFamily(Font((R.font.inter_regular))),
                             textAlign = TextAlign.Start, color = Color.Black

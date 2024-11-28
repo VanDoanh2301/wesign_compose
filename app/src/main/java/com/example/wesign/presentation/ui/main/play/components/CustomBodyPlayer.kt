@@ -51,6 +51,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import coil.compose.AsyncImage
 import com.example.wesign.R
+import com.example.wesign.domain.model.Part
 import com.example.wesign.domain.model.Vocabulary
 import com.example.wesign.domain.model.WordType
 import com.example.wesign.presentation.component.ShimmerListItem
@@ -72,12 +73,16 @@ fun CustomBodyPlayer(
 ) {
     val activity = LocalContext.current as Activity
     Column(
-        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth().fillMaxHeight(0.7f)
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.7f)
         ) {
             Box(
                 modifier = Modifier
@@ -194,16 +199,181 @@ fun CustomBodyPlayer(
             } else {
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        , contentAlignment = Alignment.Center
+                        .fillMaxWidth(), contentAlignment = Alignment.Center
                 ) {
-                    Image(painter = painterResource(R.drawable.img_empty_data), contentDescription = "")
+                    Image(
+                        painter = painterResource(R.drawable.img_empty_data),
+                        contentDescription = ""
+                    )
                 }
             }
 
         }
 
         Spacer(modifier = Modifier.weight(1f))
+        Button(
+            onClick = {
+                activity.finish()
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = primaryLight,
+                contentColor = Color.White
+            ),
+            modifier = Modifier
+                .padding(WeSignDimension.PaddingLarge)
+                .fillMaxWidth()
+                .height(48.dp),
+            shape = WeSignShape.small
+        ) {
+            Text(text = "Quay lại", style = Typography.titleSmall)
+        }
+    }
+}
+
+
+@Composable
+fun CustomBodyPlayer(
+    pagerState: PagerState,
+    scope: CoroutineScope,
+    vocabulary: Part,
+) {
+    val activity = LocalContext.current as Activity
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.7f)
+        ) {
+            if (vocabulary.videos.isNotEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(76.dp)
+                        .background(color = Color.White)
+                )
+                {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(WeSignDimension.PaddingLarge),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column {
+                            Text(
+                                text = vocabulary.partName,
+                                style = MaterialTheme.typography.titleMedium.copy(
+                                    fontFamily = FontFamily(
+                                        Font(R.font.inter_bold)
+                                    )
+                                ),
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier.fillMaxWidth(0.4f)
+                            )
+
+                        }
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        IconButton(onClick = {
+                            scope.launch {
+                                if (pagerState.currentPage > 0) {
+                                    pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                                }
+
+                            }
+                        }) {
+                            Icon(
+                                Icons.Filled.SkipPrevious,
+                                contentDescription = "Play",
+                                Modifier.size(32.dp)
+                            )
+                        }
+
+                        IconButton(onClick = {
+                            scope.launch {
+                                pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                            }
+                        }) {
+                            Icon(
+                                Icons.Filled.SkipNext,
+                                contentDescription = "Play",
+                                Modifier.size(32.dp)
+                            )
+                        }
+
+                        IconButton(onClick = {
+
+                        }) {
+                            Icon(Icons.Filled.Share, contentDescription = "Play")
+                        }
+
+                    }
+                }
+            }
+
+
+            if (vocabulary.images.isNotEmpty()) {
+
+                Spacer(modifier = Modifier.height(WeSignDimension.PaddingMedium))
+
+                Text(
+                    text = "Ảnh mô tả",
+                    style = MaterialTheme.typography.titleLarge.copy(fontFamily = FontFamily(Font(R.font.inter_bold))),
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .padding(start = WeSignDimension.PaddingLarge)
+                )
+                Spacer(modifier = Modifier.height(WeSignDimension.PaddingMedium))
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(18f / 9f), contentAlignment = Alignment.Center
+                ) {
+                    LazyRow(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        items(vocabulary.images.size) {
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(start = WeSignDimension.PaddingLarge)
+                                    .border(2f.dp, generateRandomColor(), WeSignShape.medium)
+                            ) {
+                                AsyncImage(
+                                    model = vocabulary.images[it].imageLocation,
+                                    contentDescription = "",
+                                    contentScale = ContentScale.Crop,
+                                    modifier = Modifier.fillMaxSize()
+                                )
+                            }
+
+                        }
+                    }
+                }
+            } else {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth().fillMaxHeight(0.5f), contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.img_empty_data),
+                        contentDescription = "",
+                        modifier = Modifier.fillMaxWidth().fillMaxHeight(0.5f),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+            }
+
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+
         Button(
             onClick = {
                 activity.finish()

@@ -6,11 +6,14 @@ import com.example.wesign.data.remote.ApiStudy
 import com.example.wesign.domain.mapper.toDomain
 import com.example.wesign.domain.model.ClassRoom
 import com.example.wesign.domain.model.Exam
+import com.example.wesign.domain.model.Lesson
+import com.example.wesign.domain.model.Part
 import com.example.wesign.domain.model.Question
 import com.example.wesign.domain.model.Topic
 import com.example.wesign.domain.model.Vocabulary
 import com.example.wesign.domain.model.toDomainExam
 import com.example.wesign.domain.model.toDomainModel
+import com.example.wesign.domain.model.toDomainPart
 import com.example.wesign.domain.model.toDomainQuestion
 import com.example.wesign.domain.repository.StudyRepository
 import javax.inject.Inject
@@ -149,6 +152,44 @@ class StudyRepositoryImpl @Inject constructor(private val apiStudy: ApiStudy) : 
                 message = e.localizedMessage ?: "Unknown error occurred"
             )
 
+        }
+    }
+
+    override suspend fun getAllLessons(classRoomId: Int?): HostResponse<List<Lesson>> {
+        try {
+            val response = apiStudy.getAllLessons(classRoomId)
+            if (response.isSuccessful && response.body() != null) {
+                return response.body()!!.toDomain { list -> list.map { it.toDomainModel() } }
+            } else {
+                return HostResponse(
+                    code = response.code(),
+                    message = response.errorBody()?.string() ?: "Unknown error occurred"
+                )
+            }
+        }catch (e : Exception) {
+            return HostResponse(
+                code = -1,
+                message = e.localizedMessage ?: "Unknown error occurred"
+            )
+        }
+    }
+
+    override suspend fun getAllParts(lessonId: Int?): HostResponse<List<Part>> {
+        try {
+            val response = apiStudy.getAllParts(lessonId)
+            if (response.isSuccessful && response.body() != null) {
+                return response.body()!!.toDomain { list -> list.map { it.toDomainPart() } }
+            } else {
+                return HostResponse(
+                    code = response.code(),
+                    message = response.errorBody()?.string() ?: "Unknown error occurred"
+                )
+            }
+        }catch (e : Exception) {
+            return HostResponse(
+                code = -1,
+                message = e.localizedMessage ?: "Unknown error occurred"
+            )
         }
     }
 
